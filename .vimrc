@@ -67,7 +67,6 @@ set foldmethod=indent
 " move vertically by visual line
 nnoremap j gj
 nnoremap k gk
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 set backup
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set backupskip=/tmp/*,/private/tmp/*
