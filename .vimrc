@@ -31,6 +31,18 @@ Plugin 'mattn/emmet-vim'
 " CoffeeScript Plugin
 Plugin 'kchmck/vim-coffee-script'
 
+" Monokai colorscheme
+Plugin 'sickill/vim-monokai'
+
+" Airline Plugin
+Plugin 'bling/vim-airline'
+
+" YouCompleteMe Plugin
+Plugin 'Valloric/YouCompleteMe'
+
+" delimitMate Plugin
+Plugin 'Raimondi/delimitMate'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -49,7 +61,7 @@ filetype plugin indent on    " required
 if has('gui_running')
   set guifont=Monaco:h16
 endif
-colorscheme spacegray
+colorscheme monokai
 syntax on
 filetype on
 filetype indent on
