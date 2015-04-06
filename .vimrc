@@ -60,10 +60,19 @@ filetype plugin on    " required
 
 " Font, indent, syntax and coloscheme
 if has('gui_running')
-  set guifont=Monaco:h16
+	if has("gui_macvim")
+		set guifont=Monaco:h16
+		set fu
+	elseif has("gui_gtk2")
+		set guifont=Monaco\ 10
+		set guioptions-=m  "remove menu bar
+		set guioptions-=T  "remove toolbar
+		set guioptions-=r  "remove right-hand scroll bar
+		set guioptions-=L  "remove left-hand scroll bar
+	endif
 endif
-color Dracula
 syntax on
+color dracula
 filetype on
 filetype indent on
 
@@ -117,3 +126,4 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
