@@ -29,6 +29,12 @@ Plugin 'kchmck/vim-coffee-script'
 " Dracula colorscheme
 Plugin 'zenorocha/dracula-theme', {'rtp': 'vim/'}
 
+" Solarized colorscheme
+Plugin 'altercation/vim-colors-solarized'
+
+" Atom dark colorscheme
+Plugin 'gosukiwi/vim-atom-dark'
+
 " Airline Plugin
 Plugin 'bling/vim-airline'
 
@@ -47,11 +53,14 @@ Plugin 'airblade/vim-gitgutter'
 " vim-surround
 Plugin 'tpope/vim-surround'
 
-" Multiple cursors
-Plugin 'terryma/vim-multiple-cursors'
-
 " Syntastic
 Plugin 'scrooloose/syntastic'
+
+" Vim Sleuth
+Plugin 'tpope/vim-sleuth'
+
+" EasyMotion
+Plugin 'vim-scripts/EasyMotion'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -72,17 +81,12 @@ if has('gui_running')
 	endif
 endif
 syntax on
-color dracula
+color atom-dark
 filetype on
 filetype indent on
 
 " Line numbers
 set number
-
-" Tabs
-set ts=4
-set softtabstop=4
-set shiftwidth=4
 
 " Cursor line
 set cursorline
@@ -107,11 +111,6 @@ set backupskip=/tmp/*,/private/tmp/*
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set writebackup
 
-" Emmet indent
-let g:user_emmet_settings = { 
-  \  'indentation' : '	', 
-  \}
-
 " Fix git-sh-setup in MacVim
 if has("gui_macvim")
     set shell=/bin/bash\ -l
@@ -127,3 +126,5 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
+" Increase vim yank buffer line limit and size
+set viminfo='20,<1000,s1000
