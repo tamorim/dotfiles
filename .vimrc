@@ -35,6 +35,9 @@ Plugin 'altercation/vim-colors-solarized'
 " Atom dark colorscheme
 Plugin 'gosukiwi/vim-atom-dark'
 
+" Railscasts colorscheme
+Plugin 'chankaward/vim-railscasts-theme'
+
 " Airline Plugin
 Plugin 'bling/vim-airline'
 
@@ -81,7 +84,7 @@ if has('gui_running')
 	endif
 endif
 syntax on
-color atom-dark
+color railscasts
 filetype on
 filetype indent on
 
@@ -128,3 +131,10 @@ let g:syntastic_check_on_wq = 0
 
 " Increase vim yank buffer line limit and size
 set viminfo='20,<1000,s1000
+
+" CtrlP settings
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+
