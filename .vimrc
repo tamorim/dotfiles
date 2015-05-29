@@ -79,9 +79,10 @@ if has('gui_running')
 		set guifont=Monaco\ 10
 		set guioptions-=m  "remove menu bar
 		set guioptions-=T  "remove toolbar
-		set guioptions-=r  "remove right-hand scroll bar
-		set guioptions-=L  "remove left-hand scroll bar
 	endif
+
+	set guioptions-=r  "remove right-hand scroll bar
+	set guioptions-=L  "remove left-hand scroll bar
 endif
 syntax on
 color railscasts
@@ -128,6 +129,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_mode_map = {
+    \ "mode": "passive" }
 
 " Increase vim yank buffer line limit and size
 set viminfo='20,<1000,s1000
@@ -137,4 +140,8 @@ let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+
+" When switching buffers, only hide the old one
+" Makes undo persist on buffer switch
+set hidden
 
