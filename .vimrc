@@ -8,22 +8,22 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-" Vim Sensible plugin
+" Vim Sensible
 Plugin 'tpope/vim-sensible'
 
-" NERDTree plugin
+" NERDTree
 Plugin 'scrooloose/nerdtree'
 
-" Ctrl P Plugin
+" Ctrl P
 Plugin 'kien/ctrlp.vim'
 
-" AG Plugin
+" AG
 Plugin 'rking/ag.vim'
 
-" Emmet Plugin
+" Emmet
 Plugin 'mattn/emmet-vim'
 
-" CoffeeScript Plugin
+" CoffeeScript
 Plugin 'kchmck/vim-coffee-script'
 
 " Dracula colorscheme
@@ -38,16 +38,16 @@ Plugin 'gosukiwi/vim-atom-dark'
 " Railscasts colorscheme
 Plugin 'chankaward/vim-railscasts-theme'
 
-" Airline Plugin
+" Airline
 Plugin 'bling/vim-airline'
 
-" YouCompleteMe Plugin
+" YouCompleteMe
 Plugin 'Valloric/YouCompleteMe'
 
-" delimitMate Plugin
+" delimitMate
 Plugin 'Raimondi/delimitMate'
 
-" vim-stylus Plugin
+" vim-stylus
 Plugin 'wavded/vim-stylus'
 
 " Git-gutter
@@ -64,6 +64,9 @@ Plugin 'tpope/vim-sleuth'
 
 " EasyMotion
 Plugin 'vim-scripts/EasyMotion'
+
+" MiniBufExpl
+Plugin 'fholgado/minibufexpl.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
