@@ -89,7 +89,8 @@ color railscasts
 filetype on
 filetype indent on
 
-" Line numbers
+" Relative line numbers and absolute number on cursor
+set relativenumber
 set number
 
 " Cursor line
