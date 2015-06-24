@@ -56,17 +56,14 @@ Plugin 'airblade/vim-gitgutter'
 " vim-surround
 Plugin 'tpope/vim-surround'
 
-" Syntastic
-Plugin 'scrooloose/syntastic'
-
 " Vim Sleuth
 Plugin 'tpope/vim-sleuth'
 
-" EasyMotion
-Plugin 'vim-scripts/EasyMotion'
-
 " MiniBufExpl
 Plugin 'fholgado/minibufexpl.vim'
+
+" Vim Commentary
+Plugin 'tpope/vim-commentary'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -122,18 +119,6 @@ set writebackup
 if has("gui_macvim")
     set shell=/bin/bash\ -l
 endif
-
-" Syntastic stuff
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_mode_map = {
-    \ "mode": "passive" }
 
 " Increase vim yank buffer line limit and size
 set viminfo='20,<1000,s1000
