@@ -26,15 +26,6 @@ Plugin 'mattn/emmet-vim'
 " CoffeeScript
 Plugin 'kchmck/vim-coffee-script'
 
-" Dracula colorscheme
-Plugin 'zenorocha/dracula-theme', {'rtp': 'vim/'}
-
-" Solarized colorscheme
-Plugin 'altercation/vim-colors-solarized'
-
-" Atom dark colorscheme
-Plugin 'gosukiwi/vim-atom-dark'
-
 " Railscasts colorscheme
 Plugin 'chankaward/vim-railscasts-theme'
 
@@ -58,9 +49,6 @@ Plugin 'tpope/vim-surround'
 
 " Vim Sleuth
 Plugin 'tpope/vim-sleuth'
-
-" MiniBufExpl
-Plugin 'fholgado/minibufexpl.vim'
 
 " Vim Commentary
 Plugin 'tpope/vim-commentary'
