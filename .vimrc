@@ -122,3 +122,16 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 " Makes undo persist on buffer switch
 set hidden
 
+" Enables vim airline tabline
+let g:airline#extensions#tabline#enabled = 1
+
+" Tab and Shift+Tab cycle through buffers
+nnoremap <Tab> :bnext<CR>
+nnoremap <S-Tab> :bprevious<CR>
+
+" Ctrl+X closes current buffer
+nnoremap <C-x> :bdelete<CR>
+
+" Ctrl+N toggles NERDTree
+nnoremap <C-n> :NERDTreeToggle<CR>
+
