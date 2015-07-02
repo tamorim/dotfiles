@@ -53,6 +53,12 @@ Plugin 'tpope/vim-sleuth'
 " Vim Commentary
 Plugin 'tpope/vim-commentary'
 
+" Vim Fugitive
+Plugin 'tpope/vim-fugitive'
+
+" Vim Git
+Plugin 'tpope/vim-git'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 " To plugin indent changes
@@ -128,9 +134,6 @@ let g:airline#extensions#tabline#enabled = 1
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
-
-" Ctrl+X closes current buffer
-nnoremap <C-x> :bdelete<CR>
 
 " Ctrl+N toggles NERDTree
 nnoremap <C-n> :NERDTreeToggle<CR>
