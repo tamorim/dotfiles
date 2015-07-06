@@ -56,9 +56,6 @@ Plugin 'tpope/vim-commentary'
 " Vim Fugitive
 Plugin 'tpope/vim-fugitive'
 
-" Vim Git
-Plugin 'tpope/vim-git'
-
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 " To plugin indent changes
