@@ -1,0 +1,16 @@
+((("yasnippet" .
+   [0 0 0 0 1 0 0 0 0])
+  ("evil-paredit" .
+   [0 0 0 0 0 0 0 1 0 0 0 0])
+  ("paredit" .
+   [0 0 0 1 0 0 0])
+  ("require" .
+   [1 0 0 0 0 1 1])
+  ("helm-projectile-find-file-dwim" .
+   [0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("load" .
+   [1 0 0 0])
+  ("xah-next-user-buffer" .
+   [0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("xah-previous-user-buffer" .
+   [0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])))

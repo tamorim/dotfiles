@@ -10,6 +10,20 @@
 (require 'linum-relative)
 (require 'ido)
 (require 'git-gutter-fringe)
+(require 'helm-emmet)
+(require 'magit)
+(require 'paredit)
+(require 'yasnippet)
+
+(require 'evil-paredit)
+(add-hook 'emacs-lisp-mode-hook 'evil-paredit-mode)
+
+(require 'emmet-mode)
+(add-hook 'sgml-mode-hook 'emmet-mode)
+(add-hook 'css-mode-hook  'emmet-mode)
+
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 (require 'evil-commentary)
 (evil-commentary-mode)
@@ -53,8 +67,10 @@
 (setq-default tab-width 2 indent-tabs-mode nil)
 (setq make-backup-files nil)
 (setq frame-title-format "%b")
+
 (defvar xah-switch-buffer-ignore-dired t "If t, ignore dired buffer when calling `xah-next-user-buffer' or `xah-previous-user-buffer'")
 (setq xah-switch-buffer-ignore-dired t)
+
 (defun xah-next-user-buffer ()
   (interactive)
   (next-buffer)
@@ -69,6 +85,7 @@
           (progn (next-buffer)
                  (setq i (1+ i)))
         (progn (setq i 100))))))
+
 (defun xah-previous-user-buffer ()
   (interactive)
   (previous-buffer)
@@ -83,6 +100,14 @@
           (progn (previous-buffer)
                  (setq i (1+ i)))
         (progn (setq i 100))))))
+
+(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+(add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+(add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+(add-hook 'scheme-mode-hook           #'enable-paredit-mode)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
