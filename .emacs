@@ -13,7 +13,14 @@
 (require 'helm-emmet)
 (require 'magit)
 (require 'paredit)
-(require 'yasnippet)
+
+(require 'flx-ido)
+(ido-mode t)
+(ido-everywhere t)
+(flx-ido-mode t)
+(setq ido-enable-flex-matching t)
+(setq ido-use-faces nil)
+(setq flx-ido-use-faces nil)
 
 (require 'evil-paredit)
 (add-hook 'emacs-lisp-mode-hook 'evil-paredit-mode)
@@ -167,7 +174,6 @@
  '(hl-fg-colors
    (quote
     ("#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3")))
- '(ido-mode t nil (ido))
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(linum-relative-current-symbol "")
  '(magit-diff-use-overlays nil)
@@ -212,6 +218,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown" :family "Monaco"))))
+ '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "unknown" :family "Monaco"))))
  '(helm-action ((t (:underline nil))))
  '(helm-selection ((t (:background "dim gray" :underline nil)))))

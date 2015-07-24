@@ -2,6 +2,7 @@
 
 ;; ----- ido-last-directory-list -----
 (
+ ("/Users/tamorim/vtex/" . "vcs.order-management-ui/")
  ("/home/tamorim/vtex/" . "vcs.order-management-ui/")
 )
 
@@ -17,6 +18,12 @@
 
 ;; ----- ido-dir-file-cache -----
 (
+ ("/Users/tamorim/vtex/vcs.order-management-ui/" (21849 4557 0 0) "src/" "spec/" "README.md" "package.json" "pachamama.config" "node_modules/" "mock/" "karma.conf.coffee" "Gruntfile.coffee" "build/" "bower.json" ".gitignore" ".git/" ".DS_Store" "../" "./")
+
+ ("/Users/tamorim/" (21937 48403 0 0) "vtex/" "VirtualBox VMs/" "Public/" "Pictures/" "Music/" "Movies/" "Library/" "Downloads/" "dotfiles/" "Documents/" "Desktop/" "clojurescript/" "Applications/" ".zshrc-e" ".zshrc" ".zsh_history" ".zsh-update" ".zcompdump-Mac Pro de Thor-5.0.5" ".zcompdump-asgard-5.0.5" ".WebStorm9/" ".vimrc" ".viminfo" ".vim/" ".Trash/" ".ssh/" ".sqldeveloper/" ".pgpass" ".pgadmin_histoqueries" ".oh-my-zsh/" ".npm/" ".node-gyp/" ".NERDTreeBookmarks" ".mongorc.js" ".local/" ".java_history-" ".IdeaIC14/" ".grunt-init/" ".gitconfig" ".gem/" ".gbas" ".emacs~" ".emacs.d/" ".emacs" ".DS_Store" ".dbshell" ".config/" ".codeintel/" ".CFUserTextEncoding" ".cache/" ".bash_profile" ".bash_history" ".atom/" ".astah/" ".android/" ".adobe/" "../" "./")
+
+ ("/Users/tamorim/vtex/" (21906 1725 0 0) "vcs.order-management-ui/" "vcs.myorders-ui/" "vcs.checkout-ui/" "toolbelt/" ".DS_Store" "../" "./")
+
  ("/home/tamorim/vtex/vcs.order-management-ui/" (21929 10499 642028 794000) "#.emacs#" "node_modules/" "README.md" "../" "mock/" "Gruntfile.coffee" "src/" "package.json" "bower.json" ".git/" "pachamama.config" "spec/" "./" "build/" ".gitignore" "karma.conf.coffee")
 
  ("/home/tamorim/vtex/" (21924 11043 470720 968000) "releasy/" "storefront-editor/" "vtexlab/" "vcs.myorders-ui/" "guideline-diversidade/" "../" "vcs.checkout-ui/" "storefront-theme/" "storefront-banner/" "vcs.order-placed-ui/" "toolbelt/" "storefront-react/" "recurrence-email-templates/" "storefront-area/" "storefront-flux/" "./" "test/" "vtex.js/" "vcs.order-management-ui/")
