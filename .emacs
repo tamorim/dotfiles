@@ -13,9 +13,22 @@
 (require 'helm-emmet)
 (require 'magit)
 (require 'paredit)
+(require 'helm-flycheck)
+
+(require 'powerline)
+(powerline-default-theme)
+
+(require 'flycheck)
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+(require 'auto-complete)
+(global-auto-complete-mode t)
+(setq ac-modes '(javascript-mode coffee-mode html-mode emacs-lisp-mode))
 
 (require 'flx-ido)
+(require 'ido-vertical-mode)
 (ido-mode t)
+(ido-vertical-mode t)
 (ido-everywhere t)
 (flx-ido-mode t)
 (setq ido-enable-flex-matching t)
@@ -42,12 +55,6 @@
 (require 'evil-leader)
 (global-evil-leader-mode)
 
-(require 'auto-complete-config)
-(ac-config-default)
-
-(require 'powerline)
-(powerline-default-theme)
-
 (require 'evil-numbers)
 (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
 (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt)
@@ -66,7 +73,8 @@
   "b" 'helm-buffers-list
   "c" 'kill-this-buffer
   "e" 'eval-buffer
-  "a" 'helm-do-ag)
+  "a" 'helm-do-ag
+  "f" 'helm-flycheck)
 
 (setq inhibit-startup-screen t)
 (setq inhibit-splash-screen t)
@@ -74,6 +82,8 @@
 (setq-default tab-width 2 indent-tabs-mode nil)
 (setq make-backup-files nil)
 (setq frame-title-format "%b")
+(defadvice helm-display-mode-line (after undisplay-header activate)
+  (setq header-line-format nil))
 
 (defvar xah-switch-buffer-ignore-dired t "If t, ignore dired buffer when calling `xah-next-user-buffer' or `xah-previous-user-buffer'")
 (setq xah-switch-buffer-ignore-dired t)
@@ -85,6 +95,7 @@
     (while (< i 20)
       (if (or
            (string-equal "*" (substring (buffer-name) 0 1))
+           (string-equal "TAGS" (buffer-name))
            (if (string-equal major-mode "dired-mode")
                xah-switch-buffer-ignore-dired
              nil
@@ -100,6 +111,7 @@
     (while (< i 20)
       (if (or
            (string-equal "*" (substring (buffer-name) 0 1))
+           (string-equal "TAGS" (buffer-name))
            (if (string-equal major-mode "dired-mode")
                xah-switch-buffer-ignore-dired
              nil
@@ -116,11 +128,15 @@
 (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
 (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
 
+(add-hook 'prog-mode-hook 'linum-mode)
+(add-hook 'sgml-mode-hook 'linum-mode)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ac-auto-show-menu t)
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
@@ -129,6 +145,7 @@
    [unspecified "#151718" "#CE4045" "#9FCA56" "#DCCD69" "#55B5DB" "#A074C4" "#55B5DB" "#D4D7D6"])
  '(blink-cursor-mode nil)
  '(compilation-message-face (quote default))
+ '(completion-auto-help nil)
  '(cua-global-mark-cursor-color "#2aa198")
  '(cua-normal-cursor-color "#657b83")
  '(cua-overwrite-cursor-color "#b58900")
@@ -143,10 +160,16 @@
  '(evil-jumper-mode t)
  '(evil-mode t)
  '(fci-rule-color "#eee8d5")
+ '(flycheck-coffeelintrc "~/.coffeelint.json")
+ '(git-gutter:added-sign "+")
+ '(git-gutter:deleted-sign "-")
+ '(git-gutter:modified-sign "=")
+ '(git-gutter:window-width -1)
+ '(global-auto-revert-mode t)
  '(global-evil-surround-mode t)
  '(global-evil-visualstar-mode t)
+ '(global-git-gutter-mode t)
  '(global-hl-line-mode t)
- '(global-linum-mode t)
  '(helm-M-x-fuzzy-match t)
  '(helm-autoresize-mode t)
  '(helm-completion-in-region-fuzzy-match t)
@@ -174,6 +197,8 @@
  '(hl-fg-colors
    (quote
     ("#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3")))
+ '(ido-completion-buffer nil)
+ '(ido-mode (quote both) nil (ido))
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(linum-relative-current-symbol "")
  '(magit-diff-use-overlays nil)
@@ -218,6 +243,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "unknown" :family "Monaco"))))
+ '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "unknown" :family "Monaco"))))
+ '(helm-M-x-key ((t (:foreground "#FD971F" :underline nil))))
  '(helm-action ((t (:underline nil))))
+ '(helm-etags-file ((t (:foreground "Lightgoldenrod4" :underline nil))))
+ '(helm-grep-file ((t (:foreground "#A1EFE4" :underline nil))))
  '(helm-selection ((t (:background "dim gray" :underline nil)))))

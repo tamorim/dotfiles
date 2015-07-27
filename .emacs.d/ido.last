@@ -2,8 +2,9 @@
 
 ;; ----- ido-last-directory-list -----
 (
+ ("/home/tamorim/" . "vtex/")
  ("/Users/tamorim/vtex/" . "vcs.order-management-ui/")
- ("/home/tamorim/vtex/" . "vcs.order-management-ui/")
+ ("/home/tamorim/vtex/" . "vcs.myorders-ui/")
 )
 
 ;; ----- ido-work-directory-list -----
@@ -18,17 +19,27 @@
 
 ;; ----- ido-dir-file-cache -----
 (
+ ("/home/tamorim/" (21942 16328 124755 103000) ".zcompdump-bifrost-5.0.7" "Templates/" ".npmrc" ".atom/" ".emacs" "Public/" "Music/" ".ssh/" ".mozilla/" ".emacs.d/" "../" ".viminfo.tmp" ".local/" ".dbus/" ".gnome/" ".bash_profile" "Desktop/" ".macromedia/" ".astah/" ".viminfy.tmp" ".subversion/" ".vimrc" "dotfiles/" ".zshrc" ".zsh_history" ".hushlogin" ".adobe/" ".pki/" ".coffeelint.json" ".gnupg/" ".java/" ".npm/" "Documents/" ".config/" ".dbshell" ".vim/" "Pictures/" ".agignore" ".bashrc" ".oh-my-zsh/" ".cache/" ".Xauthority" ".zcompdump-bifrost-5.0.8" "Downloads/" ".Skype/" ".bash_logout" ".emacs~" ".ctags" ".vtex/" "./" ".NERDTreeBookmarks" ".viminfz.tmp" ".nv/" "Videos/" ".zsh-update" ".gitconfig" ".xinitrc" ".ICEauthority" ".node-gyp/" ".mongorc.js" ".thumbnails/" ".viminfx.tmp" ".omssession.vim" ".gimp-2.8/" ".viminfo" "vtex/" ".esd_auth" ".bash_history")
+
+ ("/home/tamorim/vtex/vcs.myorders-ui/" (21942 15956 494757 862000) "node_modules/" "README.md" "TAGS" "../" "mock/" "Gruntfile.coffee" "src/" "package.json" ".git/" "pachamama.config" "./" "build/" ".gitignore")
+
+ ("/home/tamorim/vtex/vcs.order-management-ui/" (21937 29226 614781 822000) "node_modules/" "README.md" "../" "mock/" "Gruntfile.coffee" "src/" "package.json" "bower.json" ".git/" "pachamama.config" "spec/" "./" "build/" ".gitignore" "karma.conf.coffee")
+
+ ("/home/" (21810 18534 603462 366000) "tamorim/" "../" "lost+found/" "./")
+
+ ("/home/tamorim/vtex/vcs.myorders-ui/src/" (21938 17599 907890 260000) "style/" "lib/" "../" "script/" "index.html" "templates/" "./")
+
+ ("/home/tamorim/vtex/vcs.myorders-ui/src/script/" (21935 62440 421922 979000) "myorderspage.coffee" "locale/" "myorders.coffee" "../" "myrecurrences.coffee" "init.coffee" "models/" "./" "vtex/")
+
+ ("/home/tamorim/vtex/vcs.myorders-ui/src/script/models/" (21938 25722 604619 379000) "paymentData-vm.coffee" "../" "recurrenceItem-vm.coffee" "order-vm.coffee" "ordergroup-vm.coffee" "recurrence-vm.coffee" "item-vm.coffee" "./" "shippingData-vm.coffee")
+
  ("/Users/tamorim/vtex/vcs.order-management-ui/" (21849 4557 0 0) "src/" "spec/" "README.md" "package.json" "pachamama.config" "node_modules/" "mock/" "karma.conf.coffee" "Gruntfile.coffee" "build/" "bower.json" ".gitignore" ".git/" ".DS_Store" "../" "./")
 
  ("/Users/tamorim/" (21937 48403 0 0) "vtex/" "VirtualBox VMs/" "Public/" "Pictures/" "Music/" "Movies/" "Library/" "Downloads/" "dotfiles/" "Documents/" "Desktop/" "clojurescript/" "Applications/" ".zshrc-e" ".zshrc" ".zsh_history" ".zsh-update" ".zcompdump-Mac Pro de Thor-5.0.5" ".zcompdump-asgard-5.0.5" ".WebStorm9/" ".vimrc" ".viminfo" ".vim/" ".Trash/" ".ssh/" ".sqldeveloper/" ".pgpass" ".pgadmin_histoqueries" ".oh-my-zsh/" ".npm/" ".node-gyp/" ".NERDTreeBookmarks" ".mongorc.js" ".local/" ".java_history-" ".IdeaIC14/" ".grunt-init/" ".gitconfig" ".gem/" ".gbas" ".emacs~" ".emacs.d/" ".emacs" ".DS_Store" ".dbshell" ".config/" ".codeintel/" ".CFUserTextEncoding" ".cache/" ".bash_profile" ".bash_history" ".atom/" ".astah/" ".android/" ".adobe/" "../" "./")
 
  ("/Users/tamorim/vtex/" (21906 1725 0 0) "vcs.order-management-ui/" "vcs.myorders-ui/" "vcs.checkout-ui/" "toolbelt/" ".DS_Store" "../" "./")
 
- ("/home/tamorim/vtex/vcs.order-management-ui/" (21929 10499 642028 794000) "#.emacs#" "node_modules/" "README.md" "../" "mock/" "Gruntfile.coffee" "src/" "package.json" "bower.json" ".git/" "pachamama.config" "spec/" "./" "build/" ".gitignore" "karma.conf.coffee")
-
  ("/home/tamorim/vtex/" (21924 11043 470720 968000) "releasy/" "storefront-editor/" "vtexlab/" "vcs.myorders-ui/" "guideline-diversidade/" "../" "vcs.checkout-ui/" "storefront-theme/" "storefront-banner/" "vcs.order-placed-ui/" "toolbelt/" "storefront-react/" "recurrence-email-templates/" "storefront-area/" "storefront-flux/" "./" "test/" "vtex.js/" "vcs.order-management-ui/")
-
- ("/home/tamorim/" (21929 11121 2067 675000) ".zcompdump-bifrost-5.0.7" "Templates/" ".npmrc" "#.emacs#" ".atom/" ".emacs" "Public/" "Music/" ".ssh/" ".mozilla/" ".emacs.d/" "../" ".viminfo.tmp" ".local/" ".dbus/" ".gnome/" ".bash_profile" "Desktop/" ".macromedia/" ".astah/" ".viminfy.tmp" ".subversion/" ".vimrc" "dotfiles/" ".zshrc" ".zsh_history" ".hushlogin" ".adobe/" ".pki/" ".gnupg/" ".java/" ".npm/" "Documents/" ".config/" ".dbshell" ".vim/" "Pictures/" ".agignore" ".bashrc" ".oh-my-zsh/" ".cache/" ".Xauthority" ".zcompdump-bifrost-5.0.8" "Downloads/" ".Skype/" ".bash_logout" ".emacs~" ".ctags" ".vtex/" "./" ".NERDTreeBookmarks" ".viminfz.tmp" ".nv/" "Videos/" ".zsh-update" ".gitconfig" ".xinitrc" ".ICEauthority" ".node-gyp/" ".mongorc.js" ".thumbnails/" ".viminfx.tmp" ".omssession.vim" ".gimp-2.8/" ".viminfo" "vtex/" ".esd_auth" ".bash_history")
 )
 
 ;; ----- ido-unc-hosts-cache -----
