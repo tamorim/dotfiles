@@ -22,3 +22,4 @@
 (require 'evil-leader)
 (require 'evil-numbers)
 (require 'evil)
+(require 'delight)

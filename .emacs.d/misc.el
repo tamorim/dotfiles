@@ -19,3 +19,13 @@
   (setq header-line-format nil))
 
 (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+
+(delight '((projectile-mode nil projectile)
+           (flycheck-mode nil flycheck)
+           (paredit-mode nil paredit)
+           (auto-complete-mode nil auto-complete)
+           (emmet-mode nil emmet-mode)
+           (evil-commentary-mode nil evil-commentary)
+           (undo-tree-mode nil undo-tree)
+           (rainbow-mode nil rainbow-delimiters)
+           (git-gutter-mode nil git-gutter-fringe)))
