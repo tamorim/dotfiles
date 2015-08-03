@@ -1,3 +1,3 @@
 ## Dotfiles
 
-For now, just my under construction .vimrc :)
+Just Vim and Emacs init files for now :)
