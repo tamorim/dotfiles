@@ -1,0 +1,9 @@
+[user]
+	name = Thor Amorim
+	email = thoramorim@gmail.com
+[color]
+	ui = true
+[core]
+	editor = vim
+[merge]
+	tool = meld
