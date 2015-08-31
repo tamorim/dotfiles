@@ -5,61 +5,30 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-" let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-
-" Vim Sensible
 Plugin 'tpope/vim-sensible'
-
-" NERDTree
 Plugin 'scrooloose/nerdtree'
-
-" Ctrl P
 Plugin 'kien/ctrlp.vim'
-
-" AG
 Plugin 'rking/ag.vim'
-
-" Emmet
 Plugin 'mattn/emmet-vim'
-
-" CoffeeScript
 Plugin 'kchmck/vim-coffee-script'
-
-" Railscasts colorscheme
 Plugin 'chankaward/vim-railscasts-theme'
-
-" Airline
 Plugin 'bling/vim-airline'
-
-" YouCompleteMe
 Plugin 'Valloric/YouCompleteMe'
-
-" delimitMate
 Plugin 'Raimondi/delimitMate'
-
-" vim-stylus
-Plugin 'wavded/vim-stylus'
-
-" Git-gutter
 Plugin 'airblade/vim-gitgutter'
-
-" vim-surround
 Plugin 'tpope/vim-surround'
-
-" Vim Sleuth
 Plugin 'tpope/vim-sleuth'
-
-" Vim Commentary
 Plugin 'tpope/vim-commentary'
-
-" Vim Fugitive
 Plugin 'tpope/vim-fugitive'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
+call vundle#end()
+
 " To plugin indent changes
-filetype plugin on    " required
+filetype plugin on
+
+" Map leader to ,
+let mapleader = ","
 
 " Font, indent, syntax and coloscheme
 if has('gui_running')
@@ -134,4 +103,10 @@ nnoremap <S-Tab> :bprevious<CR>
 
 " Ctrl+N toggles NERDTree
 nnoremap <C-n> :NERDTreeToggle<CR>
+
+" Leader c deletes current buffer
+nnoremap <Leader>c :bdelete<CR>
+
+" Leader a opens ag
+nnoremap <Leader>a :Ag
 
