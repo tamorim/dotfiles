@@ -16,4 +16,5 @@
   "a" 'helm-do-ag
   "f" 'helm-flycheck
   "u" 'undo-tree-visualize
-  "p" 'package-list-packages)
+  "p" 'package-list-packages
+  "n" 'neotree-toggle)

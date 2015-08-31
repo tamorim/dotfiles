@@ -2,7 +2,7 @@
   (interactive)
   (if window-system
       (progn
-        (if (>= (x-display-pixel-width) 1920)
+        (if (>= (x-display-pixel-width) 1440)
             (set-frame-parameter frame 'font "Monaco 16")
          (set-frame-parameter frame 'font "Monaco 12")))))
 
