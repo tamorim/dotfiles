@@ -71,16 +71,25 @@ set hidden
 " Enables vim airline tabline
 let g:airline#extensions#tabline#enabled = 1
 
+" Enables Powerline symbols
+let g:airline_powerline_fonts = 1
+
+" Autostart HardMode
+autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
 
-" Ctrl+N toggles NERDTree
-nnoremap <C-n> :NERDTreeToggle<CR>
+" Leader n toggles netrw
+nnoremap <Leader>n :e.<CR>
 
 " Leader c deletes current buffer
 nnoremap <Leader>c :bdelete<CR>
 
 " Leader a opens ag
 nnoremap <Leader>a :Ag
+
+" Leader h toggles HardMode
+nnoremap <Leader>h <Esc>:call ToggleHardMode()<CR>
 
