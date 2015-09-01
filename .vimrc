@@ -22,20 +22,7 @@ call plug#end()
 " Map leader to ,
 let mapleader = ","
 
-" Font, indent, syntax and coloscheme
-if has('gui_running')
-	if has("gui_macvim")
-		set guifont=Monaco:h16
-		set fu
-	elseif has("gui_gtk2")
-		set guifont=Monaco\ 10
-		set guioptions-=m  "remove menu bar
-		set guioptions-=T  "remove toolbar
-	endif
-
-	set guioptions-=r  "remove right-hand scroll bar
-	set guioptions-=L  "remove left-hand scroll bar
-endif
+" Indent, syntax and coloscheme
 syntax on
 color railscasts
 filetype on
@@ -67,11 +54,6 @@ set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set backupskip=/tmp/*,/private/tmp/*
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set writebackup
-
-" Fix git-sh-setup in MacVim
-if has("gui_macvim")
-    set shell=/bin/bash\ -l
-endif
 
 " Increase vim yank buffer line limit and size
 set viminfo='20,<1000,s1000
