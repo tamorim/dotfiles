@@ -16,13 +16,15 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-vinegar'
 Plug 'wikitopian/hardmode'
+Plug 'marijnh/tern_for_vim'
+Plug 'tmhedberg/matchit'
 
 call plug#end()
 
 " Map leader to ,
 let mapleader = ","
 
-" Indent, syntax and coloscheme
+" Indent, syntax and colorscheme
 syntax on
 color railscasts
 filetype on
