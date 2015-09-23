@@ -6,6 +6,7 @@ Plug 'rking/ag.vim'
 Plug 'mattn/emmet-vim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'chankaward/vim-railscasts-theme'
+Plug 'ajh17/Spacegray.vim'
 Plug 'bling/vim-airline'
 Plug 'Valloric/YouCompleteMe'
 Plug 'Raimondi/delimitMate'
@@ -18,6 +19,8 @@ Plug 'tpope/vim-vinegar'
 Plug 'wikitopian/hardmode'
 Plug 'marijnh/tern_for_vim'
 Plug 'tmhedberg/matchit'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
 
 call plug#end()
 
@@ -26,7 +29,7 @@ let mapleader = ","
 
 " Indent, syntax and colorscheme
 syntax on
-color railscasts
+color spacegray
 filetype on
 filetype indent on
 
