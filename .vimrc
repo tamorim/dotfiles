@@ -7,6 +7,7 @@ Plug 'mattn/emmet-vim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'chankaward/vim-railscasts-theme'
 Plug 'ajh17/Spacegray.vim'
+Plug 'chriskempson/base16-vim'
 Plug 'bling/vim-airline'
 Plug 'Valloric/YouCompleteMe'
 Plug 'Raimondi/delimitMate'
@@ -27,9 +28,14 @@ call plug#end()
 " Map leader to ,
 let mapleader = ","
 
+" Macro for deleting functions and classes (c-like)
+let @f='Vf{%ddd'
+
 " Indent, syntax and colorscheme
 syntax on
-color spacegray
+set background=dark
+let base16colorspace=256
+color base16-default
 filetype on
 filetype indent on
 
