@@ -79,6 +79,17 @@ let g:airline#extensions#tabline#enabled = 1
 " Enables Powerline symbols
 let g:airline_powerline_fonts = 1
 
+" Enable vim-jsx on js files
+let g:jsx_ext_required = 0
+
+" Make the 81st column stand out
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%81v', 100)
+
+" Show tab characters, trailing whitespace etc
+set listchars=tab:>~,nbsp:_,trail:~
+set list
+
 " Autostart HardMode
 autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
@@ -97,4 +108,7 @@ nnoremap <Leader>a :Ag
 
 " Leader h toggles HardMode
 nnoremap <Leader>h <Esc>:call ToggleHardMode()<CR>
+
+" Leader e evaluates current file
+nnoremap <Leader>e :source %<CR>
 
