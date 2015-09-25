@@ -149,3 +149,9 @@ nnoremap <Leader>h <Esc>:call ToggleHardMode()<CR>
 " Leader e evaluates current file
 nnoremap <Leader>e :source %<CR>
 
+" Leader t sets or shows current tab config
+nnoremap <Leader>t :Stab<CR>
+
+" Leader v edits vimrc file
+nnoremap <Leader>v :e ~/.vimrc<CR>
+
