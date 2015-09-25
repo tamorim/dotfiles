@@ -28,8 +28,39 @@ call plug#end()
 " Map leader to ,
 let mapleader = ","
 
-" Macro for deleting functions and classes (c-like)
+" Macro for deleting blocks delimited by {}
 let @f='Vf{%ddd'
+
+" Macro for visualizing blocks delimited by {}
+let @v='Vf{%'
+
+" Set tabstop, softtabstop and shiftwidth to the same value
+command! -nargs=* Stab call Stab()
+function! Stab()
+  let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
+  if l:tabstop > 0
+    let &l:sts = l:tabstop
+    let &l:ts = l:tabstop
+    let &l:sw = l:tabstop
+  endif
+  call SummarizeTabs()
+endfunction
+
+function! SummarizeTabs()
+  try
+    echohl ModeMsg
+    echon ' tabstop='.&l:ts
+    echon ' shiftwidth='.&l:sw
+    echon ' softtabstop='.&l:sts
+    if &l:et
+      echon ' expandtab'
+    else
+      echon ' noexpandtab'
+    endif
+  finally
+    echohl None
+  endtry
+endfunction
 
 " Indent, syntax and colorscheme
 syntax on
