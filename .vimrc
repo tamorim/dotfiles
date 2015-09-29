@@ -22,6 +22,7 @@ Plug 'marijnh/tern_for_vim'
 Plug 'tmhedberg/matchit'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'scrooloose/syntastic'
 
 call plug#end()
 
@@ -61,6 +62,17 @@ function! SummarizeTabs()
     echohl None
   endtry
 endfunction
+
+" Syntastic config
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_coffee_coffeelint_args = "--repporter csv --file ~/.coffeelint.json"
 
 " Indent, syntax and colorscheme
 syntax on
