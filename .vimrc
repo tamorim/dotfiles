@@ -73,6 +73,8 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_coffee_coffeelint_args = "--repporter csv --file ~/.coffeelint.json"
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exec = 'eslint_d'
 
 " Indent, syntax and colorscheme
 syntax on
