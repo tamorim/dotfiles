@@ -23,6 +23,8 @@ Plug 'tmhedberg/matchit'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'scrooloose/syntastic'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'groenewege/vim-less'
 
 call plug#end()
 
