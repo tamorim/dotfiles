@@ -25,6 +25,7 @@ Plug 'mxw/vim-jsx'
 Plug 'scrooloose/syntastic'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'groenewege/vim-less'
+Plug 'benekastah/neomake'
 
 call plug#end()
 
@@ -65,18 +66,12 @@ function! SummarizeTabs()
   endtry
 endfunction
 
-" Syntastic config
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_coffee_coffeelint_args = "--repporter csv --file ~/.coffeelint.json"
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_javascript_eslint_exec = 'eslint_d'
+" Neomake config
+let g:neomake_open_list = 1
+let g:neomake_list_height = 5
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_coffeescript_enabled_makers = ['coffeelint']
+autocmd! BufWrite * Neomake
 
 " Indent, syntax, colorscheme and hlsearch
 syntax on
