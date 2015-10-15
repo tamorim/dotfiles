@@ -5,8 +5,6 @@ Plug 'kien/ctrlp.vim'
 Plug 'rking/ag.vim'
 Plug 'mattn/emmet-vim'
 Plug 'kchmck/vim-coffee-script'
-Plug 'chankaward/vim-railscasts-theme'
-Plug 'ajh17/Spacegray.vim'
 Plug 'chriskempson/base16-vim'
 Plug 'bling/vim-airline'
 Plug 'Valloric/YouCompleteMe'
@@ -18,7 +16,6 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-vinegar'
 Plug 'wikitopian/hardmode'
-Plug 'marijnh/tern_for_vim'
 Plug 'tmhedberg/matchit'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
@@ -163,6 +160,6 @@ nnoremap <Leader>e :source %<CR>
 " Leader t sets or shows current tab config
 nnoremap <Leader>t :Stab<CR>
 
-" Leader v edits vimrc file
+" Leader v edits nvimrc file
 nnoremap <Leader>v :e ~/.nvimrc<CR>
 
