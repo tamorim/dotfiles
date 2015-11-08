@@ -19,20 +19,20 @@ Plug 'wikitopian/hardmode'
 Plug 'tmhedberg/matchit'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'scrooloose/syntastic'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'groenewege/vim-less'
+Plug 'scrooloose/syntastic'
 
 call plug#end()
 
 " Map leader to ,
 let mapleader = ","
 
-" Macro for deleting blocks delimited by {}
-let @f='Vf{%ddd'
+" Macro for deleting blocks
+let @f='V$%ddd'
 
-" Macro for visualizing blocks delimited by {}
-let @v='Vf{%'
+" Macro for visualizing blocks
+let @v='V$%'
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
@@ -167,4 +167,7 @@ nnoremap <Leader>t :Stab<CR>
 
 " Leader v edits vimrc file
 nnoremap <Leader>v :e ~/.vimrc<CR>
+
+" Leader w removes trailing whitespace
+nnoremap <Leader>w :%s/\s\+$//g<CR>
 
