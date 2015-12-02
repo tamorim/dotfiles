@@ -1,3 +1,3 @@
 ## Dotfiles
 
-Just Vim and Emacs init files for now :)
+A collection of configs that make my world a nice place to live in.
