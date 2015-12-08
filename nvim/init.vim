@@ -22,6 +22,7 @@ Plug 'mxw/vim-jsx'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'groenewege/vim-less'
 Plug 'benekastah/neomake'
+Plug 'terryma/vim-multiple-cursors'
 
 call plug#end()
 
@@ -63,8 +64,12 @@ function! SummarizeTabs()
 endfunction
 
 " Neomake config
-let g:neomake_open_list = 1
+let g:neomake_open_list = 2
 let g:neomake_list_height = 5
+let g:neomake_coffeelint_maker = {
+  \ 'exe': 'coffeelint',
+  \ 'args': ['-f', '~/.coffeelint.json'],
+  \ }
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_coffeescript_enabled_makers = ['coffeelint']
 autocmd! BufWrite * Neomake
@@ -149,7 +154,7 @@ nnoremap <Leader>n :e.<CR>
 nnoremap <Leader>c :bdelete<CR>
 
 " Leader a opens ag
-nnoremap <Leader>a :Ag
+nnoremap <Leader>a :Ag 
 
 " Leader h toggles HardMode
 nnoremap <Leader>h <Esc>:call ToggleHardMode()<CR>
@@ -161,7 +166,7 @@ nnoremap <Leader>e :source %<CR>
 nnoremap <Leader>t :Stab<CR>
 
 " Leader v edits nvimrc file
-nnoremap <Leader>v :e ~/.nvimrc<CR>
+nnoremap <Leader>v :e ~/.config/nvim/init.vim<CR>
 
 " Leader w removes trailing whitespace
 nnoremap <Leader>w :%s/\s\+$//g<CR>
