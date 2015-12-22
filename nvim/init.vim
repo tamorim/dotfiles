@@ -175,4 +175,4 @@ nnoremap <Leader>v :e ~/.config/nvim/init.vim<CR>
 nnoremap <Leader>w :%s/\s\+$//g<CR>
 
 " Leader i indents a JSX component
-vnoremap <Leader>i :s/\zs\s\ze\w\+=/\="\n".matchstr(getline('.'), '^\s*').'  '/g \| s/\v\s?(\/?\>)/\="\n".matchstr(getline('.'), '^\s*').submatch(1)/ \| normal <<<CR>
+vnoremap <Leader>i :s/\zs\s\ze\w\+-\?/\="\n".matchstr(getline('.'), '^\s*').'  '/g \| s/\v\s?(\/?\>)/\="\n".matchstr(getline('.'), '^\s*').submatch(1)/ \| normal <<<CR>
