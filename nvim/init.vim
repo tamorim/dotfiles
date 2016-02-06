@@ -26,6 +26,8 @@ Plug 'benekastah/neomake'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'jimmyhchan/dustjs.vim'
 Plug 'ternjs/tern_for_vim'
+Plug 'sjl/gundo.vim'
+Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
@@ -151,7 +153,8 @@ set list
 autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
 " YCM options
-let g:ycm_autoclose_preview_window_after_completion = 1
+set completeopt-=preview
+let g:ycm_add_preview_to_completeopt = 0
 
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
@@ -168,6 +171,9 @@ nnoremap <Leader>a :Ag
 
 " Leader h toggles HardMode
 nnoremap <Leader>h <Esc>:call ToggleHardMode()<CR>
+
+" Leader u toggles Gundo
+nnoremap <Leader>u :GundoToggle<CR>
 
 " Leader e evaluates current file
 nnoremap <Leader>e :source %<CR>
