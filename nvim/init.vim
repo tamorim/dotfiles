@@ -33,7 +33,7 @@ call plug#end()
 let mapleader = ","
 
 " Macro for deleting blocks
-let @f='V$%ddd'
+let @f='V$%jd'
 
 " Macro for visualizing blocks
 let @v='V$%'
@@ -111,6 +111,7 @@ nnoremap k gk
 
 " Backup
 set backup
+set backupcopy=yes
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set backupskip=/tmp/*,/private/tmp/*
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
@@ -148,6 +149,9 @@ set list
 
 " Autostart HardMode
 autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+
+" YCM options
+let g:ycm_autoclose_preview_window_after_completion = 1
 
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
