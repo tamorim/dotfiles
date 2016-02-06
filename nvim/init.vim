@@ -6,7 +6,8 @@ Plug 'rking/ag.vim'
 Plug 'mattn/emmet-vim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'chriskempson/base16-vim'
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'Valloric/YouCompleteMe'
 Plug 'Raimondi/delimitMate'
 Plug 'airblade/vim-gitgutter'
@@ -23,6 +24,8 @@ Plug 'hail2u/vim-css3-syntax'
 Plug 'groenewege/vim-less'
 Plug 'benekastah/neomake'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'jimmyhchan/dustjs.vim'
+Plug 'ternjs/tern_for_vim'
 
 call plug#end()
 
