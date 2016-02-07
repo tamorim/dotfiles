@@ -1,7 +1,7 @@
 call plug#begin()
 
 Plug 'tpope/vim-sensible'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'rking/ag.vim'
 Plug 'mattn/emmet-vim'
 Plug 'kchmck/vim-coffee-script'
