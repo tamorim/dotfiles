@@ -28,6 +28,7 @@ Plug 'jimmyhchan/dustjs.vim'
 Plug 'ternjs/tern_for_vim'
 Plug 'sjl/gundo.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'SirVer/ultisnips'
 
 call plug#end()
 
@@ -35,7 +36,7 @@ call plug#end()
 let mapleader = ","
 
 " Macro for deleting blocks
-let @f='V$%jd'
+let @f='V$%wd'
 
 " Macro for visualizing blocks
 let @v='V$%'
