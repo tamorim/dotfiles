@@ -163,6 +163,7 @@ let g:ycm_add_preview_to_completeopt = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
 
 " UltiSnips bindings
+let g:UltiSnipsSnippetsDir="~/.config/nvim/UltiSnips"
 let g:UltiSnipsExpandTrigger="<c-j>"
 
 " JavaScript Libraries Syntax
