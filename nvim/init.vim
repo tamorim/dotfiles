@@ -33,6 +33,8 @@ Plug 'moll/vim-node'
 Plug 'othree/html5-syntax.vim'
 Plug 'othree/html5.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-easytags'
 
 call plug#end()
 
@@ -172,6 +174,18 @@ let g:used_javascript_libs = 'underscore,react'
 " Less files
 autocmd BufNewFile,BufRead *.less set filetype=less
 autocmd FileType less set omnifunc=csscomplete#CompleteCSS
+
+" Easytags options
+let g:easytags_async = 1
+let g:easytags_languages = {
+\   'javascript': {
+\     'cmd': 'jsctags',
+\       'args': [],
+\       'fileoutput_opt': '-f',
+\       'stdout_opt': '-f-',
+\       'recurse_flag': '-R'
+\   }
+\}
 
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
