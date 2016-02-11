@@ -133,6 +133,23 @@ let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+let g:ctrlp_extensions = ['buffertag']
+let g:ctrlp_open_multiple_files = '1r'
+
+" Function to auto refresh CtrlP
+function! SetupCtrlP()
+  if exists("g:loaded_ctrlp") && g:loaded_ctrlp
+    augroup CtrlPExtension
+      autocmd!
+      autocmd FocusGained  * CtrlPClearCache
+      autocmd BufWritePost * CtrlPClearCache
+    augroup END
+  endif
+endfunction
+
+if has("autocmd")
+  autocmd VimEnter * :call SetupCtrlP()
+endif
 
 " When switching buffers, only hide the old one
 " Makes undo persist on buffer switch
@@ -189,6 +206,9 @@ let g:easytags_languages = {
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
+
+" Ctrl + G opens CtrlP buffertag search
+nnoremap <c-g> :CtrlPBufTag<CR>
 
 " Leader n toggles netrw
 nnoremap <Leader>n :e.<CR>
