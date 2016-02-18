@@ -135,6 +135,7 @@ let g:ctrlp_working_path_mode = 0
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 let g:ctrlp_extensions = ['buffertag']
 let g:ctrlp_open_multiple_files = '1r'
+let g:ctrlp_by_filename = 1
 
 " Function to auto refresh CtrlP
 function! SetupCtrlP()
