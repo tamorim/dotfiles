@@ -42,7 +42,7 @@ call plug#end()
 let mapleader = ","
 
 " Macro for deleting blocks
-let @f='V$%wd'
+let @f='V$%jd'
 
 " Macro for visualizing blocks
 let @v='V$%'
