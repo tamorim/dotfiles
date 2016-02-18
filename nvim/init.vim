@@ -16,7 +16,6 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-vinegar'
-Plug 'wikitopian/hardmode'
 Plug 'tmhedberg/matchit'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
@@ -172,9 +171,6 @@ call matchadd('ColorColumn', '\%81v', 100)
 set listchars=tab:>~,nbsp:_,trail:~
 set list
 
-" Autostart HardMode
-autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
-
 " YCM options
 set completeopt-=preview
 let g:ycm_add_preview_to_completeopt = 0
@@ -218,9 +214,6 @@ nnoremap <Leader>c :bdelete<CR>
 
 " Leader a opens ag
 nnoremap <Leader>a :Ag 
-
-" Leader h toggles HardMode
-nnoremap <Leader>h <Esc>:call ToggleHardMode()<CR>
 
 " Leader u toggles Gundo
 nnoremap <Leader>u :GundoToggle<CR>
