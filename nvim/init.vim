@@ -202,7 +202,7 @@ let g:easytags_languages = {
 \}
 
 " Hardtime config
-let g:hardtime_default_on = 1
+autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardTimeOn()
 let g:hardtime_ignore_quickfix = 1
 let g:hardtime_allow_different_key = 1
 
