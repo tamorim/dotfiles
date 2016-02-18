@@ -34,6 +34,7 @@ Plug 'othree/html5.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
+Plug 'takac/vim-hardtime'
 
 call plug#end()
 
@@ -198,6 +199,11 @@ let g:easytags_languages = {
 \       'recurse_flag': '-R'
 \   }
 \}
+
+" Hardtime config
+let g:hardtime_default_on = 1
+let g:hardtime_ignore_quickfix = 1
+let g:hardtime_allow_different_key = 1
 
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
