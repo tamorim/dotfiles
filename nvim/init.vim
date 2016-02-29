@@ -91,7 +91,7 @@ filetype on
 filetype indent on
 set nohlsearch
 
-" Relative line numbers and absolute number on cursor
+" Line numbers
 set number
 
 " Cursor line
