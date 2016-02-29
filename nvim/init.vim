@@ -4,7 +4,6 @@ Plug 'tpope/vim-sensible'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'rking/ag.vim'
 Plug 'mattn/emmet-vim'
-Plug 'kchmck/vim-coffee-script'
 Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -17,10 +16,6 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-vinegar'
 Plug 'tmhedberg/matchit'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-Plug 'hail2u/vim-css3-syntax'
-Plug 'groenewege/vim-less'
 Plug 'benekastah/neomake'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'jimmyhchan/dustjs.vim'
@@ -29,12 +24,10 @@ Plug 'sjl/gundo.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'SirVer/ultisnips'
 Plug 'moll/vim-node'
-Plug 'othree/html5-syntax.vim'
-Plug 'othree/html5.vim'
-Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 Plug 'takac/vim-hardtime'
+Plug 'sheerun/vim-polyglot'
 
 call plug#end()
 
@@ -181,13 +174,6 @@ let g:ycm_collect_identifiers_from_tags_files = 1
 " UltiSnips bindings
 let g:UltiSnipsSnippetsDir="~/.config/nvim/UltiSnips"
 let g:UltiSnipsExpandTrigger="<c-j>"
-
-" JavaScript Libraries Syntax
-let g:used_javascript_libs = 'underscore,react'
-
-" Less files
-autocmd BufNewFile,BufRead *.less set filetype=less
-autocmd FileType less set omnifunc=csscomplete#CompleteCSS
 
 " Easytags options
 let g:easytags_async = 1
