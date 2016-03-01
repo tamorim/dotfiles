@@ -27,6 +27,7 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 Plug 'takac/vim-hardtime'
 Plug 'sheerun/vim-polyglot'
+Plug 'ianks/vim-tsx'
 
 call plug#end()
 
