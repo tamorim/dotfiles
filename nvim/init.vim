@@ -73,13 +73,10 @@ endfunction
 " Neomake config
 let g:neomake_open_list = 2
 let g:neomake_list_height = 5
-let g:neomake_coffeelint_maker = {
-  \ 'exe': 'coffeelint',
-  \ 'args': ['-f', '~/.coffeelint.json'],
-  \ }
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_coffeescript_enabled_makers = ['coffeelint']
-autocmd! BufWrite * Neomake
+autocmd! BufEnter,BufWrite * Neomake
+autocmd! QuitPre * let g:neomake_verbose = 0
 
 " Indent, syntax, colorscheme and hlsearch
 syntax on
