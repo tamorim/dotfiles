@@ -72,9 +72,28 @@ endfunction
 
 " Neomake config
 let g:neomake_open_list = 2
-let g:neomake_list_height = 5
+let g:neomake_list_height = 3
+let g:neomake_javascript_eslint_exe = './node_modules/.bin/eslint'
+let g:neomake_typescript_mytsc_maker = {
+\ 'exe': './node_modules/.bin/tsc',
+\ 'args': ['@.tscconfig'],
+\ 'errorformat': '%E%f %#(%l\,%c): error %m,' .
+\ '%E%f %#(%l\,%c): %m,' .
+\ '%Eerror %m,' .
+\ '%C%\s%\+%m'
+\ }
+let g:neomake_tsx_mytsc_maker = {
+\ 'exe': './node_modules/.bin/tsc',
+\ 'args': ['@.tscconfig'],
+\ 'errorformat': '%E%f %#(%l\,%c): error %m,' .
+\ '%E%f %#(%l\,%c): %m,' .
+\ '%Eerror %m,' .
+\ '%C%\s%\+%m'
+\ }
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_coffeescript_enabled_makers = ['coffeelint']
+let g:neomake_typescript_enabled_makers = ['mytsc']
+let g:neomake_tsx_enabled_makers = ['mytsc']
 autocmd! BufEnter,BufWrite * Neomake
 autocmd! QuitPre * let g:neomake_verbose = 0
 
