@@ -133,6 +133,12 @@ set backupskip=/tmp/*,/private/tmp/*
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set writebackup
 
+" Persistent undo config
+set undofile
+set undodir=$HOME/.nvim/undo
+set undolevels=1000
+set undoreload=10000
+
 " Increase vim yank buffer line limit and size
 set viminfo='20,<1000,s1000
 
