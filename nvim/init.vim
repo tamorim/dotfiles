@@ -3,7 +3,6 @@ call plug#begin()
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'rking/ag.vim'
 Plug 'mattn/emmet-vim'
-Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'Valloric/YouCompleteMe'
@@ -27,6 +26,7 @@ Plug 'xolox/vim-easytags'
 Plug 'takac/vim-hardtime'
 Plug 'sheerun/vim-polyglot'
 Plug 'ianks/vim-tsx'
+Plug 'w0ng/vim-hybrid'
 
 call plug#end()
 
@@ -100,8 +100,9 @@ autocmd! QuitPre * let g:neomake_verbose = 0
 " Indent, syntax, colorscheme and hlsearch
 syntax on
 set background=dark
-let base16colorspace=256
-color base16-default
+let g:hybrid_custom_term_colors = 1
+let g:hybrid_reduced_contrast = 1
+colorscheme hybrid
 filetype on
 filetype indent on
 set nohlsearch
