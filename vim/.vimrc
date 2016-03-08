@@ -1,12 +1,11 @@
 call plug#begin()
 
 Plug 'tpope/vim-sensible'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'rking/ag.vim'
 Plug 'mattn/emmet-vim'
-Plug 'kchmck/vim-coffee-script'
-Plug 'chriskempson/base16-vim'
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'Valloric/YouCompleteMe'
 Plug 'Raimondi/delimitMate'
 Plug 'airblade/vim-gitgutter'
@@ -15,13 +14,20 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-vinegar'
-Plug 'wikitopian/hardmode'
 Plug 'tmhedberg/matchit'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-Plug 'hail2u/vim-css3-syntax'
-Plug 'groenewege/vim-less'
-Plug 'scrooloose/syntastic'
+Plug 'benekastah/neomake'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'jimmyhchan/dustjs.vim'
+Plug 'sjl/gundo.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'SirVer/ultisnips'
+Plug 'moll/vim-node'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-easytags'
+Plug 'takac/vim-hardtime'
+Plug 'sheerun/vim-polyglot'
+Plug 'ianks/vim-tsx'
+Plug 'w0ng/vim-hybrid'
 
 call plug#end()
 
@@ -29,10 +35,13 @@ call plug#end()
 let mapleader = ","
 
 " Macro for deleting blocks
-let @f='V$%ddd'
+let @f='V$%jd'
 
 " Macro for visualizing blocks
 let @v='V$%'
+
+" Macro for navigating blocks
+let @n='$%'
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
@@ -62,29 +71,44 @@ function! SummarizeTabs()
   endtry
 endfunction
 
-" Syntastic config
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" Neomake config
+let g:neomake_open_list = 2
+let g:neomake_list_height = 3
+let g:neomake_javascript_eslint_exe = './node_modules/.bin/eslint'
+let g:neomake_typescript_mytsc_maker = {
+\ 'exe': './node_modules/.bin/tsc',
+\ 'args': ['@.tscconfig'],
+\ 'errorformat': '%E%f %#(%l\,%c): error %m,' .
+\ '%E%f %#(%l\,%c): %m,' .
+\ '%Eerror %m,' .
+\ '%C%\s%\+%m'
+\ }
+let g:neomake_tsx_mytsc_maker = {
+\ 'exe': './node_modules/.bin/tsc',
+\ 'args': ['@.tscconfig'],
+\ 'errorformat': '%E%f %#(%l\,%c): error %m,' .
+\ '%E%f %#(%l\,%c): %m,' .
+\ '%Eerror %m,' .
+\ '%C%\s%\+%m'
+\ }
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_coffeescript_enabled_makers = ['coffeelint']
+let g:neomake_typescript_enabled_makers = ['mytsc']
+let g:neomake_tsx_enabled_makers = ['mytsc']
+autocmd! BufEnter,BufWrite * Neomake
+autocmd! QuitPre * let g:neomake_verbose = 0
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_coffee_coffeelint_args = "--repporter csv --file ~/.coffeelint.json"
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_javascript_eslint_exec = 'eslint_d'
-
-" Indent, syntax and colorscheme
+" Indent, syntax, colorscheme and hlsearch
 syntax on
 set background=dark
-let base16colorspace=256
-color base16-default
+let g:hybrid_custom_term_colors = 1
+let g:hybrid_reduced_contrast = 1
+colorscheme hybrid
 filetype on
 filetype indent on
+set nohlsearch
 
-" Relative line numbers and absolute number on cursor
-set relativenumber
+" Line numbers
 set number
 
 " Cursor line
@@ -105,10 +129,17 @@ nnoremap k gk
 
 " Backup
 set backup
+set backupcopy=yes
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set backupskip=/tmp/*,/private/tmp/*
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set writebackup
+
+" Persistent undo config
+set undofile
+set undodir=$HOME/.nvim/undo
+set undolevels=1000
+set undoreload=10000
 
 " Increase vim yank buffer line limit and size
 set viminfo='20,<1000,s1000
@@ -118,6 +149,24 @@ let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+let g:ctrlp_extensions = ['buffertag']
+let g:ctrlp_open_multiple_files = '1r'
+let g:ctrlp_by_filename = 1
+
+" Function to auto refresh CtrlP
+function! SetupCtrlP()
+  if exists("g:loaded_ctrlp") && g:loaded_ctrlp
+    augroup CtrlPExtension
+      autocmd!
+      autocmd FocusGained  * CtrlPClearCache
+      autocmd BufWritePost * CtrlPClearCache
+    augroup END
+  endif
+endfunction
+
+if has("autocmd")
+  autocmd VimEnter * :call SetupCtrlP()
+endif
 
 " When switching buffers, only hide the old one
 " Makes undo persist on buffer switch
@@ -140,12 +189,38 @@ call matchadd('ColorColumn', '\%81v', 100)
 set listchars=tab:>~,nbsp:_,trail:~
 set list
 
-" Autostart HardMode
-autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+" YCM options
+set completeopt-=preview
+let g:ycm_add_preview_to_completeopt = 0
+let g:ycm_collect_identifiers_from_tags_files = 1
+
+" UltiSnips bindings
+let g:UltiSnipsSnippetsDir="~/.config/nvim/UltiSnips"
+let g:UltiSnipsExpandTrigger="<c-j>"
+
+" Easytags options
+let g:easytags_async = 1
+let g:easytags_languages = {
+\   'javascript': {
+\     'cmd': 'jsctags',
+\       'args': [],
+\       'fileoutput_opt': '-f',
+\       'stdout_opt': '-f-',
+\       'recurse_flag': '-R'
+\   }
+\}
+
+" Hardtime config
+autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardTimeOn()
+let g:hardtime_ignore_quickfix = 1
+let g:hardtime_allow_different_key = 1
 
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
+
+" Ctrl + G opens CtrlP buffertag search
+nnoremap <c-g> :CtrlPBufTag<CR>
 
 " Leader n toggles netrw
 nnoremap <Leader>n :e.<CR>
@@ -154,10 +229,10 @@ nnoremap <Leader>n :e.<CR>
 nnoremap <Leader>c :bdelete<CR>
 
 " Leader a opens ag
-nnoremap <Leader>a :Ag
+nnoremap <Leader>a :Ag 
 
-" Leader h toggles HardMode
-nnoremap <Leader>h <Esc>:call ToggleHardMode()<CR>
+" Leader u toggles Gundo
+nnoremap <Leader>u :GundoToggle<CR>
 
 " Leader e evaluates current file
 nnoremap <Leader>e :source %<CR>
@@ -165,9 +240,11 @@ nnoremap <Leader>e :source %<CR>
 " Leader t sets or shows current tab config
 nnoremap <Leader>t :Stab<CR>
 
-" Leader v edits vimrc file
-nnoremap <Leader>v :e ~/.vimrc<CR>
+" Leader v edits nvimrc file
+nnoremap <Leader>v :e ~/.config/nvim/init.vim<CR>
 
 " Leader w removes trailing whitespace
 nnoremap <Leader>w :%s/\s\+$//g<CR>
 
+" Leader i indents a JSX component
+vnoremap <Leader>i :s/\zs\s\ze\w\+-\?/\="\n".matchstr(getline('.'), '^\s*').'  '/g \| s/\v\s?(\/?\>)/\="\n".matchstr(getline('.'), '^\s*').submatch(1)/ \| normal <<<CR>
