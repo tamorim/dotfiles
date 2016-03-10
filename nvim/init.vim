@@ -42,6 +42,9 @@ let @v='V$%'
 " Macro for navigating blocks
 let @n='$%'
 
+" Macro for deleting stuff surrounding blocks
+let @s='0$wviB<b%dddd'
+
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
 function! Stab()
