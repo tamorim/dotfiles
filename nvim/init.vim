@@ -28,6 +28,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'ianks/vim-tsx'
 Plug 'w0ng/vim-hybrid'
 Plug 'vim-scripts/paredit.vim'
+Plug 'editorconfig/editorconfig-vim'
 
 call plug#end()
 
@@ -216,6 +217,9 @@ let g:easytags_languages = {
 autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardTimeOn()
 let g:hardtime_ignore_quickfix = 1
 let g:hardtime_allow_different_key = 1
+
+" EditorConfig config
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
