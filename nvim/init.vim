@@ -27,6 +27,7 @@ Plug 'takac/vim-hardtime'
 Plug 'sheerun/vim-polyglot'
 Plug 'ianks/vim-tsx'
 Plug 'w0ng/vim-hybrid'
+Plug 'vim-scripts/paredit.vim'
 
 call plug#end()
 
