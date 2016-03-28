@@ -11,8 +11,9 @@ endif
 if isPlugPresent == 0
     echo "Installing plugins..."
     echo ""
-    :silent! source ~/.config/nvim/init.vim
-    :silent! PlugInstall
+    silent! source ~/.config/nvim/init.vim
+    silent! PlugInstall
+    silent! bdelete
 endif
 
 call plug#begin()
