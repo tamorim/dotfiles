@@ -96,7 +96,8 @@ endfunction
 " Neomake config
 let g:neomake_open_list = 2
 let g:neomake_list_height = 3
-let g:neomake_javascript_eslint_exe = './node_modules/.bin/eslint'
+let eslint_exe = expand('./node_modules/.bin/eslint')
+let g:neomake_javascript_eslint_exe = eslint_exe
 let g:neomake_typescript_mytsc_maker = {
 \ 'exe': './node_modules/.bin/tsc',
 \ 'args': ['@.tscconfig'],
@@ -113,7 +114,13 @@ let g:neomake_tsx_mytsc_maker = {
 \ '%Eerror %m,' .
 \ '%C%\s%\+%m'
 \ }
-let g:neomake_javascript_enabled_makers = ['eslint']
+
+if filereadable(eslint_exe)
+  let g:neomake_javascript_enabled_makers = ['eslint']
+else
+  let g:neomake_javascript_enabled_makers = []
+endif
+
 let g:neomake_coffeescript_enabled_makers = ['coffeelint']
 let g:neomake_typescript_enabled_makers = ['mytsc']
 let g:neomake_tsx_enabled_makers = ['mytsc']
