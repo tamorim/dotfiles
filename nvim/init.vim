@@ -1,3 +1,20 @@
+" Setting up Plug
+let isPlugPresent = 1
+let plug_vim = expand('~/.config/nvim/autoload/plug.vim')
+
+if !filereadable(plug_vim)
+    echo "Installing Plug..."
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    let isPlugPresent = 0
+endif
+
+if isPlugPresent == 0
+    echo "Installing plugins..."
+    echo ""
+    :silent! source ~/.config/nvim/init.vim
+    :silent! PlugInstall
+endif
+
 call plug#begin()
 
 Plug 'ctrlpvim/ctrlp.vim'
