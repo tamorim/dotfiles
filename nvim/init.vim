@@ -30,7 +30,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-vinegar'
 Plug 'tmhedberg/matchit'
 Plug 'benekastah/neomake'
 Plug 'terryma/vim-multiple-cursors'
@@ -47,6 +46,7 @@ Plug 'ianks/vim-tsx'
 Plug 'w0ng/vim-hybrid'
 Plug 'vim-scripts/paredit.vim'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'scrooloose/nerdtree'
 
 call plug#end()
 
@@ -253,7 +253,7 @@ nnoremap <S-Tab> :bprevious<CR>
 " Ctrl + G opens CtrlP buffertag search
 nnoremap <c-g> :CtrlPBufTag<CR>
 
-" Leader n toggles netrw
+" Leader n toggles netrw or NERDTree if installed
 nnoremap <Leader>n :e.<CR>
 
 " Leader c deletes current buffer
