@@ -47,6 +47,7 @@ Plug 'w0ng/vim-hybrid'
 Plug 'vim-scripts/paredit.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'scrooloose/nerdtree'
+Plug 'othree/es.next.syntax.vim'
 
 call plug#end()
 
