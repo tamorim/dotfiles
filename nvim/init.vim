@@ -13,6 +13,7 @@ if isPlugPresent == 0
     echo ""
     silent! source ~/.config/nvim/init.vim
     silent! PlugInstall
+    silent !python2 ~/.config/nvim/plugged/YouCompleteMe/install.py --clang-completer --tern-completer
     silent! bdelete
 endif
 
@@ -97,7 +98,7 @@ endfunction
 " Neomake config
 let g:neomake_open_list = 2
 let g:neomake_list_height = 3
-let eslint_exe = expand('./node_modules/.bin/eslint')
+let eslint_exe = './node_modules/.bin/eslint'
 let g:neomake_javascript_eslint_exe = eslint_exe
 let g:neomake_typescript_mytsc_maker = {
 \ 'exe': './node_modules/.bin/tsc',
