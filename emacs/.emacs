@@ -5,7 +5,6 @@
 (load "~/.emacs.d/misc")
 (load "~/.emacs.d/hooks")
 (load "~/.emacs.d/xah_switch_buffer")
-(load "~/.emacs.d/scalable_fonts")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
