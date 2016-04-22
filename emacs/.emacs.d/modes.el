@@ -7,7 +7,6 @@
 (global-evil-leader-mode)
 (dtrt-indent-mode t)
 (electric-pair-mode t)
-(evil-jumper-mode t)
 (evil-mode t)
 (global-auto-revert-mode t)
 (global-evil-surround-mode t)

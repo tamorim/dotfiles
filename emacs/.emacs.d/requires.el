@@ -23,4 +23,3 @@
 (require 'evil-numbers)
 (require 'evil)
 (require 'delight)
-(require 'neotree)
