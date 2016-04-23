@@ -49,6 +49,7 @@ Plug 'vim-scripts/paredit.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'othree/es.next.syntax.vim'
+Plug 'matze/vim-move'
 
 call plug#end()
 
