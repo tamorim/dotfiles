@@ -13,9 +13,12 @@ if isPlugPresent == 0
     echo ""
     silent! source ~/.config/nvim/init.vim
     silent! PlugInstall
-    silent !python2 ~/.config/nvim/plugged/YouCompleteMe/install.py --clang-completer --tern-completer
     silent! bdelete
 endif
+
+function! DoRemote(arg)
+  UpdateRemotePlugins
+endfunction
 
 call plug#begin()
 
@@ -24,7 +27,6 @@ Plug 'rking/ag.vim'
 Plug 'mattn/emmet-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'Valloric/YouCompleteMe'
 Plug 'Raimondi/delimitMate'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
@@ -50,6 +52,8 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'othree/es.next.syntax.vim'
 Plug 'matze/vim-move'
+Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+Plug 'carlitux/deoplete-ternjs'
 
 call plug#end()
 
@@ -236,13 +240,13 @@ let g:UltiSnipsExpandTrigger="<c-j>"
 " Easytags options
 let g:easytags_async = 1
 let g:easytags_languages = {
-\   'javascript': {
-\     'cmd': 'jsctags',
-\       'args': [],
-\       'fileoutput_opt': '-f',
-\       'stdout_opt': '-f-',
-\       'recurse_flag': '-R'
-\   }
+\  'javascript': {
+\    'cmd': 'jsctags',
+\      'args': [],
+\      'fileoutput_opt': '-f',
+\      'stdout_opt': '-f-',
+\      'recurse_flag': '-R'
+\  }
 \}
 
 " Hardtime config
@@ -252,6 +256,13 @@ let g:hardtime_allow_different_key = 1
 
 " EditorConfig config
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+
+" deoplete config
+let g:deoplete#enable_at_startup = 1
+
+" deoplete tab-complete
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : deoplete#mappings#manual_complete()
 
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
