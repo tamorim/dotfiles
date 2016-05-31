@@ -261,8 +261,8 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 let g:deoplete#enable_at_startup = 1
 
 " deoplete tab-complete
-inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
-inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : deoplete#mappings#manual_complete()
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
