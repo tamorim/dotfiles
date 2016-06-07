@@ -50,8 +50,6 @@ Plug 'w0ng/vim-hybrid'
 Plug 'vim-scripts/paredit.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'scrooloose/nerdtree'
-Plug 'othree/yajs.vim'
-Plug 'othree/es.next.syntax.vim'
 Plug 'matze/vim-move'
 Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 Plug 'carlitux/deoplete-ternjs'
@@ -254,9 +252,6 @@ let g:easytags_languages = {
 autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardTimeOn()
 let g:hardtime_ignore_quickfix = 1
 let g:hardtime_allow_different_key = 1
-
-" vim-polyglot config
-let g:polyglot_disabled = ['javascript']
 
 " EditorConfig config
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
