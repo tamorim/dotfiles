@@ -1,3 +1,26 @@
+" Setting up Plug
+let isPlugPresent = 1
+let plug_vim = expand('~/.vimrc')
+
+if !filereadable(plug_vim)
+    echo "Installing Plug..."
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    let isPlugPresent = 0
+endif
+
+if isPlugPresent == 0
+    echo "Installing plugins..."
+    echo ""
+    silent! source ~/.vimrc
+    silent! PlugInstall
+    silent !python2 ~/.config/nvim/plugged/YouCompleteMe/install.py --clang-completer --tern-completer
+    silent! bdelete
+endif
+
+function! DoRemote(arg)
+  UpdateRemotePlugins
+endfunction
+
 call plug#begin()
 
 Plug 'tpope/vim-sensible'
@@ -6,16 +29,13 @@ Plug 'rking/ag.vim'
 Plug 'mattn/emmet-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'Valloric/YouCompleteMe'
 Plug 'Raimondi/delimitMate'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-vinegar'
 Plug 'tmhedberg/matchit'
-Plug 'benekastah/neomake'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'jimmyhchan/dustjs.vim'
 Plug 'sjl/gundo.vim'
@@ -26,8 +46,17 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 Plug 'takac/vim-hardtime'
 Plug 'sheerun/vim-polyglot'
+Plug 'othree/yajs.vim'
+Plug 'othree/es.next.syntax.vim'
 Plug 'ianks/vim-tsx'
 Plug 'w0ng/vim-hybrid'
+Plug 'vim-scripts/paredit.vim'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'scrooloose/nerdtree'
+Plug 'matze/vim-move'
+Plug 'Valloric/YouCompleteMe'
+Plug 'scrooloose/syntastic'
+Plug 'mtscout6/syntastic-local-eslint.vim'
 
 call plug#end()
 
@@ -42,6 +71,9 @@ let @v='V$%'
 
 " Macro for navigating blocks
 let @n='$%'
+
+" Macro for deleting stuff surrounding blocks
+let @s='0$wviB<b%dddd'
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
@@ -71,32 +103,17 @@ function! SummarizeTabs()
   endtry
 endfunction
 
-" Neomake config
-let g:neomake_open_list = 2
-let g:neomake_list_height = 3
-let g:neomake_javascript_eslint_exe = './node_modules/.bin/eslint'
-let g:neomake_typescript_mytsc_maker = {
-\ 'exe': './node_modules/.bin/tsc',
-\ 'args': ['@.tscconfig'],
-\ 'errorformat': '%E%f %#(%l\,%c): error %m,' .
-\ '%E%f %#(%l\,%c): %m,' .
-\ '%Eerror %m,' .
-\ '%C%\s%\+%m'
-\ }
-let g:neomake_tsx_mytsc_maker = {
-\ 'exe': './node_modules/.bin/tsc',
-\ 'args': ['@.tscconfig'],
-\ 'errorformat': '%E%f %#(%l\,%c): error %m,' .
-\ '%E%f %#(%l\,%c): %m,' .
-\ '%Eerror %m,' .
-\ '%C%\s%\+%m'
-\ }
-let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_coffeescript_enabled_makers = ['coffeelint']
-let g:neomake_typescript_enabled_makers = ['mytsc']
-let g:neomake_tsx_enabled_makers = ['mytsc']
-autocmd! BufEnter,BufWrite * Neomake
-autocmd! QuitPre * let g:neomake_verbose = 0
+" Syntastic config
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_loc_list_height = 5
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['eslint']
 
 " Indent, syntax, colorscheme and hlsearch
 syntax on
@@ -148,10 +165,13 @@ set viminfo='20,<1000,s1000
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+let g:ctrlp_user_command = [
+\ '.git',
+\ 'bash -c "cd %s && git ls-files . -co --exclude-standard"',
+\ 'ag %s -l --nocolor --hidden -g ""'
+\ ]
 let g:ctrlp_extensions = ['buffertag']
 let g:ctrlp_open_multiple_files = '1r'
-let g:ctrlp_by_filename = 1
 
 " Function to auto refresh CtrlP
 function! SetupCtrlP()
@@ -201,19 +221,25 @@ let g:UltiSnipsExpandTrigger="<c-j>"
 " Easytags options
 let g:easytags_async = 1
 let g:easytags_languages = {
-\   'javascript': {
-\     'cmd': 'jsctags',
-\       'args': [],
-\       'fileoutput_opt': '-f',
-\       'stdout_opt': '-f-',
-\       'recurse_flag': '-R'
-\   }
+\  'javascript': {
+\    'cmd': 'jsctags',
+\      'args': [],
+\      'fileoutput_opt': '-f',
+\      'stdout_opt': '-f-',
+\      'recurse_flag': '-R'
+\  }
 \}
 
 " Hardtime config
 autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardTimeOn()
 let g:hardtime_ignore_quickfix = 1
 let g:hardtime_allow_different_key = 1
+
+" EditorConfig config
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+
+" Disable vim-polyglot on javascript files
+let g:polyglot_disabled = ['javascript']
 
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
@@ -222,7 +248,7 @@ nnoremap <S-Tab> :bprevious<CR>
 " Ctrl + G opens CtrlP buffertag search
 nnoremap <c-g> :CtrlPBufTag<CR>
 
-" Leader n toggles netrw
+" Leader n toggles netrw or NERDTree if installed
 nnoremap <Leader>n :e.<CR>
 
 " Leader c deletes current buffer
@@ -241,7 +267,7 @@ nnoremap <Leader>e :source %<CR>
 nnoremap <Leader>t :Stab<CR>
 
 " Leader v edits nvimrc file
-nnoremap <Leader>v :e ~/.config/nvim/init.vim<CR>
+nnoremap <Leader>v :e ~/.vimrc<CR>
 
 " Leader w removes trailing whitespace
 nnoremap <Leader>w :%s/\s\+$//g<CR>
