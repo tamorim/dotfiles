@@ -229,11 +229,6 @@ call matchadd('ColorColumn', '\%81v', 100)
 set listchars=tab:>~,nbsp:_,trail:~
 set list
 
-" YCM options
-set completeopt-=preview
-let g:ycm_add_preview_to_completeopt = 0
-let g:ycm_collect_identifiers_from_tags_files = 1
-
 " UltiSnips bindings
 let g:UltiSnipsSnippetsDir="~/.config/nvim/UltiSnips"
 let g:UltiSnipsExpandTrigger="<c-j>"
