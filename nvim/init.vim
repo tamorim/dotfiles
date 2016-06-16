@@ -45,6 +45,8 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 Plug 'takac/vim-hardtime'
 Plug 'sheerun/vim-polyglot'
+Plug 'othree/yajs.vim'
+Plug 'othree/es.next.syntax.vim'
 Plug 'ianks/vim-tsx'
 Plug 'w0ng/vim-hybrid'
 Plug 'vim-scripts/paredit.vim'
@@ -262,6 +264,9 @@ let g:deoplete#enable_at_startup = 1
 " deoplete tab-complete
 inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Disable vim-polyglot on javascript files
+let g:polyglot_disabled = ['javascript']
 
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
