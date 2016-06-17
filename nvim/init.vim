@@ -55,6 +55,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'matze/vim-move'
 Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 Plug 'carlitux/deoplete-ternjs'
+Plug 'rschmukler/pangloss-vim-indent'
 
 call plug#end()
 
