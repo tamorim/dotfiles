@@ -267,6 +267,12 @@ inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " Disable vim-polyglot on javascript files
 let g:polyglot_disabled = ['javascript']
 
+" Skip location list and quick fix list on buffer switch
+augroup qf
+  autocmd!
+  autocmd FileType qf set nobuflisted
+augroup END
+
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
