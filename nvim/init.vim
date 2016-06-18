@@ -136,7 +136,7 @@ endif
 let g:neomake_coffeescript_enabled_makers = ['coffeelint']
 let g:neomake_typescript_enabled_makers = ['mytsc']
 let g:neomake_tsx_enabled_makers = ['mytsc']
-autocmd! BufWrite * Neomake
+autocmd! BufWinEnter,BufWrite * Neomake
 autocmd! QuitPre * let g:neomake_verbose = 0
 
 " Indent, syntax, colorscheme and hlsearch
