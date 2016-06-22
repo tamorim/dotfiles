@@ -55,6 +55,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'matze/vim-move'
 Plug 'scrooloose/syntastic'
 Plug 'mtscout6/syntastic-local-eslint.vim'
+Plug 'rschmukler/pangloss-vim-indent'
 Plug 'Shougo/neocomplete.vim'
 
 call plug#end()
