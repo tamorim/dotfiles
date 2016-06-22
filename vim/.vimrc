@@ -57,6 +57,7 @@ Plug 'scrooloose/syntastic'
 Plug 'mtscout6/syntastic-local-eslint.vim'
 Plug 'rschmukler/pangloss-vim-indent'
 Plug 'Shougo/neocomplete.vim'
+Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
 
 call plug#end()
 

@@ -57,6 +57,7 @@ Plug 'carlitux/deoplete-ternjs'
 Plug 'rschmukler/pangloss-vim-indent'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
 
 call plug#end()
 
