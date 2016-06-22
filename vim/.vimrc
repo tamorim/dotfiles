@@ -13,7 +13,6 @@ if isPlugPresent == 0
     echo ""
     silent! source ~/.vimrc
     silent! PlugInstall
-    silent !python2 ~/.config/nvim/plugged/YouCompleteMe/install.py --clang-completer --tern-completer
     silent! bdelete
 endif
 
@@ -54,9 +53,9 @@ Plug 'vim-scripts/paredit.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'matze/vim-move'
-Plug 'Valloric/YouCompleteMe'
 Plug 'scrooloose/syntastic'
 Plug 'mtscout6/syntastic-local-eslint.vim'
+Plug 'Shougo/neocomplete.vim'
 
 call plug#end()
 
@@ -209,11 +208,6 @@ call matchadd('ColorColumn', '\%81v', 100)
 set listchars=tab:>~,nbsp:_,trail:~
 set list
 
-" YCM options
-set completeopt-=preview
-let g:ycm_add_preview_to_completeopt = 0
-let g:ycm_collect_identifiers_from_tags_files = 1
-
 " UltiSnips bindings
 let g:UltiSnipsSnippetsDir="~/.config/nvim/UltiSnips"
 let g:UltiSnipsExpandTrigger="<c-j>"
@@ -240,6 +234,12 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 " Disable vim-polyglot on javascript files
 let g:polyglot_disabled = ['javascript']
+
+" NeoComplete config
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+inoremap <expr><Tab>  pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr><S-Tab>  pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
