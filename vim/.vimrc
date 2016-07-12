@@ -1,6 +1,6 @@
 " Setting up Plug
 let isPlugPresent = 1
-let plug_vim = expand('~/.vimrc')
+let plug_vim = expand('~/.vim/autoload/plug.vim')
 
 if !filereadable(plug_vim)
     echo "Installing Plug..."
