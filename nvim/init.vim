@@ -28,7 +28,6 @@ call plug#begin()
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mattn/emmet-vim'
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'Raimondi/delimitMate'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
@@ -45,22 +44,20 @@ Plug 'SirVer/ultisnips'
 Plug 'moll/vim-node'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
-Plug 'takac/vim-hardtime'
 Plug 'sheerun/vim-polyglot'
-Plug 'othree/yajs.vim'
-Plug 'othree/es.next.syntax.vim'
 Plug 'ianks/vim-tsx'
-Plug 'w0ng/vim-hybrid'
 Plug 'vim-scripts/paredit.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'matze/vim-move'
 Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 Plug 'carlitux/deoplete-ternjs'
-Plug 'rschmukler/pangloss-vim-indent'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
+Plug 'wellle/targets.vim'
+Plug 'joshdick/onedark.vim'
+Plug 'joshdick/airline-onedark.vim'
 
 call plug#end()
 
@@ -146,10 +143,9 @@ autocmd! QuitPre * let g:neomake_verbose = 0
 
 " Indent, syntax, colorscheme and hlsearch
 syntax on
-set background=dark
-let g:hybrid_custom_term_colors = 1
-let g:hybrid_reduced_contrast = 1
-colorscheme hybrid
+let g:onedark_termcolors = 256
+let g:onedark_terminal_italics = 1
+colorscheme onedark
 filetype on
 filetype indent on
 set nohlsearch
@@ -221,11 +217,22 @@ endif
 " Makes undo persist on buffer switch
 set hidden
 
-" Enables vim airline tabline
+" Airline configs
 let g:airline#extensions#tabline#enabled = 1
-
-" Enables Powerline symbols
 let g:airline_powerline_fonts = 1
+let g:airline_mode_map = {
+\ '__': '-',
+\ 'n': 'N',
+\ 'i': 'I',
+\ 'R': 'R',
+\ 'c': 'C',
+\ 'v': 'V',
+\ 'V': 'V',
+\ '': 'V',
+\ 's': 'S',
+\ 'S': 'S',
+\ '': 'S',
+\ }
 
 " Enable vim-jsx on js files
 let g:jsx_ext_required = 0
@@ -254,11 +261,6 @@ let g:easytags_languages = {
 \  }
 \}
 
-" Hardtime config
-autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardTimeOn()
-let g:hardtime_ignore_quickfix = 1
-let g:hardtime_allow_different_key = 1
-
 " EditorConfig config
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
@@ -268,9 +270,6 @@ let g:deoplete#enable_at_startup = 1
 " deoplete tab-complete
 inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" Disable vim-polyglot on javascript files
-let g:polyglot_disabled = ['javascript']
 
 " Skip location list and quick fix list on buffer switch
 augroup qf
