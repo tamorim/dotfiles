@@ -144,7 +144,6 @@ autocmd! QuitPre * let g:neomake_verbose = 0
 " Indent, syntax, colorscheme and hlsearch
 syntax on
 let g:onedark_termcolors = 256
-let g:onedark_terminal_italics = 1
 colorscheme onedark
 filetype on
 filetype indent on
