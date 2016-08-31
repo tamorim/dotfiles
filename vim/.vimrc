@@ -1,3 +1,9 @@
+" Enable true colors
+set t_8f=[38;2;%lu;%lu;%lum
+set t_8b=[48;2;%lu;%lu;%lum
+set t_Co=256
+set termguicolors
+
 " Setting up Plug
 let isPlugPresent = 1
 let plug_vim = expand('~/.vim/autoload/plug.vim')
@@ -27,7 +33,6 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'rking/ag.vim'
 Plug 'mattn/emmet-vim'
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'Raimondi/delimitMate'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
@@ -45,10 +50,7 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 Plug 'takac/vim-hardtime'
 Plug 'sheerun/vim-polyglot'
-Plug 'othree/yajs.vim'
-Plug 'othree/es.next.syntax.vim'
 Plug 'ianks/vim-tsx'
-Plug 'w0ng/vim-hybrid'
 Plug 'vim-scripts/paredit.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'scrooloose/nerdtree'
@@ -58,6 +60,9 @@ Plug 'mtscout6/syntastic-local-eslint.vim'
 Plug 'rschmukler/pangloss-vim-indent'
 Plug 'Shougo/neocomplete.vim'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
+Plug 'wellle/targets.vim'
+Plug 'joshdick/onedark.vim'
+Plug 'joshdick/airline-onedark.vim'
 
 call plug#end()
 
@@ -118,10 +123,8 @@ let g:syntastic_javascript_checkers = ['eslint']
 
 " Indent, syntax, colorscheme and hlsearch
 syntax on
-set background=dark
-let g:hybrid_custom_term_colors = 1
-let g:hybrid_reduced_contrast = 1
-colorscheme hybrid
+let g:onedark_termcolors = 256
+colorscheme onedark
 filetype on
 filetype indent on
 set nohlsearch
@@ -193,11 +196,27 @@ endif
 " Makes undo persist on buffer switch
 set hidden
 
-" Enables vim airline tabline
+" Airline configs
 let g:airline#extensions#tabline#enabled = 1
-
-" Enables Powerline symbols
+let g:airline#extensions#tabline#show_tab_type = 0
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#right_alt_sep = ''
 let g:airline_powerline_fonts = 1
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+let g:airline_mode_map = {
+\ '__': '-',
+\ 'n': 'N',
+\ 'i': 'I',
+\ 'R': 'R',
+\ 'c': 'C',
+\ 'v': 'V',
+\ 'V': 'V',
+\ '': 'V',
+\ 's': 'S',
+\ 'S': 'S',
+\ '': 'S',
+\ }
 
 " Enable vim-jsx on js files
 let g:jsx_ext_required = 0
@@ -233,9 +252,6 @@ let g:hardtime_allow_different_key = 1
 
 " EditorConfig config
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
-
-" Disable vim-polyglot on javascript files
-let g:polyglot_disabled = ['javascript']
 
 " NeoComplete config
 let g:neocomplete#enable_at_startup = 1
