@@ -1,0 +1,12 @@
+[Desktop Entry]
+DefaultProfile=Hybrid.profile
+
+[Favorite Profiles]
+Favorites=
+
+[KonsoleWindow]
+AllowMenuAccelerators=true
+ShowMenuBarByDefault=false
+
+[TabBar]
+TabBarVisibility=ShowTabBarWhenNeeded
