@@ -9,17 +9,17 @@ let isPlugPresent = 1
 let plug_vim = expand('~/.vim/autoload/plug.vim')
 
 if !filereadable(plug_vim)
-    echo "Installing Plug..."
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    let isPlugPresent = 0
+  echo "Installing Plug..."
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  let isPlugPresent = 0
 endif
 
 if isPlugPresent == 0
-    echo "Installing plugins..."
-    echo ""
-    silent! source ~/.vimrc
-    silent! PlugInstall
-    silent! bdelete
+  echo "Installing plugins..."
+  echo ""
+  silent! source ~/.vimrc
+  silent! PlugInstall
+  silent! bdelete
 endif
 
 function! DoRemote(arg)
@@ -48,7 +48,6 @@ Plug 'SirVer/ultisnips'
 Plug 'moll/vim-node'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
-Plug 'takac/vim-hardtime'
 Plug 'sheerun/vim-polyglot'
 Plug 'ianks/vim-tsx'
 Plug 'vim-scripts/paredit.vim'
@@ -70,16 +69,16 @@ call plug#end()
 let mapleader = ","
 
 " Macro for deleting blocks
-let @f='V$%jd'
+let @f = 'V$%jd'
 
 " Macro for visualizing blocks
-let @v='V$%'
+let @v = 'V$%'
 
 " Macro for navigating blocks
-let @n='$%'
+let @n = '$%'
 
 " Macro for deleting stuff surrounding blocks
-let @s='0$wviB<b%dddd'
+let @s = '0$wviB<b%dddd'
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
@@ -230,25 +229,20 @@ set listchars=tab:>~,nbsp:_,trail:~
 set list
 
 " UltiSnips bindings
-let g:UltiSnipsSnippetsDir="~/.config/nvim/UltiSnips"
-let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
+let g:UltiSnipsExpandTrigger = "<c-j>"
 
 " Easytags options
 let g:easytags_async = 1
 let g:easytags_languages = {
 \  'javascript': {
 \    'cmd': 'jsctags',
-\      'args': [],
-\      'fileoutput_opt': '-f',
-\      'stdout_opt': '-f-',
-\      'recurse_flag': '-R'
+\    'args': [],
+\    'fileoutput_opt': '-f',
+\    'stdout_opt': '-f-',
+\    'recurse_flag': '-R'
 \  }
-\}
-
-" Hardtime config
-autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardTimeOn()
-let g:hardtime_ignore_quickfix = 1
-let g:hardtime_allow_different_key = 1
+\ }
 
 " EditorConfig config
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']

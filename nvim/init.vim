@@ -65,16 +65,16 @@ call plug#end()
 let mapleader = ","
 
 " Macro for deleting blocks
-let @f='V$%jd'
+let @f = 'V$%jd'
 
 " Macro for visualizing blocks
-let @v='V$%'
+let @v = 'V$%'
 
 " Macro for navigating blocks
-let @n='$%'
+let @n = '$%'
 
 " Macro for deleting stuff surrounding blocks
-let @s='0$wviB<b%dddd'
+let @s = '0$wviB<b%dddd'
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
@@ -250,20 +250,20 @@ set listchars=tab:>~,nbsp:_,trail:~
 set list
 
 " UltiSnips bindings
-let g:UltiSnipsSnippetsDir="~/.config/nvim/UltiSnips"
-let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
+let g:UltiSnipsExpandTrigger = "<c-j>"
 
 " Easytags options
 let g:easytags_async = 1
 let g:easytags_languages = {
 \  'javascript': {
 \    'cmd': 'jsctags',
-\      'args': [],
-\      'fileoutput_opt': '-f',
-\      'stdout_opt': '-f-',
-\      'recurse_flag': '-R'
+\    'args': [],
+\    'fileoutput_opt': '-f',
+\    'stdout_opt': '-f-',
+\    'recurse_flag': '-R'
 \  }
-\}
+\ }
 
 " EditorConfig config
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
