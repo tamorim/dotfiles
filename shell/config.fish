@@ -11,7 +11,3 @@ source $OMF_PATH/init.fish
 set -gx PATH ~/.npm-global/bin $PATH
 set -gx EDITOR 'nvim'
 set -gx VISUAL 'nvim'
-
-function tmux_fuzzy_session
-  tmux list-sessions | sed -E 's/:.*$//' | grep -v '^'(tmux display-message -p '#S')'$' | fzf --reverse | xargs tmux switch-client -t
-end
