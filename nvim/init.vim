@@ -277,11 +277,10 @@ inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " EasyClip config
-let g:EasyClipShareYanks = 1
+let g:EasyClipUseCutDefaults = 0
 let g:EasyClipUseSubstituteDefaults = 1
 let g:EasyClipUsePasteToggleDefaults = 0
-nnoremap gm m
-nmap M <Plug>MoveMotionEndOfLinePlug
+let g:EasyClipEnableBlackHoleRedirect = 0
 nmap <c-k> <plug>EasyClipSwapPasteForward
 nmap <c-j> <plug>EasyClipSwapPasteBackwards
 
