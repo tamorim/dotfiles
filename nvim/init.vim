@@ -58,6 +58,7 @@ Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
 Plug 'wellle/targets.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'joshdick/airline-onedark.vim'
+Plug 'svermeulen/vim-easyclip'
 
 call plug#end()
 
@@ -275,6 +276,15 @@ let g:deoplete#enable_at_startup = 1
 inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+" EasyClip config
+let g:EasyClipShareYanks = 1
+let g:EasyClipUseSubstituteDefaults = 1
+let g:EasyClipUsePasteToggleDefaults = 0
+nnoremap gm m
+nmap M <Plug>MoveMotionEndOfLinePlug
+nmap <c-k> <plug>EasyClipSwapPasteForward
+nmap <c-j> <plug>EasyClipSwapPasteBackwards
+
 " Skip location list and quick fix list on buffer switch
 augroup qf
   autocmd!
@@ -285,7 +295,7 @@ augroup END
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
 
-" Ctrl + G opens CtrlP buffertag search
+" Ctrl+G opens CtrlP buffertag search
 nnoremap <c-g> :CtrlPBufTag<CR>
 
 " Leader n toggles netrw or NERDTree if installed
