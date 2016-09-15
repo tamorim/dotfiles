@@ -8,6 +8,7 @@ set -q XDG_DATA_HOME
 
 # Load oh-my-fish configuration.
 source $OMF_PATH/init.fish
+set fish_greeting ''
 set -gx PATH ~/.npm-global/bin $PATH
 set -gx EDITOR 'nvim'
 set -gx VISUAL 'nvim'
