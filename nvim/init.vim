@@ -58,7 +58,7 @@ Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
 Plug 'wellle/targets.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'joshdick/airline-onedark.vim'
-Plug 'svermeulen/vim-easyclip'
+Plug 'maxbrunsfeld/vim-yankstack'
 
 call plug#end()
 
@@ -276,13 +276,9 @@ let g:deoplete#enable_at_startup = 1
 inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-" EasyClip config
-let g:EasyClipUseCutDefaults = 0
-let g:EasyClipUseSubstituteDefaults = 1
-let g:EasyClipUsePasteToggleDefaults = 0
-let g:EasyClipEnableBlackHoleRedirect = 0
-nmap <c-k> <plug>EasyClipSwapPasteForward
-nmap <c-j> <plug>EasyClipSwapPasteBackwards
+" Yankstack config
+nmap <C-j> <Plug>yankstack_substitute_older_paste
+nmap <C-k> <Plug>yankstack_substitute_newer_paste
 
 " Skip location list and quick fix list on buffer switch
 augroup qf
@@ -295,7 +291,7 @@ nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
 
 " Ctrl+G opens CtrlP buffertag search
-nnoremap <c-g> :CtrlPBufTag<CR>
+nnoremap <C-g> :CtrlPBufTag<CR>
 
 " Leader n toggles netrw or NERDTree if installed
 nnoremap <Leader>n :e.<CR>
