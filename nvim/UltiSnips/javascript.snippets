@@ -10,27 +10,27 @@ endsnippet
 # Ternary operation
 snippet ?
 const ${1:variable name} = ${2:check} ?
-  ${3:$2} : ${4:case false};
+  ${3:$2} : ${4:case false}
 endsnippet
 
 # Const declaration
 snippet =
-const ${1:variable name} = ${2:expression};
+const ${1:variable name} = ${2:expression}
 endsnippet
 
 # Import
 snippet import
-import ${1:name} from '${2:module}';
+import ${1:name} from '${2:module}'
 endsnippet
 
 # Console log
 snippet log
-console.log('${1:message}');
+console.log('${1:message}')
 endsnippet
 
 # Console log variable
 snippet logvar
-console.log('$1', ${1:expression});
+console.log('$1', ${1:expression})
 endsnippet
 
 # if
@@ -53,14 +53,14 @@ endsnippet
 snippet timeout
 setTimeout(() => {
   ${1:function block...}
-}, ${2:delay});
+}, ${2:delay})
 endsnippet
 
 # forEach
 snippet each
 ${1:${VISUAL:collection}}.forEach((${2:arguments...}) => {
   ${3:function block...}
-});
+})
 endsnippet
 
 # map
@@ -68,8 +68,8 @@ snippet map
 ${1:${VISUAL:collection}}.map((${2:arguments...}) => {
   ${3:function block...}
 
-  return ${4:value};
-});
+  return ${4:value}
+})
 endsnippet
 
 ### React Section
@@ -113,25 +113,25 @@ endsnippet
 snippet render
 render() {
   return (
-  );
+  )
 }
 endsnippet
 
 # React setState
 snippet set
-this.setState({${1: new state... }});
+this.setState({${1: new state... }})
 endsnippet
 
 # React class template
 snippet react
-import React from 'react';
+import React from 'react'
 
 class ${1:component name} extends React.Component {
   render() {
     return (
-    );
+    )
   }
 }
 
-export default $1;
+export default $1
 endsnippet
