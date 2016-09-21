@@ -55,7 +55,6 @@ Plug 'carlitux/deoplete-ternjs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
-Plug 'wellle/targets.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'joshdick/airline-onedark.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
