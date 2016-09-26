@@ -279,10 +279,11 @@ inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 nmap <C-j> <Plug>yankstack_substitute_older_paste
 nmap <C-k> <Plug>yankstack_substitute_newer_paste
 
-" Skip location list and quick fix list on buffer switch
+" Skip location list and quick fix list on buffer switch and close
 augroup qf
   autocmd!
   autocmd FileType qf set nobuflisted
+  autocmd BufHidden * lcl
 augroup END
 
 " Tab and Shift+Tab cycle through buffers
