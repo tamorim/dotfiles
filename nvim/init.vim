@@ -282,7 +282,6 @@ nmap <C-k> <Plug>yankstack_substitute_newer_paste
 " Skip location list and quick fix list on buffer switch and close
 augroup qf
   autocmd!
-  autocmd FileType qf set nobuflisted
   autocmd BufHidden * lcl
 augroup END
 
