@@ -56,7 +56,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
 Plug 'joshdick/onedark.vim'
-Plug 'joshdick/airline-onedark.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
 
 call plug#end()

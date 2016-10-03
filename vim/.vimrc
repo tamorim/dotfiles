@@ -60,7 +60,6 @@ Plug 'rschmukler/pangloss-vim-indent'
 Plug 'Shougo/neocomplete.vim'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
 Plug 'joshdick/onedark.vim'
-Plug 'joshdick/airline-onedark.vim'
 
 call plug#end()
 
