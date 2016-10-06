@@ -36,10 +36,8 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tmhedberg/matchit'
 Plug 'neomake/neomake'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'jimmyhchan/dustjs.vim'
 Plug 'sjl/gundo.vim'
-Plug 'tpope/vim-fugitive'
 Plug 'SirVer/ultisnips'
 Plug 'moll/vim-node'
 Plug 'xolox/vim-misc'
@@ -62,9 +60,6 @@ call plug#end()
 
 " Map leader to ,
 let mapleader = ","
-
-" Macro for deleting blocks
-let @f = 'V$%jd'
 
 " Macro for visualizing blocks
 let @v = 'V$%'
