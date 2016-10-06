@@ -251,7 +251,7 @@ let g:UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
 let g:UltiSnipsExpandTrigger = "<c-j>"
 
 " Easytags options
-let g:easytags_async = 1
+let g:easytags_on_cursorhold = 0
 let g:easytags_languages = {
 \  'javascript': {
 \    'cmd': 'jsctags',
@@ -261,9 +261,10 @@ let g:easytags_languages = {
 \    'recurse_flag': '-R'
 \  }
 \ }
-
-" EditorConfig config
-let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+augroup easytags
+  autocmd!
+  autocmd FileType,BufWritePost * :UpdateTags!
+augroup END
 
 " deoplete config
 let g:deoplete#enable_at_startup = 1
