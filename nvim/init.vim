@@ -6,14 +6,14 @@ let isPlugPresent = 1
 let plug_vim = expand('~/.config/nvim/autoload/plug.vim')
 
 if !filereadable(plug_vim)
-  echo "Installing Plug..."
+  echo 'Installing Plug...'
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    let isPlugPresent = 0
+  let isPlugPresent = 0
 endif
 
 if isPlugPresent == 0
-  echo "Installing plugins..."
-  echo ""
+  echo 'Installing plugins...'
+  echo ''
   silent! source ~/.config/nvim/init.vim
   silent! PlugInstall
   silent! bdelete
@@ -58,7 +58,7 @@ Plug 'ludovicchabant/vim-gutentags'
 call plug#end()
 
 " Map leader to ,
-let mapleader = ","
+let mapleader = ','
 
 " Macro for visualizing blocks
 let @v = 'V$%'
@@ -192,7 +192,7 @@ let g:ctrlp_open_multiple_files = '1r'
 
 " Function to auto refresh CtrlP
 function! SetupCtrlP()
-  if exists("g:loaded_ctrlp") && g:loaded_ctrlp
+  if exists('g:loaded_ctrlp') && g:loaded_ctrlp
     augroup CtrlPExtension
       autocmd!
       autocmd FocusGained  * CtrlPClearCache
@@ -201,7 +201,7 @@ function! SetupCtrlP()
   endif
 endfunction
 
-if has("autocmd")
+if has('autocmd')
   autocmd VimEnter * :call SetupCtrlP()
 endif
 
