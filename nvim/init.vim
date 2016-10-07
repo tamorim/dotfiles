@@ -255,6 +255,8 @@ endif
 
 " deoplete config
 let g:deoplete#enable_at_startup = 1
+let g:tern#command = ['tern']
+let g:tern#arguments = ['--persistent']
 
 " deoplete tab-complete
 inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
