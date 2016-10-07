@@ -307,5 +307,11 @@ nnoremap <Leader>v :e ~/.config/nvim/init.vim<CR>
 " Leader w removes trailing whitespace
 nnoremap <Leader>w :%s/\s\+$//g<CR>
 
+" Ctrl+n on normal mode puts the current word on the search register and highlights it
+nnoremap <C-n> "zyiw :let @/=''.@z.''<CR> viw
+
+" Ctrl+n on visual mode puts the current selection on the search register and highlights it
+vnoremap <C-n> "zy :let @/=''.@z.''<CR> gv
+
 " Leader i indents a JSX component
 vnoremap <Leader>i :s/\zs\s\ze\w\+-\?/\="\n".matchstr(getline('.'), '^\s*').'  '/g \| s/\v\s?(\/?\>)/\="\n".matchstr(getline('.'), '^\s*').submatch(1)/ \| normal <<<CR>
