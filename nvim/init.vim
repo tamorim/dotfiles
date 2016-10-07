@@ -40,8 +40,6 @@ Plug 'jimmyhchan/dustjs.vim'
 Plug 'sjl/gundo.vim'
 Plug 'SirVer/ultisnips'
 Plug 'moll/vim-node'
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-easytags'
 Plug 'sheerun/vim-polyglot'
 Plug 'ianks/vim-tsx'
 Plug 'vim-scripts/paredit.vim'
@@ -55,6 +53,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
 Plug 'joshdick/onedark.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'ludovicchabant/vim-gutentags'
 
 call plug#end()
 
@@ -247,24 +246,15 @@ set listchars=tab:>~,nbsp:_,trail:~
 set list
 
 " UltiSnips bindings
-let g:UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
-let g:UltiSnipsExpandTrigger = "<c-j>"
+let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips'
+let g:UltiSnipsExpandTrigger = '<c-j>'
 
-" Easytags options
-let g:easytags_on_cursorhold = 0
-let g:easytags_languages = {
-\  'javascript': {
-\    'cmd': 'jsctags',
-\    'args': [],
-\    'fileoutput_opt': '-f',
-\    'stdout_opt': '-f-',
-\    'recurse_flag': '-R'
-\  }
-\ }
-augroup easytags
-  autocmd!
-  autocmd FileType,BufWritePost * :UpdateTags!
-augroup END
+" Gutentags options
+let g:gutentags_tagfile = '.tags'
+let gitignore = './.gitignore'
+if filereadable(gitignore)
+  let g:gutentags_exclude = map(readfile(gitignore), "v:val =~ '/$' ? v:val . '**' : v:val")
+endif
 
 " deoplete config
 let g:deoplete#enable_at_startup = 1
