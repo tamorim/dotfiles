@@ -44,7 +44,6 @@ Plug 'sheerun/vim-polyglot'
 Plug 'ianks/vim-tsx'
 Plug 'vim-scripts/paredit.vim'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'scrooloose/nerdtree'
 Plug 'matze/vim-move'
 Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 Plug 'carlitux/deoplete-ternjs'
@@ -53,6 +52,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
 Plug 'joshdick/onedark.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'justinmk/vim-dirvish'
 Plug 'ludovicchabant/vim-gutentags'
 
 call plug#end()
@@ -271,6 +271,12 @@ nmap <C-k> <Plug>yankstack_substitute_newer_paste
 augroup qf
   autocmd!
   autocmd BufHidden * lcl
+augroup END
+
+" When opening dirvish, sort by folders first
+augroup dirvish
+  autocmd!
+  autocmd FileType dirvish sort r /[^\/]$/
 augroup END
 
 " Tab and Shift+Tab cycle through buffers
