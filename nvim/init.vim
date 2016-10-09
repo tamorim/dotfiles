@@ -97,6 +97,27 @@ function! SummarizeTabs()
   endtry
 endfunction
 
+" Organize range by length
+function! SortLines() range
+  execute a:firstline . ',' . a:lastline . 's/^\(.*\)$/\=strdisplaywidth(submatch(0)) . " " . submatch(0)/'
+  execute a:firstline . ',' . a:lastline . 'sort n'
+  execute a:firstline . ',' . a:lastline . 's/^\d\+\s//'
+endfunction
+
+" Indent a React component's jsx code
+function! IndentReact()
+  execute 's/\v\zs\s\ze\w+-?/\="\n" . matchstr(getline("."), ''^\s*'') . "  "/g'
+  execute 's/\v\s?(\/?\>)/\="\n" . matchstr(getline("."), ''^\s*'') . submatch(1)/'
+  normal <<
+endfunction
+
+" Indent a long javascript import statement
+function! IndentImport()
+  execute 's/\v\{\zs\ze/\="\n" .  "  "/g'
+  execute 's/\v\w+,\zs\s?\ze/\="\n" .  "  "/g'
+  execute 's/\v\zs\ze\}/\=",\n"/g'
+endfunction
+
 " Neomake config
 let g:neomake_open_list = 2
 let g:neomake_list_height = 5
@@ -321,5 +342,11 @@ nnoremap <C-n> "zyiw :let @/=''.@z.''<CR> viw
 " Ctrl+n on visual mode puts the current selection on the search register and highlights it
 vnoremap <C-n> "zy :let @/=''.@z.''<CR> gv
 
-" Leader i indents a JSX component
-vnoremap <Leader>i :s/\zs\s\ze\w\+-\?/\="\n".matchstr(getline('.'), '^\s*').'  '/g \| s/\v\s?(\/?\>)/\="\n".matchstr(getline('.'), '^\s*').submatch(1)/ \| normal <<<CR>
+" Leader s sorts range by length
+vnoremap <Leader>s :call SortLines()<CR>
+
+" Leader ii indents a import statement
+vnoremap <Leader>ii :call IndentImport()<CR>
+
+" Leader ir indents a JSX component
+vnoremap <Leader>ir :call IndentReact()<CR>
