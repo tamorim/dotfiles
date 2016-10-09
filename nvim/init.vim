@@ -346,7 +346,7 @@ vnoremap <C-n> "zy :let @/=''.@z.''<CR> gv
 vnoremap <Leader>s :call SortLines()<CR>
 
 " Leader ii indents a import statement
-vnoremap <Leader>ii :call IndentImport()<CR>
+vnoremap <Leader>ii :call IndentImport()<CR> kvi{ :call SortLines()<CR>
 
 " Leader ir indents a JSX component
 vnoremap <Leader>ir :call IndentReact()<CR>
