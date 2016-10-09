@@ -99,23 +99,23 @@ endfunction
 
 " Organize range by length
 function! SortLines() range
-  execute a:firstline . ',' . a:lastline . 's/^\(.*\)$/\=strdisplaywidth(submatch(0)) . " " . submatch(0)/'
-  execute a:firstline . ',' . a:lastline . 'sort n'
-  execute a:firstline . ',' . a:lastline . 's/^\d\+\s//'
+  silent! execute a:firstline . ',' . a:lastline . 's/^\(.*\)$/\=strdisplaywidth(submatch(0)) . " " . submatch(0)/'
+  silent! execute a:firstline . ',' . a:lastline . 'sort n'
+  silent! execute a:firstline . ',' . a:lastline . 's/^\d\+\s//'
 endfunction
 
 " Indent a React component's jsx code
 function! IndentReact()
-  execute 's/\v\zs\s\ze\w+-?/\="\n" . matchstr(getline("."), ''^\s*'') . "  "/g'
-  execute 's/\v\s?(\/?\>)/\="\n" . matchstr(getline("."), ''^\s*'') . submatch(1)/'
+  silent! execute 's/\v\zs\s\ze\w+-?/\="\n" . matchstr(getline("."), ''^\s*'') . "  "/g'
+  silent! execute 's/\v\s?(\/?\>)/\="\n" . matchstr(getline("."), ''^\s*'') . submatch(1)/'
   normal <<
 endfunction
 
 " Indent a long javascript import statement
 function! IndentImport()
-  execute 's/\v\{\zs\ze/\="\n" .  "  "/g'
-  execute 's/\v\w+,\zs\s?\ze/\="\n" .  "  "/g'
-  execute 's/\v\zs\ze\}/\=",\n"/g'
+  silent! execute 's/\v\{\zs\ze/\="\n" .  "  "/g'
+  silent! execute 's/\v\w+,\zs\s?\ze/\="\n" .  "  "/g'
+  silent! execute 's/\v\zs\ze\}/\=",\n"/g'
 endfunction
 
 " Neomake config
