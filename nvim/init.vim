@@ -178,6 +178,9 @@ set undoreload=10000
 " Increase vim yank buffer line limit and size
 set viminfo='20,<1000,s1000
 
+" Disable display of doc window on complete
+set completeopt-=preview
+
 " CtrlP settings
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
@@ -253,10 +256,13 @@ if filereadable(gitignore)
   let g:gutentags_exclude = map(readfile(gitignore), "v:val =~ '/$' ? v:val . '**' : v:val")
 endif
 
-" deoplete config
-let g:deoplete#enable_at_startup = 1
+" Tern config
+let g:tern_request_timeout = 1
 let g:tern#command = ['tern']
 let g:tern#arguments = ['--persistent']
+
+" deoplete config
+let g:deoplete#enable_at_startup = 1
 
 " deoplete tab-complete
 inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
