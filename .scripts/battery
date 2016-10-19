@@ -1,0 +1,9 @@
+#!/bin/sh
+BATC=/sys/class/power_supply/BAT0/capacity
+BATS=/sys/class/power_supply/BAT0/status
+
+# prepend percentage with a '+' if charging, '-' otherwise
+test "`cat $BATS`" = "Charging" && echo -n '+' || echo -n '-'
+
+# print out the content (forced myself to use `sed` :P)
+sed -n p $BATC

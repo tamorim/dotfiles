@@ -1,0 +1,53 @@
+[options]
+scroll_on_output = true
+scroll_on_keystroke = true
+audible_bell = false
+mouse_autohide = false
+allow_bold = true
+dynamic_title = true
+urgent_on_bell = true
+clickable_url = true
+font = Terminus 11
+search_wrap = true
+cursor_blink = system
+cursor_shape = block
+browser = chromium
+
+[colors]
+# special
+foreground      = #9ba2b3
+foreground_bold = #9ba2b3
+cursor          = #9ba2b3
+background      = #1e2127
+
+# black
+color0  = #1e2127
+color8  = #2f3441
+
+# red
+color1  = #d65562
+color9  = #ae3b36
+
+# green
+color2  = #88b966
+color10 = #88b966
+
+# yellow
+color3  = #deb468
+color11 = #c58853
+
+# blue
+color4  = #519deb
+color12 = #519deb
+
+# magenta
+color5  = #b85dd5
+color13 = #b85dd5
+
+# cyan
+color6  = #48a8b5
+color14 = #48a8b5
+
+# white
+color7  = #9ba2b1
+color15 = #4a535d

@@ -1,11 +1,11 @@
 #! /bin/sh
 
-if ! pgrep sxhkd > /dev/null
-then
+if ! pgrep sxhkd > /dev/null; then
   sxhkd &
 fi
 setxkbmap -option caps:escape
-feh --bg-fill Pictures/wallpaper-781505.jpg
+setxkbmap -option compose:ralt
+feh --bg-center Pictures/5KxJD9H.png
 
 bspc config border_width         2
 bspc config window_gap          12
@@ -18,5 +18,3 @@ bspc config history_aware_focus  true
 
 bspc monitor -d I II III IV V VI VII VIII IX X
 
-bspc rule -a Gimp desktop=^8 state=floating follow=on
-bspc rule -a Chromium desktop=^2
