@@ -274,7 +274,8 @@ let g:UltiSnipsExpandTrigger = '<c-j>'
 let g:gutentags_tagfile = '.tags'
 let gitignore = './.gitignore'
 if filereadable(gitignore)
-  let g:gutentags_exclude = map(readfile(gitignore), "v:val =~ '/$' ? v:val . '**' : v:val")
+  let filtered_ignore = filter(readfile(gitignore), "!(v:val =~ '^#')")
+  let g:gutentags_exclude = map(filtered_ignore, "v:val =~ '/$' ? v:val . '**' : v:val")
 endif
 
 " Tern config
