@@ -1,0 +1,11 @@
+/* Rofi */
+rofi.width: 60
+rofi.bw: 1
+rofi.padding: 5
+rofi.lines: 6
+rofi.eh: 1
+rofi.font: Terminus 12
+rofi.separator-style: none
+rofi.hide-scrollbar: true
+rofi.color-window: #1e2127, #9ba2b3, #9ba2b3, #9ba2b3
+rofi.color-normal: #1e2127, #9ba2b3, #1e2127, #9ba2b3, #1e2127
