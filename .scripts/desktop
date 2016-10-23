@@ -1,0 +1,4 @@
+#!/bin/sh
+desktop=$(bspc query -D -d)
+
+echo "   ${desktop}"

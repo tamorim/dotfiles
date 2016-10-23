@@ -8,9 +8,14 @@ else
   wifi=$int2
   eth0=$int1
 fi
+
 ip link show $eth0 | grep 'state UP' >/dev/null && int=$eth0 ||int=$wifi
 
-#int=eth0
+if [[ $int =~ ^w ]]; then
+  int=""
+else
+  int=""
+fi
 
-ping -c 1 8.8.8.8 >/dev/null 2>&1 && 
-  echo "$int connected" || echo "$int disconnected"
+ping -c 1 8.8.8.8 >/dev/null 2>&1 &&
+  echo "$int   connected" || echo "$int    disconnected"

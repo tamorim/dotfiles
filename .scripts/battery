@@ -1,9 +1,19 @@
 #!/bin/sh
-BATC=/sys/class/power_supply/BAT0/capacity
-BATS=/sys/class/power_supply/BAT0/status
+BATC=$(cat /sys/class/power_supply/BAT0/capacity)
+BATS=$(cat /sys/class/power_supply/BAT0/status)
 
-# prepend percentage with a '+' if charging, '-' otherwise
-test "`cat $BATS`" = "Charging" && echo -n '+' || echo -n '-'
-
-# print out the content (forced myself to use `sed` :P)
-sed -n p $BATC
+if [ $BATS = "Charging" ]; then
+  echo "   charging"
+else
+  if [ $BATC = "100%" ]; then
+    echo "   ${BATC}"
+  elif [[ $BATC =~ ^([8-9][0-9]|7[5-9])$ ]]; then
+    echo "   ${BATC}"
+  elif [[ $BATC =~ ^(7[0-4]|[5-6][0-9])$ ]]; then
+    echo "   ${BATC}"
+  elif [[ $BATC =~ ^([3-4][0-9]|2[5-9])$ ]]; then
+    echo "   ${BATC}"
+  else
+    echo "   ${BATC}"
+  fi
+fi

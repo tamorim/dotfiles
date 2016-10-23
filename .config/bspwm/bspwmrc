@@ -16,5 +16,6 @@ bspc config gapless_monocle      true
 bspc config focus_by_distance    true
 bspc config history_aware_focus  true
 
-bspc monitor -d I II III IV V VI VII VIII IX X
+bspc monitor LVDS1 -d I II III IV
+bspc monitor DP1 -d V VI VII VIII
 
