@@ -1,0 +1,4 @@
+#!/bin/sh
+monitor=$(bspc query -M -m)
+
+echo "   ${monitor}"
