@@ -186,7 +186,6 @@ super + shift + b
 
 # network
 super + n
-  notify-send (~/.scripts/network)
   dunstify -p -r (cat ~/.dunst_volume 2>/dev/null; or echo 0) (~/.scripts/volume) > ~/.dunst_volume
 
 XF86AudioMute
