@@ -22,6 +22,10 @@ super + l
 super + Escape
   pkill -USR1 -x sxhkd
 
+# reload bspwm
+super + shift + r
+  ~/.config/bspwm/bspwmrc
+
 #
 # bspwm hotkeys
 #
