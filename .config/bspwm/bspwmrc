@@ -1,10 +1,11 @@
 #! /bin/sh
-
 if ! pgrep sxhkd > /dev/null; then
   sxhkd &
 fi
-setxkbmap -option caps:escape
-setxkbmap -option compose:ralt
+if ! pgrep xss-lock > /dev/null; then
+  xss-lock -- dm-tool lock &
+fi
+~/.scripts/keyboard-backlight 0
 feh --bg-center Pictures/5KxJD9H.png
 
 bspc config border_width         2
