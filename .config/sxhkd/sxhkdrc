@@ -186,7 +186,7 @@ super + shift + b
 
 # network
 super + n
-  dunstify -p -r (cat ~/.dunst_volume 2>/dev/null; or echo 0) (~/.scripts/volume) > ~/.dunst_volume
+  dunstify -p -r (cat ~/.dunst_network 2>/dev/null; or echo 0) (~/.scripts/network) > ~/.dunst_network
 
 XF86AudioMute
   amixer -q set Master toggle; \
