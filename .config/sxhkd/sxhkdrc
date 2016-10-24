@@ -77,7 +77,7 @@ super + {_,shift + }Tab
 # focus the next/previous desktop
 super + bracket{left,right}
   bspc desktop -f {prev,next}; \
-  notify-send (~/.scripts/desktop)
+  dunstify -p -r (cat ~/.dunst_desktop 2>/dev/null; or echo 0) (~/.scripts/desktop) > ~/.dunst_desktop
 
 # focus the older or newer node in the focus history
 super + {o,i}
@@ -88,7 +88,7 @@ super + {o,i}
 # focus on the given desktop
 super + {1-8}
   bspc desktop -f '{I,II,III,IV,V,VI,VII,VIII}'; \
-  notify-send (~/.scripts/desktop)
+  dunstify -p -r (cat ~/.dunst_desktop 2>/dev/null; or echo 0) (~/.scripts/desktop) > ~/.dunst_desktop
 
 # send to the given desktop
 super + shift + {1-8}
@@ -96,7 +96,7 @@ super + shift + {1-8}
 
 # show current desktop
 super + 0
-  notify-send (~/.scripts/desktop)
+  dunstify -p -r (cat ~/.dunst_desktop 2>/dev/null; or echo 0) (~/.scripts/desktop) > ~/.dunst_desktop
 
 #
 # preselect
@@ -157,12 +157,12 @@ super + @button{1-3}
 # focus the next/previous monitor
 super + ctrl + bracket{left,right}
   bspc monitor -f {prev,next}; \
-  notify-send (~/.scripts/monitor)
+  dunstify -p -r (cat ~/.dunst_monitor 2>/dev/null; or echo 0) (~/.scripts/monitor) > ~/.dunst_monitor
 
 
 # show current monitor
 super + ctrl + 0
-  notify-send (~/.scripts/monitor)
+  dunstify -p -r (cat ~/.dunst_monitor 2>/dev/null; or echo 0) (~/.scripts/monitor) > ~/.dunst_monitor
 
 #
 # custom stuff
@@ -170,27 +170,24 @@ super + ctrl + 0
 
 # date
 super + d
-  notify-send (~/.scripts/date)
+  dunstify -p -r (cat ~/.dunst_date 2>/dev/null; or echo 0) (~/.scripts/date) > ~/.dunst_date
 
 # volume
 super + v
-  notify-send (~/.scripts/volume)
+  dunstify -p -r (cat ~/.dunst_volume 2>/dev/null; or echo 0) (~/.scripts/volume) > ~/.dunst_volume
 
 # battery
 super + shift + b
-  notify-send (~/.scripts/battery)
+  dunstify -p -r (cat ~/.dunst_battery 2>/dev/null; or echo 0) (~/.scripts/battery) > ~/.dunst_battery
 
 # network
 super + n
   notify-send (~/.scripts/network)
-
-# current music
-super + c
-  notify-send (~/.scripts/spotify current)
+  dunstify -p -r (cat ~/.dunst_volume 2>/dev/null; or echo 0) (~/.scripts/volume) > ~/.dunst_volume
 
 XF86AudioMute
   amixer -q set Master toggle; \
-  notify-send (~/.scripts/volume)
+  dunstify -p -r (cat ~/.dunst_volume 2>/dev/null; or echo 0) (~/.scripts/volume) > ~/.dunst_volume
 
 XF86AudioNext
   playerctl next
@@ -205,9 +202,11 @@ XF86AudioPrev
   playerctl previous
 
 XF86AudioLowerVolume
+  amixer -q set Master unmute; \
   amixer -q set Master 5%-; \
-  notify-send (~/.scripts/volume)
+  dunstify -p -r (cat ~/.dunst_volume 2>/dev/null; or echo 0) (~/.scripts/volume) > ~/.dunst_volume
 
 XF86AudioRaiseVolume
+  amixer -q set Master unmute; \
   amixer -q set Master 5%+; \
-  notify-send (~/.scripts/volume)
+  dunstify -p -r (cat ~/.dunst_volume 2>/dev/null; or echo 0) (~/.scripts/volume) > ~/.dunst_volume
