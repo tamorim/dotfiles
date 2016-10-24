@@ -1,4 +1,5 @@
 #!/bin/sh
-date=$(date '+%Y-%m-%d %H:%M')
+date=$(date '+%Y-%m-%d')
+time=$(date '+%H:%M')
 
-echo "   ${date}"
+echo "   ${date}    ${time}"

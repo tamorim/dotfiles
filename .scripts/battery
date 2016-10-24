@@ -3,7 +3,7 @@ BATC=$(cat /sys/class/power_supply/BAT0/capacity)
 BATS=$(cat /sys/class/power_supply/BAT0/status)
 
 if [ $BATS = "Charging" ]; then
-  echo "   charging"
+  echo "   ${BATC}"
 else
   if [ $BATC = "100%" ]; then
     echo "   ${BATC}"
