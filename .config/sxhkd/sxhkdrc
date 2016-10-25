@@ -188,6 +188,10 @@ super + shift + b
 super + n
   dunstify -p -r (cat ~/.dunst_network 2>/dev/null; or echo 0) (~/.scripts/network) > ~/.dunst_network
 
+# spotify current
+super + c
+  dunstify -p -r (cat ~/.dunst_spotify_current 2>/dev/null; or echo 0) (~/.scripts/spotify-current-parsed) > ~/.dunst_spotify_current
+
 XF86AudioMute
   amixer -q set Master toggle; \
   dunstify -p -r (cat ~/.dunst_volume 2>/dev/null; or echo 0) (~/.scripts/volume) > ~/.dunst_volume
@@ -199,7 +203,9 @@ XF86AudioPause
   playerctl pause
 
 XF86AudioPlay
-  playerctl play-pause
+  playerctl play-pause; \
+  test (playerctl status) = "Playing"; \
+    and dunstify -p -r (cat ~/.dunst_spotify_current 2>/dev/null; or echo 0) (~/.scripts/spotify-current-parsed) > ~/.dunst_spotify_current
 
 XF86AudioPrev
   playerctl previous
