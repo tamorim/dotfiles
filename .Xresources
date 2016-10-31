@@ -1,4 +1,5 @@
 /* Rofi */
+rofi.monitor: 0
 rofi.width: 60
 rofi.bw: 1
 rofi.padding: 5
