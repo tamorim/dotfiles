@@ -80,7 +80,7 @@ super + {_,shift + }Tab
 
 # focus the next/previous desktop
 super + bracket{left,right}
-  bspc desktop -f {prev,next}; \
+  bspc desktop -f {prev,next}.local; \
   dunstify -p -r (cat ~/.dunst_desktop 2>/dev/null; or echo 0) (~/.scripts/desktop) > ~/.dunst_desktop
 
 # focus the older or newer node in the focus history
