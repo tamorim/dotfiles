@@ -1,4 +1,4 @@
 #!/bin/sh
-desktop=$(bspc query -D -d)
+desktop=$(bspc query -T -m -d | jshon -e name -u)
 
 echo "   ${desktop}"
