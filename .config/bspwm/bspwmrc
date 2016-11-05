@@ -5,7 +5,7 @@ fi
 if ! pgrep xss-lock > /dev/null; then
   xss-lock -- dm-tool lock &
 fi
-~/.scripts/keyboard-backlight 0
+~/.scripts/keyboard-backlight.sh 0
 feh --bg-center Pictures/5KxJD9H.png
 
 bspc config border_width         2
@@ -19,6 +19,9 @@ bspc config remove_disabled_monitors    true
 bspc config remove_unplugged_monitors   true
 bspc config click_to_focus              true
 
-bspc monitor LVDS1 -d I II III IV
-bspc monitor DP1 -d V VI VII VIII
-
+primary_monitor=$(~/.scripts/screen.sh get_primary)
+secondary_monitor=$(~/.scripts/screen.sh get_secondary)
+bspc monitor $primary_monitor -d I II III IV
+if [[ $secondary_monitor ]]; then
+  bspc monitor $secondary_monitor -d V VI VII VIII
+fi
