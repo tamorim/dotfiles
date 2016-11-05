@@ -12,3 +12,12 @@ set fish_greeting ''
 set -gx PATH ~/.npm-global/bin $PATH
 set -gx EDITOR 'nvim'
 set -gx VISUAL 'nvim'
+
+for script in (ls ~/.scripts)
+  set -l alias_name (echo $script | sed -n 's/^\(.*\)\.sh/\1/p')
+  alias "sc-"$alias_name=~/.scripts/$script
+end
+
+# Remember to change to your primary screen
+sc-screen primary LVDS1
+
