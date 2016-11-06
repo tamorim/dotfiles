@@ -8,6 +8,17 @@ fi
 ~/.scripts/kbdl.sh 0
 feh --bg-center Pictures/5KxJD9H.png
 
+pid=$(pgrep bspwmrc | grep -v $$)
+if [[ $pid ]]; then kill $pid 2>/dev/null; fi
+while :; do
+  battery_message=$(~/.scripts/btt.sh)
+  battery_level=$(sed -n 's/^.*\s\([0-9]*\)$/\1/p' <<< $battery_message)
+  if [[ $battery_level -le 10 ]]; then
+    ~/.scripts/ntf.sh "$battery_message" ~/.dunst_battery
+  fi
+  sleep 120
+done &
+
 bspc config border_width         2
 bspc config window_gap          12
 
