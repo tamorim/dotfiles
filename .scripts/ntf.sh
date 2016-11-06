@@ -1,8 +1,8 @@
 #!/bin/sh
-cmd=$1
+cmd=$(sed -n 's/^\(.*\)\s\?.*$/\1/p' <<< "$1")
 id_file="~/.dunst_${cmd}"
 id=$(cat $id_file 2>/dev/null)
-message=$($cmd 2>/dev/null)
+message=$(eval "$1 2>/dev/null")
 if [[ ! $message ]]; then
   message=$(eval "~/.scripts/${cmd}.sh")
 fi
