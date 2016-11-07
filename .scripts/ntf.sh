@@ -7,7 +7,6 @@ if [[ ! $message ]]; then
   message=$(eval "~/.scripts/${cmd}.sh")
 fi
 
-echo $id
 if [[ $id ]]; then
   eval "dunstify -p -r $id \"$message\" > $id_file"
 else
