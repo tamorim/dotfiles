@@ -1,5 +1,9 @@
 #!/bin/sh
-cmd=$(sed -n 's/^\(\w*\)\s\?.*$/\1/p' <<< "$1")
+if [[ $1 != $(tr -d " " <<< "$1") ]]; then
+  cmd=$(sed -n 's/^\(.*\)\s.*$/\1/p' <<< "$1")
+else
+  cmd=$1
+fi
 id_file=~/.dunst_$cmd
 id=$(cat $id_file 2>/dev/null)
 message=$($1 2>/dev/null)
