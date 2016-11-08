@@ -15,10 +15,9 @@ if [[ -e $(ls /sys/class/power_supply) ]]; then
   pid=$(pgrep bspwmrc | grep -v $$)
   if [[ $pid ]]; then kill $pid 2>/dev/null; fi
   while :; do
-    battery_message=$(~/.scripts/btt.sh)
-    battery_level=$(sed -n 's/^.*\s\([0-9]*\)$/\1/p' <<< $battery_message)
+    battery_level=$(cat /sys/class/power_supply/BAT0/capacity)
     if [[ $battery_level -le 10 ]]; then
-      ~/.scripts/ntf.sh "$battery_message" ~/.dunst_battery
+      ~/.scripts/ntf.sh btt
     fi
     sleep 120
   done &
