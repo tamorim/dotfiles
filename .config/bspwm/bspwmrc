@@ -1,27 +1,31 @@
-#! /bin/sh
+#!/bin/sh
 if ! pgrep sxhkd > /dev/null; then
   sxhkd &
 fi
 if ! pgrep xss-lock > /dev/null; then
   xss-lock -- dm-tool lock &
 fi
-~/.scripts/kbdl.sh 0
-feh --bg-center Pictures/5KxJD9H.png
 
-pid=$(pgrep bspwmrc | grep -v $$)
-if [[ $pid ]]; then kill $pid 2>/dev/null; fi
-while :; do
-  battery_message=$(~/.scripts/btt.sh)
-  battery_level=$(sed -n 's/^.*\s\([0-9]*\)$/\1/p' <<< $battery_message)
-  if [[ $battery_level -le 10 ]]; then
-    ~/.scripts/ntf.sh "$battery_message" ~/.dunst_battery
-  fi
-  sleep 120
-done &
+kbdl=~/.scripts/kbdl.sh
+if [[ $($kbdl 2>/dev/null) ]]; then $kbdl 0; fi
+# Set wallpaper
+# feh --bg-fill Pictures/wallpaper.jpg
 
-bspc config border_width         2
-bspc config window_gap          12
+if [[ -e $(ls /sys/class/power_supply) ]]; then
+  pid=$(pgrep bspwmrc | grep -v $$)
+  if [[ $pid ]]; then kill $pid 2>/dev/null; fi
+  while :; do
+    battery_message=$(~/.scripts/btt.sh)
+    battery_level=$(sed -n 's/^.*\s\([0-9]*\)$/\1/p' <<< $battery_message)
+    if [[ $battery_level -le 10 ]]; then
+      ~/.scripts/ntf.sh "$battery_message" ~/.dunst_battery
+    fi
+    sleep 120
+  done &
+fi
 
+bspc config border_width                2
+bspc config window_gap                  12
 bspc config split_ratio                 0.52
 bspc config borderless_monocle          true
 bspc config gapless_monocle             true

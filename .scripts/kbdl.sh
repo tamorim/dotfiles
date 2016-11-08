@@ -95,7 +95,9 @@ backlight_change()
  
 if test $# -eq 0 ; then
     current_brightness=$( backlight_get )
-    notify-send -t 800 "Keyboard brightness is ${current_brightness}"
+    if [[ -n $current_brightness ]]; then
+        notify-send -t 800 "Keyboard brightness is ${current_brightness}"
+    fi
 else
     # Handle multiple backlight changes, e.g.:
     #   backlight.sh up up down down up
