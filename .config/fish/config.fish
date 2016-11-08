@@ -19,5 +19,5 @@ for script in (ls ~/.scripts)
 end
 
 # Remember to change to your primary screen
-scrn primary LVDS1
+# scrn primary LVDS1
 
