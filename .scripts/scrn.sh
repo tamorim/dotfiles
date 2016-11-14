@@ -38,7 +38,28 @@ function left () {
 
 function mirror () {
   if [[ $secondary_monitor ]]; then
-    xrandr --output $primary_monitor --same-as $secondary_monitor
+    primary_resolutions=$(xrandr | sed -n '/'"$primary_monitor"'/,/^\w/{/^\w/b;p}' | grep -o '[0-9]\+x[0-9]\+')
+    secondary_resolutions=$(xrandr | sed -n '/'"$secondary_monitor"'/,/^\w/{/^\w/b;p}' | grep -o '[0-9]\+x[0-9]\+')
+    mirrorable=false
+
+    for primary_resolution in $primary_resolutions; do
+      for secondary_resolution in $secondary_resolutions; do
+        if [[ $primary_resolution = $secondary_resolution ]]; then
+          mirrorable=true
+          xrandr --output $primary_monitor --mode $primary_resolution --output $secondary_monitor --mode $primary_resolution
+          break
+        fi
+      done
+      if [[ $mirrorable = true ]]; then
+        break
+      fi
+    done
+
+    if [[ $mirrorable = true ]]; then
+      xrandr --output $primary_monitor --same-as $secondary_monitor
+    else
+      echo "No matching resolution was found" >&2
+    fi
   else
     echo "No secondary monitor found" >&2
   fi
