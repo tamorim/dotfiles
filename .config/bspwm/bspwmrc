@@ -12,7 +12,7 @@ if [[ $($kbdl 2>/dev/null) ]]; then $kbdl 0; fi
 # Set wallpaper
 # feh --bg-fill Pictures/wallpaper.jpg
 
-if [[ -e $(ls /sys/class/power_supply) ]]; then
+if [[ -n $(ls /sys/class/power_supply) ]]; then
   pid=$(pgrep bspwmrc | grep -v $$)
   if [[ $pid ]]; then kill $pid 2>/dev/null; fi
   while :; do
