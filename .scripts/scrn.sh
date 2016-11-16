@@ -2,26 +2,38 @@
 set -e
 
 primary_monitor=$(xrandr | grep -o '^.*\sconnected\sprimary' | sed -n 's/^\(.*\)\sconnected.*$/\1/p')
-secondary_monitor=$(xrandr | grep -o '^.*\sconnected' | grep -v $primary_monitor | sed -n 's/^\(.*\)\sconnected/\1/p')
+secondary_monitor=$(xrandr | grep -o '^.*\sconnected' | grep -v $primary_monitor 2> /dev/null | sed -n 's/^\(.*\)\sconnected/\1/p')
 
 function get_primary () {
-  echo $primary_monitor
+  if [[ -n $primary_monitor ]]; then
+    echo $primary_monitor
+  else
+    echo "No primary monitor found" >&2
+  fi
 }
 
 function get_secondary () {
-  echo $secondary_monitor
+  if [[ -n $secondary_monitor ]]; then
+    echo $secondary_monitor
+  else
+    echo "No secondary monitor found" >&2
+  fi
 }
 
 function centerw () {
-  height=$(xrandr | grep '^.*\sconnected' | grep -v $primary_monitor | sed -n 's/^.*connected\s.*x\(.*\)+.*+.*\s(.*$/\1/p')
-  large_width=$(xrandr | grep '^.*\sconnected' | grep -v $primary_monitor | sed -n 's/^.*connected\s\(.*\)x.*+.*+.*\s(.*$/\1/p')
-  small_width=$(xrandr | grep '^.*\sconnected' | grep $primary_monitor | sed -n 's/^.*connected\s.*\s\(.*\)x.*+.*+.*\s(.*$/\1/p')
-  centralized_width=$(echo "($large_width - $small_width) / 2" | bc)
-  xrandr --output $primary_monitor --pos "${centralized_width}x${height}"
+  if [[ -n $secondary_monitor ]]; then
+    height=$(xrandr | grep '^.*\sconnected' | grep -v $primary_monitor | sed -n 's/^.*connected\s.*x\(.*\)+.*+.*\s(.*$/\1/p')
+    large_width=$(xrandr | grep '^.*\sconnected' | grep -v $primary_monitor | sed -n 's/^.*connected\s\(.*\)x.*+.*+.*\s(.*$/\1/p')
+    small_width=$(xrandr | grep '^.*\sconnected' | grep $primary_monitor | sed -n 's/^.*connected\s.*\s\(.*\)x.*+.*+.*\s(.*$/\1/p')
+    centralized_width=$(echo "($large_width - $small_width) / 2" | bc)
+    xrandr --output $primary_monitor --pos "${centralized_width}x${height}"
+  else
+    echo "No secondary monitor found" >&2
+  fi
 }
 
 function right () {
-  if [[ $secondary_monitor ]]; then
+  if [[ -n $secondary_monitor ]]; then
     xrandr --output $secondary_monitor --right-of LVDS1
   else
     echo "No secondary monitor found" >&2
@@ -29,7 +41,7 @@ function right () {
 }
 
 function left () {
-  if [[ $secondary_monitor ]]; then
+  if [[ -n $secondary_monitor ]]; then
     xrandr --output $secondary_monitor --left-of LVDS1
   else
     echo "No secondary monitor found" >&2
@@ -37,7 +49,7 @@ function left () {
 }
 
 function mirror () {
-  if [[ $secondary_monitor ]]; then
+  if [[ -n $secondary_monitor ]]; then
     primary_resolutions=$(xrandr | sed -n '/'"$primary_monitor"'/,/^\w/{/^\w/b;p}' | grep -o '[0-9]\+x[0-9]\+')
     secondary_resolutions=$(xrandr | sed -n '/'"$secondary_monitor"'/,/^\w/{/^\w/b;p}' | grep -o '[0-9]\+x[0-9]\+')
     mirrorable=false
@@ -67,24 +79,36 @@ function mirror () {
 
 function primary () {
   monitor=$1
-  xrandr --output $monitor --primary
+  if [[ -n $monitor ]]; then
+    xrandr --output $monitor --primary
+  else
+    echo "No monitor passed" >&2
+  fi
 }
 
 function on () {
   monitor=$1
-  if [[ $monitor ]]; then
+  if [[ -n $monitor ]]; then
     xrandr --output $monitor --auto
   else
-    xrandr --output $secondary_monitor --auto
+    if [[ -n $secondary_monitor ]]; then
+      xrandr --output $secondary_monitor --auto
+    else
+      echo "No secondary monitor found" >&2
+    fi
   fi
 }
 
 function off () {
   monitor=$1
-  if [[ $monitor ]]; then
+  if [[ -n $monitor ]]; then
     xrandr --output $monitor --off
   else
-    xrandr --output $secondary_monitor --off
+    if [[ -n $secondary_monitor ]]; then
+      xrandr --output $secondary_monitor --off
+    else
+      echo "No secondary monitor found" >&2
+    fi
   fi
 }
 
