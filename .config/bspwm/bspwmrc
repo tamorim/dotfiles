@@ -1,5 +1,6 @@
 #!/bin/sh
 if ! pgrep sxhkd > /dev/null; then
+  export SXHKD_SHELL=/bin/sh
   sxhkd &
 fi
 if ! pgrep xss-lock > /dev/null; then
