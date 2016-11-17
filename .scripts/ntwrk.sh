@@ -1,8 +1,9 @@
 #!/bin/sh
 eth_icon=""
 wifi_icon=""
-
-read lo int1 int2 <<< `ip link | sed -n 's/^[0-9]: \(.*\):.*$/\1/p'`
+interfaces=($(ip link | sed -n 's/^[0-9]: \(.*\):.*$/\1/p'))
+int1=${interfaces[1]}
+int2=${interfaces[2]}
 
 if iwconfig $int1 > /dev/null 2>&1; then
   wifi=$int1
@@ -18,7 +19,7 @@ else
   message="${eth_icon}   disconnected"
 fi
 
-if [[ $wifi ]]; then
+if [[ -n $wifi ]]; then
   if ping -I $wifi -c 1 8.8.8.8 > /dev/null 2>&1; then
     message="${message}\n\n${wifi_icon}   connected"
   else
