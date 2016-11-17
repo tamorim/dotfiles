@@ -7,8 +7,7 @@ if ! pgrep xss-lock > /dev/null; then
   xss-lock -- dm-tool lock &
 fi
 
-kbdl=~/.scripts/kbdl.sh
-if [[ $($kbdl 2>/dev/null) ]]; then $kbdl 0; fi
+~/.scripts/kbdl.sh 0 2>/dev/null
 # Set wallpaper
 # feh --bg-fill Pictures/wallpaper.jpg
 
