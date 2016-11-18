@@ -34,8 +34,8 @@ bspc config remove_unplugged_monitors   true
 bspc config click_to_focus              true
 
 primary_monitor=$(~/.scripts/scrn.sh get_primary)
-secondary_monitor=$(~/.scripts/scrn.sh get_secondary)
+secondary_monitor=$(~/.scripts/scrn.sh get_secondary 2>/dev/null)
 bspc monitor $primary_monitor -d I II III IV
-if [[ $secondary_monitor ]]; then
+if [[ -n $secondary_monitor ]]; then
   bspc monitor $secondary_monitor -d V VI VII VIII
 fi
