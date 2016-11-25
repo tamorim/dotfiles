@@ -107,6 +107,10 @@ function! IndentReact()
   silent! execute 's/\v\<\w+\zs\s\ze|\zs\s\ze\w+\=/\="\n" . matchstr(getline("."), ''^\s*'') . "  "/g'
   silent! execute 's/\v\s?(\/?\>)/\="\n" . matchstr(getline("."), ''^\s*'') . submatch(1)/'
   normal <<
+  silent! execute 's/\v\zs(\>)\ze.+/\=submatch(1) . "\n" . matchstr(getline("."), ''^\s*'')/'
+  normal >>
+  silent! execute 's/\v(\<)/\="\n" . matchstr(getline("."), ''^\s*'') . submatch(1)/'
+  normal <<
 endfunction
 
 " Indent a long javascript import statement
