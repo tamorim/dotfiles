@@ -104,7 +104,7 @@ endfunction
 
 " Indent a React component's jsx code
 function! IndentReact()
-  silent! execute 's/\v\zs\s\ze\w+-?/\="\n" . matchstr(getline("."), ''^\s*'') . "  "/g'
+  silent! execute 's/\v\<\w+\zs\s\ze|\zs\s\ze\w+\=/\="\n" . matchstr(getline("."), ''^\s*'') . "  "/g'
   silent! execute 's/\v\s?(\/?\>)/\="\n" . matchstr(getline("."), ''^\s*'') . submatch(1)/'
   normal <<
 endfunction
