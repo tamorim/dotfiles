@@ -41,8 +41,6 @@ Plug 'sjl/gundo.vim'
 Plug 'SirVer/ultisnips'
 Plug 'moll/vim-node'
 Plug 'sheerun/vim-polyglot'
-Plug 'ianks/vim-tsx'
-Plug 'vim-scripts/paredit.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'matze/vim-move'
 Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
