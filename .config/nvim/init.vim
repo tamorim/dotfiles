@@ -275,10 +275,21 @@ let g:UltiSnipsExpandTrigger = '<c-j>'
 " Gutentags options
 let g:gutentags_tagfile = '.tags'
 let gitignore = './.gitignore'
+let gutentags_ignore = [
+\ '**/*.html',
+\ '**/*.md',
+\ '**/*.yaml',
+\ '**/*.dust',
+\ '**/*.json',
+\ '**/*.lock',
+\ '**/*.txt',
+\ '**/*.log'
+\ ]
 if filereadable(gitignore)
-  let filtered_ignore = filter(readfile(gitignore), "!(v:val =~ '^#')")
-  let g:gutentags_exclude = map(filtered_ignore, "v:val =~ '/$' ? v:val . '**' : v:val")
+  let filtered_gitignore = filter(readfile(gitignore), "!(v:val =~ '^#' || v:val =~ '^$')")
+  let gutentags_ignore = gutentags_ignore + filtered_gitignore
 endif
+let g:gutentags_exclude = map(gutentags_ignore, "v:val =~ '/$' ? v:val . '**' : v:val")
 
 " Tern config
 let g:tern_request_timeout = 1
