@@ -1,3 +1,6 @@
+/* Cursor */
+Xcursor.size: 24
+
 /* Rofi */
 rofi.monitor: 0
 rofi.width: 60
