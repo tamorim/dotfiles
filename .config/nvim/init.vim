@@ -126,22 +126,6 @@ let g:neomake_list_height = 5
 let eslint_exe = './node_modules/.bin/eslint'
 let g:neomake_javascript_eslint_exe = eslint_exe
 let g:neomake_jsx_eslint_exe = eslint_exe
-let g:neomake_typescript_mytsc_maker = {
-\ 'exe': './node_modules/.bin/tsc',
-\ 'args': ['@.tscconfig'],
-\ 'errorformat': '%E%f %#(%l\,%c): error %m,' .
-\ '%E%f %#(%l\,%c): %m,' .
-\ '%Eerror %m,' .
-\ '%C%\s%\+%m'
-\ }
-let g:neomake_tsx_mytsc_maker = {
-\ 'exe': './node_modules/.bin/tsc',
-\ 'args': ['@.tscconfig'],
-\ 'errorformat': '%E%f %#(%l\,%c): error %m,' .
-\ '%E%f %#(%l\,%c): %m,' .
-\ '%Eerror %m,' .
-\ '%C%\s%\+%m'
-\ }
 
 if filereadable(eslint_exe)
   let g:neomake_javascript_enabled_makers = ['eslint']
@@ -151,9 +135,6 @@ else
   let g:neomake_jsx_enabled_makers = []
 endif
 
-let g:neomake_coffeescript_enabled_makers = ['coffeelint']
-let g:neomake_typescript_enabled_makers = ['mytsc']
-let g:neomake_tsx_enabled_makers = ['mytsc']
 autocmd! BufWinEnter,BufWrite * Neomake
 autocmd! QuitPre * let g:neomake_verbose = 0
 
