@@ -64,6 +64,9 @@ let @v = 'V$%'
 " Macro for navigating blocks
 let @n = '$%'
 
+" Macro for deleting blocks and a line after
+let @f = 'V$%jd'
+
 " Macro for deleting stuff surrounding blocks
 let @s = '0$wviB<b%dddd'
 
