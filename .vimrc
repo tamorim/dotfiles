@@ -9,22 +9,18 @@ let isPlugPresent = 1
 let plug_vim = expand('~/.vim/autoload/plug.vim')
 
 if !filereadable(plug_vim)
-  echo "Installing Plug..."
+  echo 'Installing Plug...'
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   let isPlugPresent = 0
 endif
 
 if isPlugPresent == 0
-  echo "Installing plugins..."
-  echo ""
+  echo 'Installing plugins...'
+  echo ''
   silent! source ~/.vimrc
   silent! PlugInstall
   silent! bdelete
 endif
-
-function! DoRemote(arg)
-  UpdateRemotePlugins
-endfunction
 
 call plug#begin()
 
@@ -40,40 +36,37 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tmhedberg/matchit'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'jimmyhchan/dustjs.vim'
 Plug 'sjl/gundo.vim'
-Plug 'tpope/vim-fugitive'
 Plug 'SirVer/ultisnips'
 Plug 'moll/vim-node'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 Plug 'sheerun/vim-polyglot'
-Plug 'ianks/vim-tsx'
-Plug 'vim-scripts/paredit.vim'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'scrooloose/nerdtree'
 Plug 'matze/vim-move'
 Plug 'scrooloose/syntastic'
 Plug 'mtscout6/syntastic-local-eslint.vim'
-Plug 'rschmukler/pangloss-vim-indent'
 Plug 'Shougo/neocomplete.vim'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
 Plug 'joshdick/onedark.vim'
+Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'justinmk/vim-dirvish'
+Plug 'ludovicchabant/vim-gutentags'
 
 call plug#end()
 
 " Map leader to ,
-let mapleader = ","
-
-" Macro for deleting blocks
-let @f = 'V$%jd'
+let mapleader = ','
 
 " Macro for visualizing blocks
 let @v = 'V$%'
 
 " Macro for navigating blocks
 let @n = '$%'
+
+" Macro for deleting blocks and a line after
+let @f = 'V$%jd'
 
 " Macro for deleting stuff surrounding blocks
 let @s = '0$wviB<b%dddd'
@@ -104,6 +97,31 @@ function! SummarizeTabs()
   finally
     echohl None
   endtry
+endfunction
+
+" Organize range by length
+function! SortLines() range
+  silent! execute a:firstline . ',' . a:lastline . 's/^\(.*\)$/\=strdisplaywidth(submatch(0)) . " " . submatch(0)/'
+  silent! execute a:firstline . ',' . a:lastline . 'sort n'
+  silent! execute a:firstline . ',' . a:lastline . 's/^\d\+\s//'
+endfunction
+
+" Indent a React component's jsx code
+function! IndentReact()
+  silent! execute 's/\v\<\w+\zs\s\ze|\zs\s\ze\w+\=|("|})\zs\s\ze\w+/\="\n" . matchstr(getline("."), ''^\s*'') . "  "/g'
+  silent! execute 's/\v\s?(\/?\>)/\="\n" . matchstr(getline("."), ''^\s*'') . submatch(1)/'
+  normal <<
+  silent! execute 's/\v\zs(\>)\ze.+/\=submatch(1) . "\n" . matchstr(getline("."), ''^\s*'')/'
+  normal >>
+  silent! execute 's/\v(\<\/\w+\>)$/\="\n" . matchstr(getline("."), ''^\s*'') . submatch(1)/'
+  normal <<
+endfunction
+
+" Indent a long javascript import statement
+function! IndentImport()
+  silent! execute 's/\v\{\zs\ze/\="\n" .  "  "/g'
+  silent! execute 's/\v\w+,\zs\s?\ze/\="\n" .  "  "/g'
+  silent! execute 's/\v\zs\ze\}/\=",\n"/g'
 endfunction
 
 " Syntastic config
@@ -162,21 +180,20 @@ set undoreload=10000
 " Increase vim yank buffer line limit and size
 set viminfo='20,<1000,s1000
 
+" Disable display of doc window on complete
+set completeopt-=preview
+
 " CtrlP settings
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
-let g:ctrlp_user_command = [
-\ '.git',
-\ 'bash -c "cd %s && git ls-files . -co --exclude-standard"',
-\ 'ag %s -l --nocolor --hidden -g ""'
-\ ]
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 let g:ctrlp_extensions = ['buffertag']
 let g:ctrlp_open_multiple_files = '1r'
 
 " Function to auto refresh CtrlP
 function! SetupCtrlP()
-  if exists("g:loaded_ctrlp") && g:loaded_ctrlp
+  if exists('g:loaded_ctrlp') && g:loaded_ctrlp
     augroup CtrlPExtension
       autocmd!
       autocmd FocusGained  * CtrlPClearCache
@@ -185,7 +202,7 @@ function! SetupCtrlP()
   endif
 endfunction
 
-if has("autocmd")
+if has('autocmd')
   autocmd VimEnter * :call SetupCtrlP()
 endif
 
@@ -227,23 +244,32 @@ set listchars=tab:>~,nbsp:_,trail:~
 set list
 
 " UltiSnips bindings
-let g:UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
-let g:UltiSnipsExpandTrigger = "<c-j>"
+let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips'
+let g:UltiSnipsExpandTrigger = '<c-j>'
 
-" Easytags options
-let g:easytags_async = 1
-let g:easytags_languages = {
-\  'javascript': {
-\    'cmd': 'jsctags',
-\    'args': [],
-\    'fileoutput_opt': '-f',
-\    'stdout_opt': '-f-',
-\    'recurse_flag': '-R'
-\  }
-\ }
+" Gutentags options
+let g:gutentags_tagfile = '.tags'
+let gitignore = './.gitignore'
+let gutentags_ignore = [
+\ '**/*.html',
+\ '**/*.md',
+\ '**/*.yaml',
+\ '**/*.dust',
+\ '**/*.json',
+\ '**/*.lock',
+\ '**/*.txt',
+\ '**/*.log'
+\ ]
+if filereadable(gitignore)
+  let filtered_gitignore = filter(readfile(gitignore), "!(v:val =~ '^#' || v:val =~ '^$')")
+  let gutentags_ignore = gutentags_ignore + filtered_gitignore
+endif
+let g:gutentags_exclude = map(gutentags_ignore, "v:val =~ '/$' ? v:val . '**' : v:val")
 
-" EditorConfig config
-let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+" Tern config
+let g:tern_request_timeout = 1
+let g:tern#command = ['tern']
+let g:tern#arguments = ['--persistent']
 
 " NeoComplete config
 let g:neocomplete#enable_at_startup = 1
@@ -251,12 +277,28 @@ let g:neocomplete#enable_smart_case = 1
 inoremap <expr><Tab>  pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr><S-Tab>  pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+" Yankstack config
+nmap <C-j> <Plug>yankstack_substitute_older_paste
+nmap <C-k> <Plug>yankstack_substitute_newer_paste
+
+" Skip location list and quick fix list on buffer switch and close
+augroup qf
+  autocmd!
+  autocmd BufHidden * lcl
+augroup END
+
+" When opening dirvish, sort by folders first
+augroup dirvish
+  autocmd!
+  autocmd FileType dirvish sort r /[^\/]$/
+augroup END
+
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
 
-" Ctrl + G opens CtrlP buffertag search
-nnoremap <c-g> :CtrlPBufTag<CR>
+" Ctrl+G opens CtrlP buffertag search
+nnoremap <C-g> :CtrlPBufTag<CR>
 
 " Leader n toggles netrw or NERDTree if installed
 nnoremap <Leader>n :e.<CR>
@@ -282,5 +324,17 @@ nnoremap <Leader>v :e ~/.vimrc<CR>
 " Leader w removes trailing whitespace
 nnoremap <Leader>w :%s/\s\+$//g<CR>
 
-" Leader i indents a JSX component
-vnoremap <Leader>i :s/\zs\s\ze\w\+-\?/\="\n".matchstr(getline('.'), '^\s*').'  '/g \| s/\v\s?(\/?\>)/\="\n".matchstr(getline('.'), '^\s*').submatch(1)/ \| normal <<<CR>
+" Ctrl+n on normal mode puts the current word on the search register and highlights it
+nnoremap <C-n> "zyiw :let @/=''.@z.''<CR> viw
+
+" Ctrl+n on visual mode puts the current selection on the search register and highlights it
+vnoremap <C-n> "zy :let @/=''.@z.''<CR> gv
+
+" Leader s sorts range by length
+vnoremap <Leader>s :call SortLines()<CR>
+
+" Leader ii indents a import statement
+vnoremap <Leader>ii :call IndentImport()<CR> kvi{ :call SortLines()<CR>
+
+" Leader ir indents a JSX component
+vnoremap <Leader>ir :call IndentReact()<CR>
