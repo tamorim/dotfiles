@@ -311,6 +311,10 @@ nnoremap <S-Tab> :bprevious<CR>
 " Ctrl+G opens CtrlP buffertag search
 nnoremap <C-g> :CtrlPBufTag<CR>
 
+" Leader y yanks to the plus register
+nnoremap <Leader>y "+y
+vnoremap <Leader>y "+y
+
 " Leader n toggles netrw or NERDTree if installed
 nnoremap <Leader>n :e.<CR>
 
