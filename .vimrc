@@ -293,6 +293,11 @@ augroup dirvish
   autocmd FileType dirvish sort r /[^\/]$/
 augroup END
 
+" Emmet config
+let g:user_emmet_settings = {
+\ 'javascript.jsx': { 'extends': 'jsx' }
+\ }
+
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
