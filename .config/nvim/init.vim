@@ -266,7 +266,7 @@ let gutentags_ignore = [
 \ '**/*.log'
 \ ]
 if filereadable(gitignore)
-  let filtered_gitignore = filter(readfile(gitignore), "!(v:val =~ '^#' || v:val =~ '^$')")
+  let filtered_gitignore = filter(readfile(gitignore), "!(v:val =~ '^#' || v:val =~ '^$' || v:val =~ '^!')")
   let gutentags_ignore = gutentags_ignore + filtered_gitignore
 endif
 let g:gutentags_exclude = map(gutentags_ignore, "v:val =~ '/$' ? v:val . '**' : v:val")
