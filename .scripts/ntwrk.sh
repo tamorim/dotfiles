@@ -13,14 +13,14 @@ else
   eth0=$int1
 fi
 
-if fping -I $eth0 -c 1 -t 200 8.8.8.8 > /dev/null 2>&1; then
+if fping -I $eth0 -c 1 -t 50 8.8.8.8 > /dev/null 2>&1; then
   message="${eth_icon}   connected"
 else
   message="${eth_icon}   disconnected"
 fi
 
 if [[ -n $wifi ]]; then
-  if fping -I $wifi -c 1 -t 200 8.8.8.8 > /dev/null 2>&1; then
+  if fping -I $wifi -c 1 -t 50 8.8.8.8 > /dev/null 2>&1; then
     message="${message}\n\n${wifi_icon}   connected"
   else
     message="${message}\n\n${wifi_icon}   disconnected"
