@@ -22,3 +22,4 @@ end
 # Remember to change to your primary screen
 # scrn primary LVDS1
 
+[ $TERM != "screen-256color" ]; and tm
