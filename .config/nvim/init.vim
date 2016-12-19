@@ -30,7 +30,6 @@ Plug 'mattn/emmet-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'Raimondi/delimitMate'
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
@@ -52,6 +51,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'justinmk/vim-dirvish'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'tpope/vim-surround'
 
 call plug#end()
 
