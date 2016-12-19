@@ -290,7 +290,7 @@ nmap <C-k> <Plug>yankstack_substitute_newer_paste
 " Skip location list and quick fix list on buffer switch and close
 augroup qf
   autocmd!
-  autocmd BufHidden * lcl
+  autocmd FileType qf set nobuflisted
 augroup END
 
 " When opening dirvish, sort by folders first
@@ -319,7 +319,7 @@ vnoremap <Leader>y "+y
 nnoremap <Leader>n :e.<CR>
 
 " Leader c deletes current buffer
-nnoremap <Leader>c :bdelete<CR>
+nnoremap <Leader>c :lcl \| bdelete<CR>
 
 " Leader a opens ag
 nnoremap <Leader>a :Ag 
