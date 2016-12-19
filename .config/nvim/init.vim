@@ -139,7 +139,7 @@ else
 endif
 
 autocmd! BufWinEnter,BufWrite * Neomake
-autocmd! QuitPre * let g:neomake_verbose = 0
+autocmd! VimLeave * let g:neomake_verbose = 0
 
 " Indent, syntax, colorscheme and hlsearch
 syntax on
