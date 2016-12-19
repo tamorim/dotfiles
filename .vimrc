@@ -31,7 +31,6 @@ Plug 'mattn/emmet-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'Raimondi/delimitMate'
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
@@ -51,6 +50,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'justinmk/vim-dirvish'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'tpope/vim-surround'
 
 call plug#end()
 
@@ -282,7 +282,7 @@ nmap <C-k> <Plug>yankstack_substitute_newer_paste
 " Skip location list and quick fix list on buffer switch and close
 augroup qf
   autocmd!
-  autocmd BufHidden * lcl
+  autocmd FileType qf set nobuflisted
 augroup END
 
 " When opening dirvish, sort by folders first
@@ -311,7 +311,7 @@ vnoremap <Leader>y "+y
 nnoremap <Leader>n :e.<CR>
 
 " Leader c deletes current buffer
-nnoremap <Leader>c :bdelete<CR>
+nnoremap <Leader>c :lcl \| bdelete<CR>
 
 " Leader a opens ag
 nnoremap <Leader>a :Ag 
