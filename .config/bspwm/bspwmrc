@@ -6,6 +6,9 @@ fi
 if ! pgrep xss-lock > /dev/null; then
   xss-lock -- dm-tool lock &
 fi
+if ! tmux info > /dev/null; then
+  tmux start-server &
+fi
 
 ~/.scripts/kbdl.sh 0 2>/dev/null
 # Set wallpaper
