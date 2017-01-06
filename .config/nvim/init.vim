@@ -304,6 +304,9 @@ let g:user_emmet_settings = {
 \ 'javascript.jsx': { 'extends': 'jsx' }
 \ }
 
+" Set a env var to detect that we are on neovim's terminal emulator
+let $NVIM_TERM = 1
+
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
