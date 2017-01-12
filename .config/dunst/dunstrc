@@ -5,7 +5,7 @@
   browser = /usr/bin/chromium
   # dmenu = /usr/bin/dmenu -p dunst:
   follow = none
-  font = Terminus, Font Awesome 12
+  font = xos4 Terminus, Font Awesome 12
   format = "%s\n%b"
   # geometry [{width}]x{height}][+/-{x}+/-{y}]
   geometry = "0-10+10"
