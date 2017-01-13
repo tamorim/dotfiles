@@ -52,6 +52,7 @@ Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'justinmk/vim-dirvish'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'tpope/vim-surround'
+Plug 'shime/vim-livedown'
 
 call plug#end()
 
