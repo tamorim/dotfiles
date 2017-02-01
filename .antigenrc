@@ -1,0 +1,9 @@
+antigen use oh-my-zsh
+antigen bundles <<EOBUNDLES
+  zsh-users/zsh-syntax-highlighting
+  zsh-users/zsh-autosuggestions
+  zsh-users/zsh-completions
+  zsh-users/zsh-history-substring-search
+EOBUNDLES
+antigen theme tamorim/naiz naiz
+antigen apply
