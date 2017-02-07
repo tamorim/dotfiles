@@ -285,9 +285,11 @@ endif
 let g:gutentags_exclude = map(gutentags_ignore, "v:val =~ '/$' ? v:val . '**' : v:val")
 
 " Tern config
-let g:tern_request_timeout = 1
 let g:tern#command = ['tern']
+let g:tern_request_timeout = 1
+let g:tern_show_signature_in_pum = 1
 let g:tern#arguments = ['--persistent']
+let g:tern#filetypes = ['jsx', 'javascript.jsx']
 
 " deoplete config
 let g:deoplete#enable_at_startup = 1
