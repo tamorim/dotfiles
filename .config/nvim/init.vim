@@ -53,6 +53,8 @@ Plug 'justinmk/vim-dirvish'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'tpope/vim-surround'
 Plug 'shime/vim-livedown'
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Quramy/tsuquyomi'
 
 call plug#end()
 
@@ -307,6 +309,10 @@ let g:user_emmet_settings = {
 
 " Set a env var to detect that we are on neovim's terminal emulator
 let $NVIM_TERM = 1
+
+" Tsuquyomi config
+let g:tsuquyomi_disable_quickfix = 1
+let g:tsuquyomi_completion_detail = 1
 
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :bnext<CR>
