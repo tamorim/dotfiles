@@ -129,16 +129,26 @@ endfunction
 " Neomake config
 let g:neomake_open_list = 2
 let g:neomake_list_height = 5
-let eslint_exe = './node_modules/.bin/eslint'
+let eslint_exe = getcwd() . '/node_modules/.bin/eslint'
+let tsc_exe = getcwd() . '/node_modules/.bin/tsc'
+let tslint_exe = getcwd() . '/node_modules/.bin/tslint'
 let g:neomake_javascript_eslint_exe = eslint_exe
 let g:neomake_jsx_eslint_exe = eslint_exe
+let g:neomake_typescript_tsc_exe = tsc_exe
+let g:neomake_typescript_tslint_exe = tslint_exe
+let g:neomake_javascript_enabled_makers = []
+let g:neomake_jsx_enabled_makers = []
+let g:neomake_typescript_enabled_makers = []
 
 if filereadable(eslint_exe)
-  let g:neomake_javascript_enabled_makers = ['eslint']
-  let g:neomake_jsx_enabled_makers = ['eslint']
-else
-  let g:neomake_javascript_enabled_makers = []
-  let g:neomake_jsx_enabled_makers = []
+  call add(g:neomake_javascript_enabled_makers, 'eslint')
+  call add(g:neomake_jsx_enabled_makers, 'eslint')
+endif
+if filereadable(tsc_exe)
+  call add(g:neomake_typescript_enabled_makers, 'tsc')
+endif
+if filereadable(tslint_exe)
+  call add(g:neomake_typescript_enabled_makers, 'tslint')
 endif
 
 autocmd! BufWinEnter,BufWrite * Neomake
