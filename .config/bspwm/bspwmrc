@@ -29,23 +29,6 @@ function set_wallpaper () {
   return 0
 }
 
-~/.scripts/kbdl.sh 0 2>/dev/null
-set_wallpaper
-
-has_battery=$(~/.scripts/btt.sh has_battery)
-if [ "$has_battery" ]; then
-  pid=$(pgrep bspwmrc | grep -v $$)
-  if [ "$pid" ]; then kill $pid 2>/dev/null; fi
-  while :; do
-    bat_status=$(~/.scripts/btt.sh status)
-    bat_capacity=$(~/.scripts/btt.sh capacity)
-    if [ "$bat_status" != "Charging" ] && (($bat_capacity < 11)); then
-      ~/.scripts/ntf.sh "btt format"
-    fi
-    sleep 120
-  done &
-fi
-
 bspc config border_width                2
 bspc config window_gap                  12
 bspc config split_ratio                 0.52
@@ -56,6 +39,24 @@ bspc config remove_disabled_monitors    true
 bspc config remove_unplugged_monitors   true
 bspc config click_to_focus              true
 bspc monitor -d                         I II III IV
+
+source ~/.scripts/bootstrap.sh
+# Remember to change to your primary screen
+# scrn primary LVDS1
+scrn off 2> /dev/null
+kbdl 0 2>/dev/null
+set_wallpaper
+
+if [ "$(btt has_battery)" ]; then
+  pid=$(pgrep bspwmrc | grep -v $$)
+  if [ "$pid" ]; then kill $pid 2>/dev/null; fi
+  while :; do
+    if [ "$(btt status)" != "Charging" ] && (($(btt capacity) < 11)); then
+      ntf "btt format"
+    fi
+    sleep 120
+  done &
+fi
 
 bspc subscribe monitor_add | while read -r line; do
   arrange_monitors
