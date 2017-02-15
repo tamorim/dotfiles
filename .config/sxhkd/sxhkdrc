@@ -144,7 +144,7 @@ super + v
 
 # battery
 super + shift + b
-  ~/.scripts/ntf.sh btt
+  ~/.scripts/ntf.sh "btt format"
 
 # network
 super + n
