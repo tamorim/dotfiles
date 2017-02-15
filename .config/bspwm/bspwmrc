@@ -10,9 +10,27 @@ if ! tmux info > /dev/null; then
   tmux start-server &
 fi
 
+function arrange_monitors () {
+  if [ "$(bspc query -M | wc -l)" -eq "3" ]; then
+    bspc monitor $(bspc query -M | sed -n 1p) -d I II III
+    bspc monitor $(bspc query -M | sed -n 2p) -d IV V VI
+    bspc monitor $(bspc query -M | sed -n 3p) -d VII VIII
+  elif [ "$(bspc query -M | wc -l)" -eq "2" ]; then
+    bspc monitor $(bspc query -M | sed -n 1p) -d I II III IV
+    bspc monitor $(bspc query -M | sed -n 2p) -d V VI VII VIII
+  else
+    bspc monitor -d I II III IV
+  fi
+}
+
+# Remember to set to your wallpaper
+function set_wallpaper () {
+  # feh --bg-fill ~/Pictures/glacier-869593_1920.jpg
+  return 0
+}
+
 ~/.scripts/kbdl.sh 0 2>/dev/null
-# Set wallpaper
-# feh --bg-fill Pictures/wallpaper.jpg
+set_wallpaper
 
 if [ "$(~/.scripts/btt.sh has_battery)" ]; then
   pid=$(pgrep bspwmrc | grep -v $$)
@@ -34,10 +52,18 @@ bspc config single_monocle              true
 bspc config remove_disabled_monitors    true
 bspc config remove_unplugged_monitors   true
 bspc config click_to_focus              true
+bspc monitor -d                         I II III IV
 
-primary_monitor=$(~/.scripts/scrn.sh get_primary)
-secondary_monitor=$(~/.scripts/scrn.sh get_secondary 2>/dev/null)
-bspc monitor $primary_monitor -d I II III IV
-if [[ -n $secondary_monitor ]]; then
-  bspc monitor $secondary_monitor -d V VI VII VIII
-fi
+bspc subscribe monitor_add | while read -r line; do
+  arrange_monitors
+  set_wallpaper
+done &
+
+bspc subscribe monitor_remove | while read -r line; do
+  arrange_monitors
+  set_wallpaper
+done &
+
+bspc subscribe monitor_geometry | while read -r line; do
+  set_wallpaper
+done &
