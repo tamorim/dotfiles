@@ -19,7 +19,7 @@ else
   message="${eth_icon}   disconnected"
 fi
 
-if [[ -n $wifi ]]; then
+if [ -n "$wifi" ]; then
   if fping -I $wifi -c 1 -t 50 8.8.8.8 > /dev/null 2>&1; then
     message="${message}\n\n${wifi_icon}   connected"
   else
