@@ -1,3 +1,5 @@
+setopt IGNORE_EOF
+
 source ~/.fzf.zsh
 source /usr/share/zsh/scripts/antigen/antigen.zsh
 antigen init ~/.antigenrc
