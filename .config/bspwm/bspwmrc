@@ -32,11 +32,14 @@ function set_wallpaper () {
 ~/.scripts/kbdl.sh 0 2>/dev/null
 set_wallpaper
 
-if [ "$(~/.scripts/btt.sh has_battery)" ]; then
+has_battery=$(~/.scripts/btt.sh has_battery)
+if [ "$has_battery" ]; then
   pid=$(pgrep bspwmrc | grep -v $$)
   if [ "$pid" ]; then kill $pid 2>/dev/null; fi
   while :; do
-    if [ "$(~/.scripts/btt.sh capacity)" -le 10 ]; then
+    bat_status=$(~/.scripts/btt.sh status)
+    bat_capacity=$(~/.scripts/btt.sh capacity)
+    if [ "$bat_status" != "Charging" ] && (($bat_capacity < 11)); then
       ~/.scripts/ntf.sh "btt format"
     fi
     sleep 120
