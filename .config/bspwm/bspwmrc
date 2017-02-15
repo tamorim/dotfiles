@@ -70,5 +70,6 @@ bspc subscribe monitor_remove | while read -r line; do
 done &
 
 bspc subscribe monitor_geometry | while read -r line; do
+  arrange_monitors
   set_wallpaper
 done &
