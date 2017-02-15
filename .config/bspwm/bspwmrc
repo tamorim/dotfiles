@@ -14,13 +14,12 @@ fi
 # Set wallpaper
 # feh --bg-fill Pictures/wallpaper.jpg
 
-if [[ -n $(ls /sys/class/power_supply) ]]; then
+if [ "$(~/.scripts/btt.sh has_battery)" ]; then
   pid=$(pgrep bspwmrc | grep -v $$)
-  if [[ $pid ]]; then kill $pid 2>/dev/null; fi
+  if [ "$pid" ]; then kill $pid 2>/dev/null; fi
   while :; do
-    battery_level=$(cat /sys/class/power_supply/BAT0/capacity)
-    if [[ $battery_level -le 10 ]]; then
-      ~/.scripts/ntf.sh btt
+    if [ "$(~/.scripts/btt.sh capacity)" -le 10 ]; then
+      ~/.scripts/ntf.sh "btt format"
     fi
     sleep 120
   done &
