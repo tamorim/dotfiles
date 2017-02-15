@@ -15,4 +15,5 @@ done
 # Remember to change to your primary screen
 # scrn primary LVDS1
 
-[[ $TERM != "screen-256color" && ! $NVIM_TERM ]] && tmux attach -t base
+[ $TERM != "screen-256color" ] && [ ! $NVIM_TERM ] && tmux attach -t base
+
