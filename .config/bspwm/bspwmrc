@@ -3,11 +3,12 @@ if ! pgrep sxhkd > /dev/null; then
   export SXHKD_SHELL=/bin/sh
   sxhkd &
 fi
+if ! tmux info > /dev/null; then
+  source ~/.fzf.bash
+  tmux start-server &
+fi
 if ! pgrep xss-lock > /dev/null; then
   xss-lock -- dm-tool lock &
-fi
-if ! tmux info > /dev/null; then
-  tmux start-server &
 fi
 
 function arrange_monitors () {
