@@ -6,7 +6,11 @@ else
   cmd=$1
   args=""
 fi
-id_file=~/.dunst_$cmd
+
+ntf_dir=~/.ntf
+[ ! -d "$ntf_dir" ] && mkdir $ntf_dir
+
+id_file=$ntf_dir/$cmd
 id=$(cat $id_file 2>/dev/null)
 message=$($1 2>/dev/null)
 if [ ! "$message" ]; then
