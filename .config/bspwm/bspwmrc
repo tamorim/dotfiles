@@ -35,11 +35,9 @@ bspc config remove_unplugged_monitors   true
 bspc config click_to_focus              true
 bspc monitor -d                         I II III IV
 
+custom_start_file=~/.bspwm_custom_start.sh
 source ~/.scripts/bootstrap.sh
-# Remember to change to your primary screen
-# scrn primary LVDS1
-scrn off 2> /dev/null
-kbdl 0 2>/dev/null
+[ -e "$custom_start_file" ] && source $custom_start_file
 wlpr
 
 if [ "$(btt has_battery)" ]; then
