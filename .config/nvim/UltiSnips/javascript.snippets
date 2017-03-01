@@ -9,8 +9,7 @@ endsnippet
 
 # Ternary operation
 snippet ?
-const ${1:variable name} = ${2:check} ?
-  ${3:$2} : ${4:case false}
+const ${1:variable name} = ${2:check} ? ${3:case true} : ${4:case false}
 endsnippet
 
 # Const declaration
@@ -67,7 +66,6 @@ endsnippet
 snippet map
 ${1:${VISUAL:collection}}.map((${2:arguments...}) => {
   ${3:function block...}
-
   return ${4:value}
 })
 endsnippet
@@ -76,42 +74,42 @@ endsnippet
 
 # React componentWillMount
 snippet mount
-componentWillMount() {
+componentWillMount () {
   ${1:function block...}
 }
 endsnippet
 
 # React componentDidMount
 snippet didmount
-componentDidMount() {
+componentDidMount () {
   ${1:function block...}
 }
 endsnippet
 
 # React componentWillUnmount
 snippet unmount
-componentWillUnmount() {
+componentWillUnmount () {
   ${1:function block...}
 }
 endsnippet
 
 # React componentWillReceiveProps
 snippet receive
-componentWillReceiveProps(${1:arguments...}) {
+componentWillReceiveProps (${1:arguments...}) {
   ${2:function block...}
 }
 endsnippet
 
 # React shouldComponentUpdate
 snippet should
-shouldComponentUpdate(${1:arguments...}) {
+shouldComponentUpdate (${1:arguments...}) {
   ${2:function block...}
 }
 endsnippet
 
 # React render
 snippet render
-render() {
+render () {
   return (
   )
 }
@@ -119,15 +117,15 @@ endsnippet
 
 # React setState
 snippet set
-this.setState({${1: new state... }})
+this.setState({${1:new state...}})
 endsnippet
 
 # React class template
 snippet react
-import React from 'react'
+import React, {Component} from 'react'
 
-class ${1:component name} extends React.Component {
-  render() {
+class ${1:component name} extends Component {
+  render () {
     return (
     )
   }
