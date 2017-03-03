@@ -266,7 +266,7 @@ let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips'
 let g:UltiSnipsExpandTrigger = '<c-j>'
 
 " Gutentags options
-let g:gutentags_tagfile = '.tags'
+let g:gutentags_ctags_tagfile = '.tags'
 let gitignore = './.gitignore'
 let gutentags_ignore = [
 \ '**/*.html',
@@ -282,7 +282,7 @@ if filereadable(gitignore)
   let filtered_gitignore = filter(readfile(gitignore), "!(v:val =~ '^#' || v:val =~ '^$' || v:val =~ '^!')")
   let gutentags_ignore = gutentags_ignore + filtered_gitignore
 endif
-let g:gutentags_exclude = map(gutentags_ignore, "v:val =~ '/$' ? v:val . '**' : v:val")
+let g:gutentags_ctags_exclude = map(gutentags_ignore, "v:val =~ '/$' ? v:val . '**' : v:val")
 
 " Tern config
 let g:tern#command = ['tern']
