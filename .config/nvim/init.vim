@@ -55,6 +55,7 @@ Plug 'tpope/vim-surround'
 Plug 'shime/vim-livedown'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Quramy/tsuquyomi'
+Plug 'osyo-manga/vim-over'
 
 call plug#end()
 
