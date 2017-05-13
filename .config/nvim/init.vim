@@ -303,8 +303,8 @@ let g:tsuquyomi_disable_quickfix = 1
 let g:tsuquyomi_completion_detail = 1
 
 " Tab and Shift+Tab cycle through buffers
-nnoremap <Tab> :bnext<CR>
-nnoremap <S-Tab> :bprevious<CR>
+nnoremap <Tab> :lcl \| bnext<CR>
+nnoremap <S-Tab> :lcl \| bprevious<CR>
 
 " Ctrl+G opens CtrlP buffertag search
 nnoremap <C-g> :CtrlPBufTag<CR>
