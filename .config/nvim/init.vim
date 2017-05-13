@@ -338,6 +338,10 @@ nnoremap <C-g> :CtrlPBufTag<CR>
 nnoremap <Leader>y "+y
 vnoremap <Leader>y "+y
 
+" Leader p pastes from the plus register
+nnoremap <Leader>p "+p
+vnoremap <Leader>p "+p
+
 " Leader n toggles netrw or NERDTree if installed
 nnoremap <Leader>n :e.<CR>
 
