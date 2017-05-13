@@ -34,7 +34,6 @@ Plug 'tpope/vim-sleuth'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
 Plug 'tmhedberg/matchit'
-Plug 'neomake/neomake'
 Plug 'jimmyhchan/dustjs.vim'
 Plug 'sjl/gundo.vim'
 Plug 'SirVer/ultisnips'
@@ -56,6 +55,7 @@ Plug 'shime/vim-livedown'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Quramy/tsuquyomi'
 Plug 'osyo-manga/vim-over'
+Plug 'w0rp/ale'
 
 call plug#end()
 
@@ -127,33 +127,8 @@ function! IndentImport()
   silent! execute 's/\v\zs\ze\}/\=",\n"/g'
 endfunction
 
-" Neomake config
-let g:neomake_open_list = 2
-let g:neomake_list_height = 5
-let eslint_exe = getcwd() . '/node_modules/.bin/eslint'
-let tsc_exe = getcwd() . '/node_modules/.bin/tsc'
-let tslint_exe = getcwd() . '/node_modules/.bin/tslint'
-let g:neomake_javascript_eslint_exe = eslint_exe
-let g:neomake_jsx_eslint_exe = eslint_exe
-let g:neomake_typescript_tsc_exe = tsc_exe
-let g:neomake_typescript_tslint_exe = tslint_exe
-let g:neomake_javascript_enabled_makers = []
-let g:neomake_jsx_enabled_makers = []
-let g:neomake_typescript_enabled_makers = []
-
-if filereadable(eslint_exe)
-  call add(g:neomake_javascript_enabled_makers, 'eslint')
-  call add(g:neomake_jsx_enabled_makers, 'eslint')
-endif
-if filereadable(tsc_exe)
-  call add(g:neomake_typescript_enabled_makers, 'tsc')
-endif
-if filereadable(tslint_exe)
-  call add(g:neomake_typescript_enabled_makers, 'tslint')
-endif
-
-autocmd! BufWinEnter,BufWrite * Neomake
-autocmd! VimLeave * let g:neomake_verbose = 0
+" Ale config
+let g:ale_open_list = 1
 
 " Indent, syntax, colorscheme and hlsearch
 syntax on
