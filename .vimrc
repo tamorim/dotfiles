@@ -51,6 +51,10 @@ Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'justinmk/vim-dirvish'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'tpope/vim-surround'
+Plug 'shime/vim-livedown'
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Quramy/tsuquyomi'
+Plug 'osyo-manga/vim-over'
 
 call plug#end()
 
@@ -259,7 +263,7 @@ let gutentags_ignore = [
 \ '**/*.log'
 \ ]
 if filereadable(gitignore)
-  let filtered_gitignore = filter(readfile(gitignore), "!(v:val =~ '^#' || v:val =~ '^$' || v:val =~ '^!')")
+  let filtered_gitignore = filter(readfile(gitignore), "!(v:val =~ '^#' || v:val =~ '^$' || v:val =~ '!')")
   let gutentags_ignore = gutentags_ignore + filtered_gitignore
 endif
 let g:gutentags_ctags_exclude = map(gutentags_ignore, "v:val =~ '/$' ? v:val . '**' : v:val")
@@ -306,6 +310,10 @@ nnoremap <C-g> :CtrlPBufTag<CR>
 " Leader y yanks to the plus register
 nnoremap <Leader>y "+y
 vnoremap <Leader>y "+y
+
+" Leader p pastes from the plus register
+nnoremap <Leader>p "+p
+vnoremap <Leader>p "+p
 
 " Leader n toggles netrw or NERDTree if installed
 nnoremap <Leader>n :e.<CR>
