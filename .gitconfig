@@ -1,11 +1,17 @@
 [user]
-	name = Thor Amorim
-	email = thoramorim@gmail.com
+  name = Thor Amorim
+  email = thoramorim@gmail.com
 [color]
-	ui = true
+  ui = true
 [core]
-	editor = vim
-	pager = diff-so-fancy | less --tabs=4 -RFX
-	excludesfile = ~/.gitignore
-[merge]
-	tool = meld
+  editor = nvim
+  pager = diff-so-fancy | less --tabs=4 -RFX
+  excludesfile = ~/.gitignore
+[alias]
+  co = checkout
+  ci = commit
+  st = status
+  br = branch
+  lg = log --oneline --graph --pretty
+  ps = push origin
+  pl = pull -p --rebase
