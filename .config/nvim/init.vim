@@ -1,9 +1,11 @@
 " Init {{{
+
 " Set a env var to detect that we are on neovim's terminal emulator
 let $NVIM_TERM = 1
-" }}}
 
+" }}}
 " Plug stuff {{{
+
 " Setting up Plug
 let isPlugPresent = 1
 let plug_vim = expand('~/.config/nvim/autoload/plug.vim')
@@ -56,8 +58,8 @@ Plug 'w0rp/ale'
 
 call plug#end()
 " }}}
-
 " Neovim config {{{
+
 let mapleader = ','
 
 syntax on
@@ -102,9 +104,10 @@ augroup qf
 augroup END
 
 autocmd Syntax vim setlocal foldmethod=marker foldlevel=0
-" }}}
 
+" }}}
 " Functions {{{
+
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
 function! Stab()
@@ -168,9 +171,10 @@ function! SetupCtrlP()
     augroup END
   endif
 endfunction
-" }}}
 
+" }}}
 " Plugins config {{{
+
 " CtrlP settings
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
@@ -224,9 +228,13 @@ let g:deoplete#enable_at_startup = 1
 let g:user_emmet_settings = {
 \ 'javascript.jsx': { 'extends': 'jsx' }
 \ }
-" }}}
 
+" NERDTree config
+let g:NERDTreeMinimalUI = 1
+
+" }}}
 " Macros {{{
+
 " Macro for visualizing blocks
 let @v = 'V$%'
 
@@ -238,9 +246,10 @@ let @f = 'V$%jd'
 
 " Macro for deleting stuff surrounding blocks
 let @s = '0$wviB<b%dddd'
-" }}}
 
+" }}}
 " Mappings {{{
+
 " Fold with space
 nnoremap <space> za
 
@@ -308,4 +317,5 @@ vnoremap <Leader>ii :call IndentImport()<CR> kvi{ :call SortLines()<CR>
 
 " Leader ir indents a JSX component
 vnoremap <Leader>ir :call IndentReact()<CR>
+
 " }}}
