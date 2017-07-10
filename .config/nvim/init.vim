@@ -1,6 +1,9 @@
-" Enable true colors
-set termguicolors
+" Init {{{
+" Set a env var to detect that we are on neovim's terminal emulator
+let $NVIM_TERM = 1
+" }}}
 
+" Plug stuff {{{
 " Setting up Plug
 let isPlugPresent = 1
 let plug_vim = expand('~/.config/nvim/autoload/plug.vim')
@@ -33,12 +36,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-sleuth'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
-Plug 'tmhedberg/matchit'
-Plug 'neomake/neomake'
-Plug 'jimmyhchan/dustjs.vim'
 Plug 'sjl/gundo.vim'
 Plug 'SirVer/ultisnips'
-Plug 'moll/vim-node'
 Plug 'sheerun/vim-polyglot'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'matze/vim-move'
@@ -49,31 +48,63 @@ Plug 'junegunn/fzf.vim'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
 Plug 'joshdick/onedark.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
-Plug 'justinmk/vim-dirvish'
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'tpope/vim-surround'
 Plug 'shime/vim-livedown'
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'Quramy/tsuquyomi'
 Plug 'osyo-manga/vim-over'
+Plug 'scrooloose/nerdtree'
+Plug 'w0rp/ale'
 
 call plug#end()
+" }}}
 
-" Map leader to ,
+" Neovim config {{{
 let mapleader = ','
 
-" Macro for visualizing blocks
-let @v = 'V$%'
+syntax on
+filetype on
+filetype indent on
 
-" Macro for navigating blocks
-let @n = '$%'
+set termguicolors
+set nohlsearch
+set number
+set cursorline
+set foldenable
+set foldlevelstart=99
+set foldnestmax=10
+set foldmethod=indent
+set backup
+set backupcopy=yes
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set backupskip=/tmp/*,/private/tmp/*
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set writebackup
+set undofile
+set undodir=$HOME/.nvim/undo
+set undolevels=1000
+set undoreload=10000
+set viminfo='20,<1000,s1000
+set completeopt-=preview
+set hidden
+set listchars=tab:>~,nbsp:_,trail:~
+set list
 
-" Macro for deleting blocks and a line after
-let @f = 'V$%jd'
+let g:onedark_termcolors = 256
+colorscheme onedark
 
-" Macro for deleting stuff surrounding blocks
-let @s = '0$wviB<b%dddd'
+" Make the 81st column stand out
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%81v', 100)
 
+" Skip location list and quick fix list on buffer switch and close
+augroup qf
+  autocmd!
+  autocmd FileType qf set nobuflisted
+augroup END
+
+autocmd Syntax vim setlocal foldmethod=marker foldlevel=0
+" }}}
+
+" Functions {{{
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
 function! Stab()
@@ -127,89 +158,6 @@ function! IndentImport()
   silent! execute 's/\v\zs\ze\}/\=",\n"/g'
 endfunction
 
-" Neomake config
-let g:neomake_open_list = 2
-let g:neomake_list_height = 5
-let eslint_exe = getcwd() . '/node_modules/.bin/eslint'
-let tsc_exe = getcwd() . '/node_modules/.bin/tsc'
-let tslint_exe = getcwd() . '/node_modules/.bin/tslint'
-let g:neomake_javascript_eslint_exe = eslint_exe
-let g:neomake_jsx_eslint_exe = eslint_exe
-let g:neomake_typescript_tsc_exe = tsc_exe
-let g:neomake_typescript_tslint_exe = tslint_exe
-let g:neomake_javascript_enabled_makers = []
-let g:neomake_jsx_enabled_makers = []
-let g:neomake_typescript_enabled_makers = []
-
-if filereadable(eslint_exe)
-  call add(g:neomake_javascript_enabled_makers, 'eslint')
-  call add(g:neomake_jsx_enabled_makers, 'eslint')
-endif
-if filereadable(tsc_exe)
-  call add(g:neomake_typescript_enabled_makers, 'tsc')
-endif
-if filereadable(tslint_exe)
-  call add(g:neomake_typescript_enabled_makers, 'tslint')
-endif
-
-autocmd! BufWinEnter,BufWrite * Neomake
-autocmd! VimLeave * let g:neomake_verbose = 0
-
-" Indent, syntax, colorscheme and hlsearch
-syntax on
-let g:onedark_termcolors = 256
-colorscheme onedark
-filetype on
-filetype indent on
-set nohlsearch
-
-" Line numbers
-set number
-
-" Cursor line
-set cursorline
-
-" Fold setup
-set foldenable
-set foldlevelstart=99
-set foldnestmax=10
-
-" Space open/closes folds
-nnoremap <space> za
-set foldmethod=indent
-
-" Move vertically by visual line
-nnoremap j gj
-nnoremap k gk
-
-" Backup
-set backup
-set backupcopy=yes
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set backupskip=/tmp/*,/private/tmp/*
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set writebackup
-
-" Persistent undo config
-set undofile
-set undodir=$HOME/.nvim/undo
-set undolevels=1000
-set undoreload=10000
-
-" Increase vim yank buffer line limit and size
-set viminfo='20,<1000,s1000
-
-" Disable display of doc window on complete
-set completeopt-=preview
-
-" CtrlP settings
-let g:ctrlp_match_window = 'bottom,order:ttb'
-let g:ctrlp_switch_buffer = 0
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-let g:ctrlp_extensions = ['buffertag']
-let g:ctrlp_open_multiple_files = '1r'
-
 " Function to auto refresh CtrlP
 function! SetupCtrlP()
   if exists('g:loaded_ctrlp') && g:loaded_ctrlp
@@ -220,14 +168,18 @@ function! SetupCtrlP()
     augroup END
   endif
 endfunction
+" }}}
 
-if has('autocmd')
-  autocmd VimEnter * :call SetupCtrlP()
-endif
+" Plugins config {{{
+" CtrlP settings
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+let g:ctrlp_extensions = ['buffertag']
+let g:ctrlp_open_multiple_files = '1r'
 
-" When switching buffers, only hide the old one
-" Makes undo persist on buffer switch
-set hidden
+autocmd VimEnter * :call SetupCtrlP()
 
 " Airline configs
 let g:airline#extensions#tabline#enabled = 1
@@ -254,36 +206,9 @@ let g:airline_mode_map = {
 " Enable vim-jsx on js files
 let g:jsx_ext_required = 0
 
-" Make the 81st column stand out
-highlight ColorColumn ctermbg=magenta
-call matchadd('ColorColumn', '\%81v', 100)
-
-" Show tab characters, trailing whitespace etc
-set listchars=tab:>~,nbsp:_,trail:~
-set list
-
 " UltiSnips bindings
 let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips'
 let g:UltiSnipsExpandTrigger = '<c-j>'
-
-" Gutentags options
-let g:gutentags_ctags_tagfile = '.tags'
-let gitignore = './.gitignore'
-let gutentags_ignore = [
-\ '**/*.html',
-\ '**/*.md',
-\ '**/*.yaml',
-\ '**/*.dust',
-\ '**/*.json',
-\ '**/*.lock',
-\ '**/*.txt',
-\ '**/*.log'
-\ ]
-if filereadable(gitignore)
-  let filtered_gitignore = filter(readfile(gitignore), "!(v:val =~ '^#' || v:val =~ '^$' || v:val =~ '!')")
-  let gutentags_ignore = gutentags_ignore + filtered_gitignore
-endif
-let g:gutentags_ctags_exclude = map(gutentags_ignore, "v:val =~ '/$' ? v:val . '**' : v:val")
 
 " Tern config
 let g:tern#command = ['tern']
@@ -294,6 +219,34 @@ let g:tern#filetypes = ['jsx', 'javascript.jsx']
 
 " deoplete config
 let g:deoplete#enable_at_startup = 1
+
+" Emmet config
+let g:user_emmet_settings = {
+\ 'javascript.jsx': { 'extends': 'jsx' }
+\ }
+" }}}
+
+" Macros {{{
+" Macro for visualizing blocks
+let @v = 'V$%'
+
+" Macro for navigating blocks
+let @n = '$%'
+
+" Macro for deleting blocks and a line after
+let @f = 'V$%jd'
+
+" Macro for deleting stuff surrounding blocks
+let @s = '0$wviB<b%dddd'
+" }}}
+
+" Mappings {{{
+" Fold with space
+nnoremap <space> za
+
+" Navigate visual lines seamlessly
+nnoremap j gj
+nnoremap k gk
 
 " deoplete tab-complete
 inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -355,3 +308,4 @@ vnoremap <Leader>ii :call IndentImport()<CR> kvi{ :call SortLines()<CR>
 
 " Leader ir indents a JSX component
 vnoremap <Leader>ir :call IndentReact()<CR>
+" }}}
