@@ -303,43 +303,18 @@ inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 nmap <C-j> <Plug>yankstack_substitute_older_paste
 nmap <C-k> <Plug>yankstack_substitute_newer_paste
 
-" Skip location list and quick fix list on buffer switch and close
-augroup qf
-  autocmd!
-  autocmd FileType qf set nobuflisted
-augroup END
-
-" When opening dirvish, sort by folders first
-augroup dirvish
-  autocmd!
-  autocmd FileType dirvish sort r /[^\/]$/
-augroup END
-
-" Emmet config
-let g:user_emmet_settings = {
-\ 'javascript.jsx': { 'extends': 'jsx' }
-\ }
-
-" Set a env var to detect that we are on neovim's terminal emulator
-let $NVIM_TERM = 1
-
-" Tsuquyomi config
-let g:tsuquyomi_disable_quickfix = 1
-let g:tsuquyomi_completion_detail = 1
-
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :lcl \| bnext<CR>
 nnoremap <S-Tab> :lcl \| bprevious<CR>
 
-" Ctrl+G opens CtrlP buffertag search
-nnoremap <C-g> :CtrlPBufTag<CR>
-
 " Leader y yanks to the plus register
 nnoremap <Leader>y "+y
+nnoremap <Leader>Y "+Y
 vnoremap <Leader>y "+y
 
 " Leader p pastes from the plus register
 nnoremap <Leader>p "+p
+nnoremap <Leader>P "+P
 vnoremap <Leader>p "+p
 
 " Leader n toggles netrw or NERDTree if installed
