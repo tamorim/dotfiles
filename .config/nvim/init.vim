@@ -226,8 +226,10 @@ let g:tern#filetypes = ['jsx', 'javascript.jsx']
 
 " deoplete config
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#omni#input_patterns = get(g:, 'deoplete#omni#input_patterns', {})
-let g:deoplete#omni#input_patterns.typescript = ['[^. \t0-9]\.([a-zA-Z_]\w*)?']
+let g:deoplete#omni_patterns = get(g:, 'deoplete#omni_patterns', {})
+let g:deoplete#omni_patterns.typescript = ['[^. \t0-9]\.\([a-zA-Z_]\w*\)\?']
+let g:deoplete#omni#functions = get(g:, 'deoplete#omni#functions', {})
+let g:deoplete#omni#functions.typescript = 'tsuquyomi#complete'
 
 " Emmet config
 let g:user_emmet_settings = {
@@ -247,7 +249,6 @@ let g:ale_linters = {
 
 " Tsuquyomi config
 let g:tsuquyomi_completion_detail = 1
-let g:tsuquyomi_completion_preview = 1
 let g:tsuquyomi_disable_quickfix = 1
 
 " }}}
