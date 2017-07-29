@@ -55,6 +55,9 @@ Plug 'shime/vim-livedown'
 Plug 'osyo-manga/vim-over'
 Plug 'scrooloose/nerdtree'
 Plug 'w0rp/ale'
+Plug 'alvan/vim-closetag'
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Quramy/tsuquyomi'
 
 call plug#end()
 " }}}
@@ -223,6 +226,8 @@ let g:tern#filetypes = ['jsx', 'javascript.jsx']
 
 " deoplete config
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#omni#input_patterns = get(g:, 'deoplete#omni#input_patterns', {})
+let g:deoplete#omni#input_patterns.typescript = ['[^. \t0-9]\.([a-zA-Z_]\w*)?']
 
 " Emmet config
 let g:user_emmet_settings = {
@@ -235,9 +240,15 @@ let g:NERDTreeMinimalUI = 1
 " ALE config
 let g:ale_open_list = 1
 let g:ale_list_window_size = 5
+let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters = {
 \ 'typescript': ['tslint', 'tsserver', 'typecheck']
 \ }
+
+" Tsuquyomi config
+let g:tsuquyomi_completion_detail = 1
+let g:tsuquyomi_completion_preview = 1
+let g:tsuquyomi_disable_quickfix = 1
 
 " }}}
 " Macros {{{
