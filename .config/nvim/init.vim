@@ -51,7 +51,6 @@ Plug 'shime/vim-livedown', { 'for': 'markdown' }
 Plug 'osyo-manga/vim-over'
 Plug 'scrooloose/nerdtree'
 Plug 'w0rp/ale'
-Plug 'alvan/vim-closetag', { 'for': ['javascript.jsx', 'html'] }
 Plug 'Shougo/vimproc.vim', { 'do': 'make', 'for': 'typescript' }
 Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 
