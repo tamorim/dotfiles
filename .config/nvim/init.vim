@@ -44,20 +44,20 @@ Plug 'sheerun/vim-polyglot'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'matze/vim-move'
 Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
-Plug 'carlitux/deoplete-ternjs'
+Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript.jsx' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
+Plug 'ternjs/tern_for_vim', { 'do': 'npm i', 'for': 'javascript.jsx' }
 Plug 'joshdick/onedark.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'tpope/vim-surround'
-Plug 'shime/vim-livedown'
+Plug 'shime/vim-livedown', { 'for': 'markdown' }
 Plug 'osyo-manga/vim-over'
 Plug 'scrooloose/nerdtree'
 Plug 'w0rp/ale'
-Plug 'alvan/vim-closetag'
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'Quramy/tsuquyomi'
+Plug 'alvan/vim-closetag', { 'for': ['javascript.jsx', 'html'] }
+Plug 'Shougo/vimproc.vim', { 'do': 'make', 'for': 'typescript' }
+Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 
 call plug#end()
 " }}}
