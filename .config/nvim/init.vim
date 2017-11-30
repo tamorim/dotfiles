@@ -27,6 +27,7 @@ endif
 call plug#begin()
 
 Plug 'w0rp/ale'
+Plug 'tpope/vim-fugitive'
 Plug 'mattn/emmet-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'Raimondi/delimitMate'
