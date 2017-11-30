@@ -26,7 +26,7 @@ endif
 
 call plug#begin()
 
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'w0rp/ale'
 Plug 'mattn/emmet-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'Raimondi/delimitMate'
@@ -50,7 +50,6 @@ Plug 'tpope/vim-surround'
 Plug 'shime/vim-livedown', { 'for': 'markdown' }
 Plug 'osyo-manga/vim-over'
 Plug 'scrooloose/nerdtree'
-Plug 'w0rp/ale'
 Plug 'Shougo/vimproc.vim', { 'do': 'make', 'for': 'typescript' }
 Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 
@@ -159,29 +158,8 @@ function! IndentImport()
   silent! execute 's/\v\zs\ze\}/\=",\n"/g'
 endfunction
 
-" Function to auto refresh CtrlP
-function! SetupCtrlP()
-  if exists('g:loaded_ctrlp') && g:loaded_ctrlp
-    augroup CtrlPExtension
-      autocmd!
-      autocmd FocusGained  * CtrlPClearCache
-      autocmd BufWritePost * CtrlPClearCache
-    augroup END
-  endif
-endfunction
-
 " }}}
 " Plugins config {{{
-
-" CtrlP settings
-let g:ctrlp_match_window = 'bottom,order:ttb'
-let g:ctrlp_switch_buffer = 0
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-let g:ctrlp_extensions = ['buffertag']
-let g:ctrlp_open_multiple_files = '1r'
-
-autocmd VimEnter * :call SetupCtrlP()
 
 " Airline configs
 let g:airline#extensions#tabline#enabled = 1
@@ -246,6 +224,10 @@ let g:ale_linters = {
 let g:tsuquyomi_completion_detail = 1
 let g:tsuquyomi_disable_quickfix = 1
 
+" fzf config
+let g:rg_command = 'rg --column --line-number --no-heading --ignore-case --hidden --follow --color=always '
+command! -bang -nargs=* Rg call fzf#vim#grep(g:rg_command.shellescape(<q-args>), 1, <bang>0)
+
 " }}}
 " Macros {{{
 
@@ -279,6 +261,9 @@ inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 nmap <C-j> <Plug>yankstack_substitute_older_paste
 nmap <C-k> <Plug>yankstack_substitute_newer_paste
 
+" Ctrl+p uses fzf
+nmap <C-p> :FZF<CR>
+
 " Tab and Shift+Tab cycle through buffers
 nnoremap <Tab> :lcl \| bnext<CR>
 nnoremap <S-Tab> :lcl \| bprevious<CR>
@@ -300,7 +285,7 @@ nnoremap <Leader>n :e.<CR>
 nnoremap <Leader>c :lcl \| bdelete<CR>
 
 " Leader a opens ag
-nnoremap <Leader>a :Ag 
+nnoremap <Leader>a :Rg 
 
 " Leader u toggles Gundo
 nnoremap <Leader>u :GundoToggle<CR>
