@@ -40,8 +40,7 @@ Plug 'SirVer/ultisnips'
 Plug 'sheerun/vim-polyglot'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'matze/vim-move'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript.jsx' }
+Plug 'ajh17/VimCompletesMe'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm i', 'for': 'javascript.jsx' }
@@ -55,6 +54,7 @@ Plug 'Shougo/vimproc.vim', { 'do': 'make', 'for': 'typescript' }
 Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 
 call plug#end()
+
 " }}}
 " Neovim config {{{
 
@@ -198,13 +198,6 @@ let g:tern_show_signature_in_pum = 1
 let g:tern#arguments = ['--persistent']
 let g:tern#filetypes = ['jsx', 'javascript.jsx']
 
-" deoplete config
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#omni_patterns = get(g:, 'deoplete#omni_patterns', {})
-let g:deoplete#omni_patterns.typescript = ['[^. \t0-9]\.\([a-zA-Z_]\w*\)\?']
-let g:deoplete#omni#functions = get(g:, 'deoplete#omni#functions', {})
-let g:deoplete#omni#functions.typescript = 'tsuquyomi#complete'
-
 " Emmet config
 let g:user_emmet_settings = {
 \ 'javascript.jsx': { 'extends': 'jsx' }
@@ -228,6 +221,9 @@ let g:tsuquyomi_disable_quickfix = 1
 " fzf config
 let g:rg_command = 'rg --column --line-number --no-heading --ignore-case --hidden --follow --color=always '
 command! -bang -nargs=* Rg call fzf#vim#grep(g:rg_command.shellescape(<q-args>), 1, <bang>0)
+
+" VimCompletesMe config
+autocmd FileType javascript.jsx let b:vcm_tab_complete = 'omni'
 
 " }}}
 " Macros {{{
@@ -253,10 +249,6 @@ nnoremap <space> za
 " Navigate visual lines seamlessly
 nnoremap j gj
 nnoremap k gk
-
-" deoplete tab-complete
-inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Yankstack config
 nmap <C-j> <Plug>yankstack_substitute_older_paste
