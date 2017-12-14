@@ -260,9 +260,8 @@ nmap <C-k> <Plug>yankstack_substitute_newer_paste
 " Ctrl+p uses fzf
 nmap <C-p> :FZF<CR>
 
-" Tab and Shift+Tab cycle through buffers
-nnoremap <Tab> :lcl \| bnext<CR>
-nnoremap <S-Tab> :lcl \| bprevious<CR>
+" Leader b uses fzf buffers
+nmap <Leader>b :Buffers<CR>
 
 " Leader y yanks to the plus register
 nnoremap <Leader>y "+y
