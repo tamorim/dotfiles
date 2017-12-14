@@ -29,7 +29,7 @@ call plug#begin()
 Plug 'w0rp/ale'
 Plug 'tpope/vim-fugitive'
 Plug 'mattn/emmet-vim'
-Plug 'vim-airline/vim-airline'
+Plug 'itchyny/lightline.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-sleuth'
@@ -86,6 +86,7 @@ set completeopt-=preview
 set hidden
 set listchars=tab:>~,nbsp:_,trail:~
 set list
+set noshowmode
 
 let g:onedark_termcolors = 256
 colorscheme onedark
@@ -161,26 +162,29 @@ endfunction
 " }}}
 " Plugins config {{{
 
-" Airline configs
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#right_alt_sep = ''
-let g:airline_powerline_fonts = 1
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline_mode_map = {
-\ '__': '-',
-\ 'n': 'N',
-\ 'i': 'I',
-\ 'R': 'R',
-\ 'c': 'C',
-\ 'v': 'V',
-\ 'V': 'V',
-\ '': 'V',
-\ 's': 'S',
-\ 'S': 'S',
-\ '': 'S',
+" lightline config
+let g:lightline = {
+\ 'colorscheme': 'one',
+\ 'active': {
+\   'right': [
+\     ['lineinfo'],
+\     ['percent'],
+\     ['filetype'],
+\   ],
+\ },
+\ 'mode_map': {
+\   'n': 'N',
+\   'i': 'I',
+\   'R': 'R',
+\   'v': 'V',
+\   'V': 'V',
+\   "\<C-v>": 'V',
+\   'c': 'C',
+\   's': 'S',
+\   'S': 'S',
+\   "\<C-s>": 'S',
+\   't': 'T',
+\ },
 \ }
 
 " Enable vim-jsx on js files
