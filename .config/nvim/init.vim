@@ -48,7 +48,7 @@ Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'tpope/vim-surround'
 Plug 'shime/vim-livedown', { 'for': 'markdown' }
 Plug 'osyo-manga/vim-over'
-Plug 'scrooloose/nerdtree'
+Plug 'justinmk/vim-dirvish'
 Plug 'Shougo/vimproc.vim', { 'do': 'make', 'for': 'typescript' }
 Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 
@@ -206,9 +206,6 @@ let g:user_emmet_settings = {
 \ 'javascript.jsx': { 'extends': 'jsx' }
 \ }
 
-" NERDTree config
-let g:NERDTreeMinimalUI = 1
-
 " ALE config
 let g:ale_open_list = 1
 let g:ale_list_window_size = 5
@@ -227,6 +224,9 @@ command! -bang -nargs=* Rg call fzf#vim#grep(g:rg_command.shellescape(<q-args>),
 
 " VimCompletesMe config
 autocmd FileType javascript.jsx let b:vcm_tab_complete = 'omni'
+
+" dirvish config
+let dirvish_mode = ':sort ,^.*/,'
 
 " }}}
 " Macros {{{
@@ -274,7 +274,7 @@ nnoremap <Leader>p "+p
 nnoremap <Leader>P "+P
 vnoremap <Leader>p "+p
 
-" Leader n toggles netrw or NERDTree if installed
+" Leader n toggles netrw or dirvish if installed
 nnoremap <Leader>n :e.<CR>
 
 " Leader c deletes current buffer
