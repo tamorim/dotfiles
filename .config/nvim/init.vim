@@ -282,9 +282,6 @@ nnoremap <Leader>c :lcl \| bdelete<CR>
 " Leader a opens ag
 nnoremap <Leader>a :Rg 
 
-" Leader u toggles Gundo
-nnoremap <Leader>u :GundoToggle<CR>
-
 " Leader e evaluates current file
 nnoremap <Leader>e :source %<CR>
 
