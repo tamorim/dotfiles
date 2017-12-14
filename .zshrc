@@ -1,4 +1,6 @@
 setopt IGNORE_EOF
+zstyle ':bracketed-paste-magic' active-widgets '.self-*'
+zle_highlight+=(paste:none)
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source /usr/share/antigen.zsh
@@ -10,12 +12,15 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --ignore-file ~/.agignore 2> /dev/null'
 
+bindkey  backward-kill-line
+
 if [ $TERM != "screen-256color" -a ! $NVIM_TERM ]; then
-  has_session=$(tmux has-session -t base 2>/dev/null && echo 1)
+  default_session="base"
+  has_session=$(tmux has-session -t $default_session 2>/dev/null && echo 1)
   if [ $has_session ]; then
-    tmux attach -t base
+    tmux attach -t $default_session
   else
-    tmux new-session -s base
+    tmux new-session -s $default_session
   fi
 fi
 
