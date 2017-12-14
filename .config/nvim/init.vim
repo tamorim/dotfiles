@@ -288,7 +288,7 @@ nnoremap <Leader>e :source %<CR>
 " Leader t sets or shows current tab config
 nnoremap <Leader>t :Stab<CR>
 
-" Leader v edits nvimrc file
+" Leader v edits init.vim file
 nnoremap <Leader>v :e ~/.config/nvim/init.vim<CR>
 
 " Leader w removes trailing whitespace
