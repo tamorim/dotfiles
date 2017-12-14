@@ -219,7 +219,7 @@ let g:tsuquyomi_completion_detail = 1
 let g:tsuquyomi_disable_quickfix = 1
 
 " fzf config
-let g:rg_command = 'rg --column --line-number --no-heading --ignore-case --hidden --follow --color=always '
+let g:rg_command = 'rg --column --line-number --no-heading --ignore-case --hidden --follow --color=always --ignore-file ~/.agignore '
 command! -bang -nargs=* Rg call fzf#vim#grep(g:rg_command.shellescape(<q-args>), 1, <bang>0)
 
 " VimCompletesMe config
