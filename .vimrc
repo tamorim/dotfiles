@@ -1,8 +1,13 @@
+" Init {{{
+
 " Enable true colors
 set t_8f=[38;2;%lu;%lu;%lum
 set t_8b=[48;2;%lu;%lu;%lum
 set t_Co=256
 set termguicolors
+
+" }}}
+" Plug stuff {{{
 
 " Setting up Plug
 let isPlugPresent = 1
@@ -25,53 +30,85 @@ endif
 call plug#begin()
 
 Plug 'tpope/vim-sensible'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'rking/ag.vim'
+Plug 'w0rp/ale'
+Plug 'tpope/vim-fugitive'
 Plug 'mattn/emmet-vim'
-Plug 'vim-airline/vim-airline'
+Plug 'itchyny/lightline.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-sleuth'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
-Plug 'tmhedberg/matchit'
-Plug 'jimmyhchan/dustjs.vim'
-Plug 'sjl/gundo.vim'
 Plug 'SirVer/ultisnips'
-Plug 'moll/vim-node'
 Plug 'sheerun/vim-polyglot'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'matze/vim-move'
-Plug 'scrooloose/syntastic'
-Plug 'mtscout6/syntastic-local-eslint.vim'
-Plug 'Shougo/neocomplete.vim'
-Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
+Plug 'ajh17/VimCompletesMe'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'ternjs/tern_for_vim', { 'do': 'npm i', 'for': 'javascript.jsx' }
 Plug 'joshdick/onedark.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
-Plug 'justinmk/vim-dirvish'
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'tpope/vim-surround'
-Plug 'shime/vim-livedown'
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'Quramy/tsuquyomi'
+Plug 'shime/vim-livedown', { 'for': 'markdown' }
 Plug 'osyo-manga/vim-over'
+Plug 'justinmk/vim-dirvish'
+Plug 'Shougo/vimproc.vim', { 'do': 'make', 'for': 'typescript' }
+Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 
 call plug#end()
 
-" Map leader to ,
+" }}}
+" Vim config {{{
+
 let mapleader = ','
 
-" Macro for visualizing blocks
-let @v = 'V$%'
+syntax on
+filetype on
+filetype indent on
 
-" Macro for navigating blocks
-let @n = '$%'
+set termguicolors
+set nohlsearch
+set number
+set cursorline
+set foldenable
+set foldlevelstart=99
+set foldnestmax=10
+set foldmethod=indent
+set backup
+set backupcopy=yes
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set backupskip=/tmp/*,/private/tmp/*
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set writebackup
+set undofile
+set undodir=$HOME/.vim/undo
+set undolevels=1000
+set undoreload=10000
+set viminfo='20,<1000,s1000
+set completeopt-=preview
+set hidden
+set listchars=tab:>~,nbsp:_,trail:~
+set list
+set noshowmode
 
-" Macro for deleting blocks and a line after
-let @f = 'V$%jd'
+let g:onedark_termcolors = 256
+colorscheme onedark
 
-" Macro for deleting stuff surrounding blocks
-let @s = '0$wviB<b%dddd'
+" Make the 81st column stand out
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%81v', 100)
+
+" Skip location list and quick fix list on buffer switch and close
+augroup qf
+  autocmd!
+  autocmd FileType qf set nobuflisted
+augroup END
+
+autocmd Syntax vim setlocal foldmethod=marker foldlevel=0
+
+" }}}
+" Functions {{{
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
@@ -126,206 +163,128 @@ function! IndentImport()
   silent! execute 's/\v\zs\ze\}/\=",\n"/g'
 endfunction
 
-" Syntastic config
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" }}}
+" Plugins config {{{
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_loc_list_height = 5
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_javascript_checkers = ['eslint']
-
-" Indent, syntax, colorscheme and hlsearch
-syntax on
-let g:onedark_termcolors = 256
-colorscheme onedark
-filetype on
-filetype indent on
-set nohlsearch
-
-" Line numbers
-set number
-
-" Cursor line
-set cursorline
-
-" Fold setup
-set foldenable
-set foldlevelstart=99
-set foldnestmax=10
-
-" Space open/closes folds
-nnoremap <space> za
-set foldmethod=indent
-
-" Move vertically by visual line
-nnoremap j gj
-nnoremap k gk
-
-" Backup
-set backup
-set backupcopy=yes
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set backupskip=/tmp/*,/private/tmp/*
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set writebackup
-
-" Persistent undo config
-set undofile
-set undodir=$HOME/.nvim/undo
-set undolevels=1000
-set undoreload=10000
-
-" Increase vim yank buffer line limit and size
-set viminfo='20,<1000,s1000
-
-" Disable display of doc window on complete
-set completeopt-=preview
-
-" CtrlP settings
-let g:ctrlp_match_window = 'bottom,order:ttb'
-let g:ctrlp_switch_buffer = 0
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-let g:ctrlp_extensions = ['buffertag']
-let g:ctrlp_open_multiple_files = '1r'
-
-" Function to auto refresh CtrlP
-function! SetupCtrlP()
-  if exists('g:loaded_ctrlp') && g:loaded_ctrlp
-    augroup CtrlPExtension
-      autocmd!
-      autocmd FocusGained  * CtrlPClearCache
-      autocmd BufWritePost * CtrlPClearCache
-    augroup END
-  endif
-endfunction
-
-if has('autocmd')
-  autocmd VimEnter * :call SetupCtrlP()
-endif
-
-" When switching buffers, only hide the old one
-" Makes undo persist on buffer switch
-set hidden
-
-" Airline configs
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#right_alt_sep = ''
-let g:airline_powerline_fonts = 1
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline_mode_map = {
-\ '__': '-',
-\ 'n': 'N',
-\ 'i': 'I',
-\ 'R': 'R',
-\ 'c': 'C',
-\ 'v': 'V',
-\ 'V': 'V',
-\ '': 'V',
-\ 's': 'S',
-\ 'S': 'S',
-\ '': 'S',
+" lightline config
+let g:lightline = {
+\ 'colorscheme': 'one',
+\ 'active': {
+\   'right': [
+\     ['lineinfo'],
+\     ['percent'],
+\     ['filetype'],
+\   ],
+\ },
+\ 'mode_map': {
+\   'n': 'N',
+\   'i': 'I',
+\   'R': 'R',
+\   'v': 'V',
+\   'V': 'V',
+\   "\<C-v>": 'V',
+\   'c': 'C',
+\   's': 'S',
+\   'S': 'S',
+\   "\<C-s>": 'S',
+\   't': 'T',
+\ },
 \ }
 
 " Enable vim-jsx on js files
 let g:jsx_ext_required = 0
 
-" Make the 81st column stand out
-highlight ColorColumn ctermbg=magenta
-call matchadd('ColorColumn', '\%81v', 100)
-
-" Show tab characters, trailing whitespace etc
-set listchars=tab:>~,nbsp:_,trail:~
-set list
-
 " UltiSnips bindings
 let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips'
 let g:UltiSnipsExpandTrigger = '<c-j>'
 
-" Gutentags options
-let g:gutentags_ctags_tagfile = '.tags'
-let gitignore = './.gitignore'
-let gutentags_ignore = [
-\ '**/*.html',
-\ '**/*.md',
-\ '**/*.yaml',
-\ '**/*.dust',
-\ '**/*.json',
-\ '**/*.lock',
-\ '**/*.txt',
-\ '**/*.log'
-\ ]
-if filereadable(gitignore)
-  let filtered_gitignore = filter(readfile(gitignore), "!(v:val =~ '^#' || v:val =~ '^$' || v:val =~ '!')")
-  let gutentags_ignore = gutentags_ignore + filtered_gitignore
-endif
-let g:gutentags_ctags_exclude = map(gutentags_ignore, "v:val =~ '/$' ? v:val . '**' : v:val")
-
 " Tern config
-let g:tern_request_timeout = 1
 let g:tern#command = ['tern']
+let g:tern_request_timeout = 1
+let g:tern_show_signature_in_pum = 1
 let g:tern#arguments = ['--persistent']
-
-" NeoComplete config
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-inoremap <expr><Tab>  pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr><S-Tab>  pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" Yankstack config
-nmap <C-j> <Plug>yankstack_substitute_older_paste
-nmap <C-k> <Plug>yankstack_substitute_newer_paste
-
-" Skip location list and quick fix list on buffer switch and close
-augroup qf
-  autocmd!
-  autocmd FileType qf set nobuflisted
-augroup END
-
-" When opening dirvish, sort by folders first
-augroup dirvish
-  autocmd!
-  autocmd FileType dirvish sort r /[^\/]$/
-augroup END
+let g:tern#filetypes = ['jsx', 'javascript.jsx']
 
 " Emmet config
 let g:user_emmet_settings = {
 \ 'javascript.jsx': { 'extends': 'jsx' }
 \ }
 
-" Tab and Shift+Tab cycle through buffers
-nnoremap <Tab> :bnext<CR>
-nnoremap <S-Tab> :bprevious<CR>
+" ALE config
+let g:ale_open_list = 1
+let g:ale_list_window_size = 5
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_linters = {
+\ 'typescript': ['tslint', 'tsserver', 'typecheck']
+\ }
 
-" Ctrl+G opens CtrlP buffertag search
-nnoremap <C-g> :CtrlPBufTag<CR>
+" Tsuquyomi config
+let g:tsuquyomi_completion_detail = 1
+let g:tsuquyomi_disable_quickfix = 1
+
+" fzf config
+let g:rg_command = 'rg --column --line-number --no-heading --ignore-case --hidden --follow --color=always --ignore-file ~/.agignore '
+command! -bang -nargs=* Rg call fzf#vim#grep(g:rg_command.shellescape(<q-args>), 1, <bang>0)
+
+" VimCompletesMe config
+autocmd FileType javascript.jsx let b:vcm_tab_complete = 'omni'
+
+" dirvish config
+let dirvish_mode = ':sort ,^.*/,'
+
+" }}}
+" Macros {{{
+
+" Macro for visualizing blocks
+let @v = 'V$%'
+
+" Macro for navigating blocks
+let @n = '$%'
+
+" Macro for deleting blocks and a line after
+let @f = 'V$%jd'
+
+" Macro for deleting stuff surrounding blocks
+let @s = '0$wviB<b%dddd'
+
+" }}}
+" Mappings {{{
+
+" Fold with space
+nnoremap <space> za
+
+" Navigate visual lines seamlessly
+nnoremap j gj
+nnoremap k gk
+
+" Yankstack config
+nmap <C-j> <Plug>yankstack_substitute_older_paste
+nmap <C-k> <Plug>yankstack_substitute_newer_paste
+
+" Ctrl+p uses fzf
+nmap <C-p> :FZF<CR>
+
+" Leader b uses fzf buffers
+nmap <Leader>b :Buffers<CR>
 
 " Leader y yanks to the plus register
 nnoremap <Leader>y "+y
+nnoremap <Leader>Y "+Y
 vnoremap <Leader>y "+y
 
 " Leader p pastes from the plus register
 nnoremap <Leader>p "+p
+nnoremap <Leader>P "+P
 vnoremap <Leader>p "+p
 
-" Leader n toggles netrw or NERDTree if installed
+" Leader n toggles netrw or dirvish if installed
 nnoremap <Leader>n :e.<CR>
 
 " Leader c deletes current buffer
 nnoremap <Leader>c :lcl \| bdelete<CR>
 
 " Leader a opens ag
-nnoremap <Leader>a :Ag 
-
-" Leader u toggles Gundo
-nnoremap <Leader>u :GundoToggle<CR>
+nnoremap <Leader>a :Rg 
 
 " Leader e evaluates current file
 nnoremap <Leader>e :source %<CR>
@@ -333,7 +292,7 @@ nnoremap <Leader>e :source %<CR>
 " Leader t sets or shows current tab config
 nnoremap <Leader>t :Stab<CR>
 
-" Leader v edits nvimrc file
+" Leader v edits vimrc file
 nnoremap <Leader>v :e ~/.vimrc<CR>
 
 " Leader w removes trailing whitespace
@@ -353,3 +312,5 @@ vnoremap <Leader>ii :call IndentImport()<CR> kvi{ :call SortLines()<CR>
 
 " Leader ir indents a JSX component
 vnoremap <Leader>ir :call IndentReact()<CR>
+
+" }}}
