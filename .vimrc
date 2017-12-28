@@ -43,7 +43,7 @@ Plug 'SirVer/ultisnips'
 Plug 'sheerun/vim-polyglot'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'matze/vim-move'
-Plug 'ajh17/VimCompletesMe'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --js-completer' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm i', 'for': 'javascript.jsx' }
@@ -105,7 +105,11 @@ augroup qf
   autocmd FileType qf set nobuflisted
 augroup END
 
+" Set fold level to 0 when in vim syntax
 autocmd Syntax vim setlocal foldmethod=marker foldlevel=0
+
+" Check for external file changes
+autocmd FocusGained,BufEnter * :checktime
 
 " }}}
 " Functions {{{
@@ -226,9 +230,6 @@ let g:tsuquyomi_disable_quickfix = 1
 let g:rg_command = 'rg --column --line-number --no-heading --ignore-case --hidden --follow --color=always --ignore-file ~/.agignore '
 command! -bang -nargs=* Rg call fzf#vim#grep(g:rg_command.shellescape(<q-args>), 1, <bang>0)
 
-" VimCompletesMe config
-autocmd FileType javascript.jsx let b:vcm_tab_complete = 'omni'
-
 " dirvish config
 let dirvish_mode = ':sort ,^.*/,'
 
@@ -256,6 +257,9 @@ nnoremap <space> za
 " Navigate visual lines seamlessly
 nnoremap j gj
 nnoremap k gk
+
+" Tab switches to the last used buffer
+nnoremap <Tab> :b#<CR>
 
 " Yankstack config
 nmap <C-j> <Plug>yankstack_substitute_older_paste
