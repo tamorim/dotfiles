@@ -39,7 +39,7 @@ Plug 'SirVer/ultisnips'
 Plug 'sheerun/vim-polyglot'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'matze/vim-move'
-Plug 'ajh17/VimCompletesMe'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --js-completer' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm i', 'for': 'javascript.jsx' }
@@ -221,9 +221,6 @@ let g:tsuquyomi_disable_quickfix = 1
 " fzf config
 let g:rg_command = 'rg --column --line-number --no-heading --ignore-case --hidden --follow --color=always --ignore-file ~/.agignore '
 command! -bang -nargs=* Rg call fzf#vim#grep(g:rg_command.shellescape(<q-args>), 1, <bang>0)
-
-" VimCompletesMe config
-autocmd FileType javascript.jsx let b:vcm_tab_complete = 'omni'
 
 " dirvish config
 let dirvish_mode = ':sort ,^.*/,'
