@@ -254,6 +254,9 @@ nnoremap <space> za
 nnoremap j gj
 nnoremap k gk
 
+" Tab switches to the last used buffer
+nnoremap <Tab> :b#<CR>
+
 " Yankstack config
 nmap <C-j> <Plug>yankstack_substitute_older_paste
 nmap <C-k> <Plug>yankstack_substitute_newer_paste
