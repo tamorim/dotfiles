@@ -101,7 +101,11 @@ augroup qf
   autocmd FileType qf set nobuflisted
 augroup END
 
+" Set fold level to 0 when in vim syntax
 autocmd Syntax vim setlocal foldmethod=marker foldlevel=0
+
+" Check for external file changes
+autocmd FocusGained,BufEnter * :checktime
 
 " }}}
 " Functions {{{
