@@ -152,11 +152,11 @@ function! IndentReact()
   normal <<
 endfunction
 
-" Indent a long javascript import statement
-function! IndentImport()
-  silent! execute 's/\v\{\zs\ze/\="\n" .  "  "/g'
-  silent! execute 's/\v\w+,\zs\s?\ze/\="\n" .  "  "/g'
-  silent! execute 's/\v\zs\ze\}/\=",\n"/g'
+" Indent a long javascript object or array
+function! IndentObjectOrArray() range
+  silent! execute 's/\v(\{|\[)\zs\s?\ze/\="\n" .  "  "/'
+  silent! execute 's/\v.{-},\zs\s?\ze/\="\n" .  "  "/g'
+  silent! execute 's/\v\zs\s?\ze(\}|\])(.*(\}|\]))@!/\=",\n"/'
 endfunction
 
 " }}}
@@ -304,7 +304,7 @@ vnoremap <C-n> "zy :let @/=''.@z.''<CR> gv
 vnoremap <Leader>s :call SortLines()<CR>
 
 " Leader ii indents a import statement
-vnoremap <Leader>ii :call IndentImport()<CR> kvi{ :call SortLines()<CR>
+vnoremap <Leader>io :call IndentObjectOrArray()<CR>
 
 " Leader ir indents a JSX component
 vnoremap <Leader>ir :call IndentReact()<CR>
