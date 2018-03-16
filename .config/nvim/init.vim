@@ -151,11 +151,30 @@ function! IndentReact()
   normal <<
 endfunction
 
-" Indent a long javascript object or array
-function! IndentObjectOrArray() range
-  silent! execute 's/\v(\{|\[)\zs\s?\ze/\="\n" .  "  "/'
-  silent! execute 's/\v.{-},\zs\s?\ze/\="\n" .  "  "/g'
-  silent! execute 's/\v\zs\s?\ze(\}|\])(.*(\}|\]))@!/\=",\n"/'
+" Why is this not a built-in Vim script function?!
+function! s:get_visual_selection()
+    let [line_start, column_start] = getpos("'<")[1:2]
+    let [line_end, column_end] = getpos("'>")[1:2]
+    let lines = getline(line_start, line_end)
+    if len(lines) == 0
+        return ''
+    endif
+    let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
+    let lines[0] = lines[0][column_start - 1:]
+    return join(lines, "\n")
+endfunction
+
+" Indent a long javascript object, array or parameter list
+function! IndentList()
+  let delimiterMap = { '{': '}', '[': ']', '(': ')' }
+  let startDelimiters = join(keys(delimiterMap), '\|')
+  let startDelimiter = matchstr(s:get_visual_selection(), startDelimiters)
+  let endDelimiter = delimiterMap[startDelimiter]
+  let space = matchstr(getline('v'), '\v^(\s*)')
+
+  silent! execute 's/\v.{-}\' . startDelimiter . '\zs\s?\ze/\="\n" . "' . space . '" . "  "/'
+  silent! execute 's/\v.{-},\zs\s?\ze/\="\n" . "' . space . '" . "  "/g'
+  silent! execute 's/\v.{-}\zs\s?\ze\' . endDelimiter . '(.*\' . endDelimiter . ')@!/\="\n" . "' . space . '"/'
 endfunction
 
 " }}}
@@ -303,7 +322,7 @@ vnoremap <C-n> "zy :let @/=''.@z.''<CR> gv
 vnoremap <Leader>s :call SortLines()<CR>
 
 " Leader ii indents a import statement
-vnoremap <Leader>io :call IndentObjectOrArray()<CR>
+vnoremap <Leader>il :call IndentList()<CR>
 
 " Leader ir indents a JSX component
 vnoremap <Leader>ir :call IndentReact()<CR>
