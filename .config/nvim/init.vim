@@ -167,14 +167,31 @@ endfunction
 " Indent a long javascript object, array or parameter list
 function! IndentList()
   let delimiterMap = { '{': '}', '[': ']', '(': ')' }
+  let selection = s:get_visual_selection()
   let startDelimiters = join(keys(delimiterMap), '\|')
-  let startDelimiter = matchstr(s:get_visual_selection(), startDelimiters)
+  let startDelimiter = matchstr(selection, startDelimiters)
   let endDelimiter = delimiterMap[startDelimiter]
   let space = matchstr(getline('v'), '\v^(\s*)')
+  let step1 = substitute(
+  \ selection,
+  \ '\v.{-}\' . startDelimiter . '\s?',
+  \ '\="' . startDelimiter . '\r' . space . '  "',
+  \ ''
+  \ )
+  let step2 = substitute(
+  \ step1,
+  \ '\v.{-},\zs\s?\ze',
+  \ '\="\r' . space . '  "',
+  \ 'g'
+  \ )
+  let step3 = substitute(
+  \ step2,
+  \ '\v.{-}\zs\s?\' . endDelimiter . '(.*\' . endDelimiter . ')@!.*\ze',
+  \ '\="\r' . space . '\' . endDelimiter . '"',
+  \ ''
+  \ )
 
-  silent! execute 's/\v.{-}\' . startDelimiter . '\zs\s?\ze/\="\n" . "' . space . '" . "  "/'
-  silent! execute 's/\v.{-},\zs\s?\ze/\="\n" . "' . space . '" . "  "/g'
-  silent! execute 's/\v.{-}\zs\s?\ze\' . endDelimiter . '(.*\' . endDelimiter . ')@!/\="\n" . "' . space . '"/'
+  silent! execute 's/\v.{-}\zs\' . startDelimiter . '.{-}\' . endDelimiter . '(.*\' . endDelimiter . ')@!\ze/' . step3
 endfunction
 
 " }}}
