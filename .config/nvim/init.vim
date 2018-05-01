@@ -46,6 +46,7 @@ Plug 'osyo-manga/vim-over'
 Plug 'justinmk/vim-dirvish'
 Plug 'Shougo/vimproc.vim', { 'do': 'make', 'for': 'typescript' }
 Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 call plug#end()
 
@@ -306,6 +307,18 @@ command! -bang -nargs=* Rg call fzf#vim#grep(g:rg_command.shellescape(<q-args>),
 
 " dirvish config
 let dirvish_mode = ':sort ,^.*/,'
+
+" vim-prettier config
+let g:prettier#autoformat = 0
+let has_prettier_rc = filereadable(fnamemodify('.prettierrc', ':p'))
+let has_prettier_js = filereadable(fnamemodify('prettier.config.js', ':p'))
+let has_prettier_config = has_prettier_rc || has_prettier_js
+if (has_prettier_config)
+  augroup prettier
+    autocmd!
+    autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx,*.css,*.json,*.md Prettier
+  augroup END
+endif
 
 " }}}
 " Macros {{{
