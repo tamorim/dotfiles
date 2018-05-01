@@ -415,4 +415,12 @@ augroup dirvish_mappings
   autocmd FileType dirvish noremap <buffer> <Leader>dmv :call MoveFileOrDir()<CR>
 augroup END
 
+augroup typescript_mappings
+  autocmd!
+  autocmd FileType typescript nnoremap <buffer> <Leader>gd :TsuDefinition<CR>
+  autocmd FileType typescript nnoremap <buffer> <Leader>gt :TsuTypeDefinition<CR>
+  autocmd FileType typescript nnoremap <buffer> <Leader>grn :TsuRenameSymbol<CR>
+  autocmd FileType typescript nnoremap <buffer> <Leader>grf :TsuReferences<CR>
+augroup END
+
 " }}}
