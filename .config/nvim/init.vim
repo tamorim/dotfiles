@@ -97,10 +97,17 @@ augroup qf
 augroup END
 
 " Set fold level to 0 when in vim syntax
-autocmd Syntax vim setlocal foldmethod=marker foldlevel=0
+augroup vim_fold
+  autocmd!
+  autocmd Syntax vim setlocal foldmethod=marker foldlevel=0
+augroup END
 
 " Check for external file changes
-autocmd FocusGained,BufEnter * :checktime
+augroup check_changes
+  autocmd!
+  autocmd FocusGained,BufEnter * :checktime
+augroup END
+
 
 " }}}
 " Functions {{{
