@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (powerline helm-projectile company-tern web-mode js2-mode helm fzf company dracula-theme projectile evil-surround evil-leader evil use-package))))
+    (dtrt-indent powerline helm-projectile company-tern web-mode helm company dracula-theme projectile evil-surround evil-leader evil use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -35,10 +35,15 @@
   (package-install 'use-package))
 (eval-when-compile (require 'use-package))
 
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (exec-path-from-shell-initialize))
+
 (use-package evil
   :init
-  (setq evil-want-C-u-scroll t)
-  (setq evil-cross-lines t)
+  (setq evil-want-C-u-scroll t
+	evil-cross-lines t)
   :ensure t
   :config
   (evil-mode 1)
@@ -70,8 +75,9 @@
 
 (use-package company
   :init
-  (setq company-idle-delay 0)
-  (setq company-dabbrev-downcase nil)
+  (setq company-idle-delay 0
+	company-dabbrev-downcase nil
+	company-tooltip-align-annotations t)
   :ensure t
   :config
   (add-to-list 'company-frontends 'company-tng-frontend)
@@ -92,17 +98,21 @@
 
 (use-package helm
   :init
-  (setq helm-buffers-fuzzy-matching t
-	helm-M-x-fuzzy-match t)
+  (setq helm-M-x-fuzzy-match t
+	helm-buffers-fuzzy-matching t
+	helm-mode-fuzzy-match t
+	helm-completion-in-region-fuzzy-match t)
   :ensure t
   :config
   (require 'helm-config)
   (helm-mode 1)
 
   (use-package helm-projectile
+    :init
+    (setq helm-projectile-fuzzy-match t)
     :ensure t
     :config
-    (define-key global-map (kbd "<remap> <projectile-switch-project>") 'helm-projectile-switch-project)))
+    (helm-projectile-on)))
 
 (use-package web-mode
   :init
@@ -116,3 +126,25 @@
   :ensure t
   :config
   (powerline-default-theme))
+
+(defun my/use-eslint-from-node-modules ()
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                        root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+
+(use-package flycheck
+  :ensure t
+  :config
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (add-hook 'flycheck-mode-hook 'my/use-eslint-from-node-modules)
+  (add-hook 'web-mode-hook 'flycheck-mode))
+
+(use-package dtrt-indent
+  :ensure t
+  :config
+  (add-hook 'web-mode-hook (lambda () (dtrt-indent-mode t))))
