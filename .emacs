@@ -13,11 +13,12 @@
  ;; If there is more than one, they won't work right.
  )
 
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
-(add-to-list 'default-frame-alist '(font . "Fira Mono for Powerline-16"))
-(set-face-attribute 'default t :font "Fira Mono for Powerline-16")
-
 (setq show-paren-delay 0)
+(setq backward-delete-char-untabify-method "hungry")
+(setq-default indent-tabs-mode nil
+              tab-stop-list nil
+              tab-width 2)
+
 (show-paren-mode)
 (global-hl-line-mode)
 (global-linum-mode)
@@ -25,6 +26,9 @@
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
 (tool-bar-mode -1)
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(add-to-list 'default-frame-alist '(font . "Fira Mono-14"))
+(set-face-attribute 'default t :font "Fira Mono-14")
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
@@ -43,7 +47,7 @@
 (use-package evil
   :init
   (setq evil-want-C-u-scroll t
-	evil-cross-lines t)
+        evil-cross-lines t)
   :ensure t
   :config
   (evil-mode 1)
@@ -53,6 +57,9 @@
   (define-key evil-normal-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
   (define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
   (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
+  (define-key evil-insert-state-map (kbd "<tab>") 'tab-to-tab-stop)
+  (evil-set-register ?n [?$ ?%])
+  (evil-set-register ?v [?v ?$ ?%])
 
   (use-package evil-leader
     :ensure t
@@ -61,7 +68,14 @@
     (evil-leader/set-leader ",")
     (evil-leader/set-key
       "c" 'evil-delete-buffer
-      "b" 'helm-buffers-list))
+      "b" 'helm-buffers-list
+      "e" 'eval-buffer
+      "a" 'projectile-ag
+      "v" (lambda () (interactive) (find-file "~/.emacs"))
+      "p" (lambda () (interactive) (evil-paste-after 1 ?+))
+      "P" (lambda () (interactive) (evil-paste-before 1 ?+))
+      "y" (lambda () (interactive) (evil-execute-macro 1 [?\" ?+ ?y]))
+      "Y" (lambda () (interactive) (evil-execute-macro 1 [?\" ?+ ?y ?$]))))
 
   (use-package evil-surround
     :ensure t
@@ -76,14 +90,20 @@
 (use-package company
   :init
   (setq company-idle-delay 0
-	company-dabbrev-downcase nil
-	company-tooltip-align-annotations t)
+        company-dabbrev-downcase nil
+        company-tooltip-align-annotations t)
   :ensure t
   :config
   (add-to-list 'company-frontends 'company-tng-frontend)
   (global-company-mode)
-  (define-key company-active-map [tab] (lambda () (interactive) (company-complete-common-or-cycle 1)))
-  (define-key company-active-map [backtab] (lambda () (interactive) (company-complete-common-or-cycle -1)))
+  (define-key company-active-map (kbd "<tab>") 'company-select-next)
+  (define-key company-active-map (kbd "<backtab>") 'company-select-previous)
+  (define-key company-active-map (kbd "<return>") (lambda ()
+                                                    (interactive)
+                                                    (if company-selection-changed
+                                                        (company-complete-selection)
+                                                      (company-cancel))
+                                                    (newline-and-indent)))
 
   (use-package company-tern
     :ensure t
@@ -99,9 +119,9 @@
 (use-package helm
   :init
   (setq helm-M-x-fuzzy-match t
-	helm-buffers-fuzzy-matching t
-	helm-mode-fuzzy-match t
-	helm-completion-in-region-fuzzy-match t)
+        helm-buffers-fuzzy-matching t
+        helm-mode-fuzzy-match t
+        helm-completion-in-region-fuzzy-match t)
   :ensure t
   :config
   (require 'helm-config)
@@ -117,7 +137,7 @@
 (use-package web-mode
   :init
   (setq web-mode-content-types-alist
-	'(("jsx" . "\\.js[x]?\\'")))
+        '(("jsx" . "\\.js[x]?\\'")))
   :ensure t
   :config
   (add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . web-mode)))
@@ -132,8 +152,7 @@
                 (or (buffer-file-name) default-directory)
                 "node_modules"))
          (eslint (and root
-                      (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                        root))))
+                      (expand-file-name "node_modules/eslint/bin/eslint.js" root))))
     (when (and eslint (file-executable-p eslint))
       (setq-local flycheck-javascript-eslint-executable eslint))))
 
@@ -147,4 +166,12 @@
 (use-package dtrt-indent
   :ensure t
   :config
-  (add-hook 'web-mode-hook (lambda () (dtrt-indent-mode t))))
+  (dtrt-indent-global-mode))
+
+(use-package undo-tree
+  :init
+  (setq undo-tree-auto-save-history t)
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs/undo")))
+  :ensure t
+  :config
+  (global-undo-tree-mode))
