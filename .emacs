@@ -1,17 +1,5 @@
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (dtrt-indent powerline helm-projectile company-tern web-mode helm company dracula-theme projectile evil-surround evil-leader evil use-package))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(setq custom-file "~/.emacs-custom.el")
+(load custom-file)
 
 (setq show-paren-delay 0)
 (setq backward-delete-char-untabify-method "hungry")
@@ -27,8 +15,7 @@
 (toggle-scroll-bar -1)
 (tool-bar-mode -1)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-(add-to-list 'default-frame-alist '(font . "Fira Mono-14"))
-(set-face-attribute 'default t :font "Fira Mono-14")
+(set-face-font 'default "Fira Mono-14")
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
@@ -59,7 +46,7 @@
   (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
   (define-key evil-insert-state-map (kbd "<tab>") 'tab-to-tab-stop)
   (evil-set-register ?n [?$ ?%])
-  (evil-set-register ?v [?v ?$ ?%])
+  (evil-set-register ?v [?$ ?v ?%])
 
   (use-package evil-leader
     :ensure t
@@ -142,10 +129,10 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . web-mode)))
 
-(use-package powerline
+(use-package telephone-line
   :ensure t
   :config
-  (powerline-default-theme))
+  (telephone-line-mode))
 
 (defun my/use-eslint-from-node-modules ()
   (let* ((root (locate-dominating-file
@@ -175,3 +162,10 @@
   :ensure t
   :config
   (global-undo-tree-mode))
+
+(use-package drag-stuff
+  :ensure t
+  :config
+  (drag-stuff-global-mode)
+  (define-key evil-normal-state-map (kbd "M-k") 'drag-stuff-up)
+  (define-key evil-normal-state-map (kbd "M-j") 'drag-stuff-down))
