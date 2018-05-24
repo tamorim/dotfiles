@@ -1,12 +1,23 @@
-(setq custom-file "~/.emacs-custom.el")
-(load custom-file)
-
-(setq show-paren-delay 0
-      inhibit-startup-screen t
-      backward-delete-char-untabify-method "hungry")
+(let ((backup-dir "~/.emacs.d/backups/")
+      (my/custom-file "~/.emacs.d/custom.el"))
+  (when (not (file-directory-p backup-dir))
+    (make-directory backup-dir t))
+  (when (not (file-exists-p my/custom-file))
+    (write-region "" nil my/custom-file))
+  (setq show-paren-delay 0
+        inhibit-startup-screen t
+        backward-delete-char-untabify-method "hungry"
+        backup-by-copying t
+        delete-old-versions t
+        kept-new-versions 6
+        kept-old-versions 2
+        version-control t
+        backup-directory-alist `(("." . ,backup-dir))
+        custom-file my/custom-file))
 (setq-default indent-tabs-mode nil
               tab-stop-list nil
               tab-width 2)
+(load custom-file)
 
 (show-paren-mode)
 (global-hl-line-mode)
@@ -105,7 +116,8 @@
   :config
   (projectile-global-mode)
   (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file)
-  (evil-leader/set-key "a" 'projectile-ag))
+  (evil-leader/set-key "a" 'projectile-ag)
+  (add-hook 'kill-emacs-hook 'projectile-save-known-projects))
 
 (use-package helm
   :init
@@ -142,6 +154,7 @@
   (powerline-default-theme))
 
 (defun my/use-eslint-from-node-modules ()
+  "Use local eslint if possible."
   (let* ((root (locate-dominating-file
                 (or (buffer-file-name) default-directory)
                 "node_modules"))
@@ -155,7 +168,12 @@
   :config
   (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
   (add-hook 'flycheck-mode-hook 'my/use-eslint-from-node-modules)
-  (add-hook 'rjsx-mode-hook 'flycheck-mode))
+  (add-hook 'rjsx-mode-hook 'flycheck-mode)
+
+  (use-package flycheck-pos-tip
+    :ensure t
+    :config
+    (flycheck-pos-tip-mode)))
 
 (use-package dtrt-indent
   :ensure t
@@ -164,8 +182,11 @@
 
 (use-package undo-tree
   :init
-  (setq undo-tree-auto-save-history t)
-  (setq undo-tree-history-directory-alist '(("." . "~/.emacs/undo")))
+  (let ((undo-dir "~/.emacs.d/undo/"))
+    (when (not (file-directory-p undo-dir))
+      (make-directory undo-dir t))
+    (setq undo-tree-auto-save-history t
+          undo-tree-history-directory-alist `(("." . ,undo-dir))))
   :ensure t
   :config
   (global-undo-tree-mode))
@@ -177,20 +198,34 @@
   (define-key evil-normal-state-map (kbd "M-k") 'drag-stuff-up)
   (define-key evil-normal-state-map (kbd "M-j") 'drag-stuff-down))
 
-(defun neotree-project-dir ()
-    "Open NeoTree using the git root."
-    (interactive)
-    (let ((project-dir (projectile-project-root))
-          (file-name (buffer-file-name)))
-      (neotree-toggle)
-      (if project-dir
-          (if (neo-global--window-exists-p)
-              (progn
-                (neotree-dir project-dir)
-                (neotree-find file-name)))
-        (message "Could not find git project root."))))
+(defun my/neotree-project-dir ()
+  "Open NeoTree using the project root."
+  (interactive)
+  (let ((project-dir (projectile-project-root))
+        (file-name (buffer-file-name)))
+    (neotree-toggle)
+    (if project-dir
+        (if (neo-global--window-exists-p)
+            (progn
+              (neotree-dir project-dir)
+              (neotree-find file-name)))
+      (message "Could not find git project root."))))
 
 (use-package neotree
   :ensure t
   :config
-  (evil-leader/set-key "n" 'neotree-project-dir))
+  (evil-leader/set-key "n" 'my/neotree-project-dir)
+  (evil-define-key 'normal neotree-mode-map (kbd "<tab>") 'neotree-enter)
+  (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
+  (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+  (evil-define-key 'normal neotree-mode-map (kbd "<return>") 'neotree-enter)
+
+  (use-package all-the-icons
+    :ensure t
+    :config
+    (setq neo-theme 'icons)))
+
+(use-package highlight-numbers
+  :ensure t
+  :config
+  (add-hook 'prog-mode-hook 'highlight-numbers-mode))
