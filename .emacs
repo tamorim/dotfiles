@@ -23,15 +23,15 @@
 (global-hl-line-mode)
 (global-linum-mode)
 (electric-pair-mode)
+(menu-bar-mode -1)
+(toggle-scroll-bar -1)
+(tool-bar-mode -1)
+(set-face-font 'default "Fira Mono-14")
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 (add-to-list 'electric-pair-pairs '(?\' . ?\'))
 (add-to-list 'electric-pair-pairs '(?` . ?`))
 (add-to-list 'electric-pair-text-pairs '(?\' . ?\'))
 (add-to-list 'electric-pair-text-pairs '(?` . ?`))
-(menu-bar-mode -1)
-(toggle-scroll-bar -1)
-(tool-bar-mode -1)
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
-(set-face-font 'default "Fira Mono-14")
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
@@ -229,3 +229,14 @@
   :ensure t
   :config
   (add-hook 'prog-mode-hook 'highlight-numbers-mode))
+
+(use-package xterm-color
+  :init
+  (require 'eshell)
+  (setenv "TERM" "xterm-256color")
+  (setq eshell-scroll-to-bottom-on-output t
+        eshell-scroll-to-bottom-on-input "this"
+        xterm-color-preserve-properties t
+        eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
+  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+  :ensure t)
