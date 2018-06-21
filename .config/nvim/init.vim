@@ -208,6 +208,13 @@ function! CreateFile()
     return
   endif
   silent! execute '!touch ' . expand('%') . filename
+  normal R
+endfunction
+
+function! RemoveFileOrDir()
+  let current_file = getline('.')
+  silent! execute '!rm -rf ' . current_file
+  normal R
 endfunction
 
 function! CreateDir()
@@ -216,30 +223,29 @@ function! CreateDir()
     return
   endif
   silent! execute '!mkdir -p ' . expand('%') . dirname
+  normal R
 endfunction
 
 function! CopyFileOrDir()
-  let current_dir = expand('%')
   let current_file = getline('.')
-  let current_filepath = current_dir . current_file
-  let destination = input('Copy destination: ', current_dir)
-  let flag = match(current_file, '/') > -1 ? ' -R ' : ''
+  let destination = input('Copy destination: ', current_file)
+  let flag = match(current_file, '/$') > -1 ? ' -R ' : ' '
   if strchars(destination) == 0
     return
   endif
-  silent! execute '!cp' . flag . current_filepath . ' ' . destination
+  silent! execute '!cp' . flag . current_file . ' ' . destination
+  normal R
 endfunction
 
 function! MoveFileOrDir()
-  let current_dir = expand('%')
   let current_file = getline('.')
-  let current_filepath = current_dir . current_file
-  let destination = input('Move destination: ', current_dir)
-  let flag = match(current_file, '/$') > -1 ? ' -R ' : ''
+  let destination = input('Move destination: ', current_file)
+  let flag = match(current_file, '/$') > -1 ? ' -R ' : ' '
   if strchars(destination) == 0
     return
   endif
-  silent! execute '!mv' . flag . current_filepath . ' ' . destination
+  silent! execute '!mv' . flag . current_file . ' ' . destination
+  normal R
 endfunction
 
 " }}}
@@ -410,9 +416,10 @@ nnoremap <Leader>ib i<CR><Esc>
 augroup dirvish_mappings
   autocmd!
   autocmd FileType dirvish nnoremap <buffer> <Leader>da :call CreateFile()<CR>
-  autocmd FileType dirvish noremap <buffer> <Leader>dmk :call CreateDir()<CR>
-  autocmd FileType dirvish noremap <buffer> <Leader>dc :call CopyFileOrDir()<CR>
-  autocmd FileType dirvish noremap <buffer> <Leader>dmv :call MoveFileOrDir()<CR>
+  autocmd FileType dirvish nnoremap <buffer> <Leader>dr :call RemoveFileOrDir()<CR>
+  autocmd FileType dirvish nnoremap <buffer> <Leader>dmk :call CreateDir()<CR>
+  autocmd FileType dirvish nnoremap <buffer> <Leader>dc :call CopyFileOrDir()<CR>
+  autocmd FileType dirvish nnoremap <buffer> <Leader>dmv :call MoveFileOrDir()<CR>
 augroup END
 
 augroup typescript_mappings
