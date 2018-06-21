@@ -410,9 +410,6 @@ vnoremap <Leader>il :call IndentList()<CR>
 " Leader ir indents a JSX component
 vnoremap <Leader>ir :call IndentReact()<CR>
 
-" Leader ib adds a new line above current line
-nnoremap <Leader>ib i<CR><Esc>
-
 augroup dirvish_mappings
   autocmd!
   autocmd FileType dirvish nnoremap <buffer> <Leader>da :call CreateFile()<CR>
