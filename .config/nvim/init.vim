@@ -380,7 +380,7 @@ nnoremap <Leader>n :e.<CR>
 " Leader c deletes current buffer
 nnoremap <Leader>c :lcl \| bdelete<CR>
 
-" Leader a opens ag
+" Leader a opens rg
 nnoremap <Leader>a :Rg 
 
 " Leader e evaluates current file
