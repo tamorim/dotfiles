@@ -240,11 +240,10 @@ endfunction
 function! MoveFileOrDir()
   let current_file = getline('.')
   let destination = input('Move destination: ', current_file)
-  let flag = match(current_file, '/$') > -1 ? ' -R ' : ' '
   if strchars(destination) == 0
     return
   endif
-  silent! execute '!mv' . flag . current_file . ' ' . destination
+  silent! execute '!mv ' . current_file . ' ' . destination
   normal R
 endfunction
 
