@@ -304,6 +304,7 @@ let g:ale_linters = {
 
 " Tsuquyomi config
 let g:tsuquyomi_disable_quickfix = 1
+autocmd CursorHold *.ts echo tsuquyomi#hint()
 
 " fzf config
 let g:rg_command = 'rg --column --line-number --no-heading --ignore-case --hidden --follow --color=always --ignore-file ~/.agignore '
