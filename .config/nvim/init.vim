@@ -34,7 +34,14 @@ Plug 'SirVer/ultisnips'
 Plug 'sheerun/vim-polyglot'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'matze/vim-move'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --js-completer' }
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-ultisnips'
+Plug 'ncm2/ncm2-cssomni'
+Plug 'ncm2/ncm2-tern', { 'do': 'npm install', 'for': 'javascript.jsx' }
+Plug 'mhartington/nvim-typescript', { 'do': './install.sh', 'for': 'typescript' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm i', 'for': 'javascript.jsx' }
@@ -78,7 +85,7 @@ set undodir=$HOME/.nvim/undo
 set undolevels=1000
 set undoreload=10000
 set viminfo='20,<1000,s1000
-set completeopt-=preview
+set completeopt=noinsert,menuone,noselect
 set hidden
 set listchars=tab:>~,nbsp:_,trail:~
 set list
@@ -324,6 +331,9 @@ if (has_prettier_config)
   augroup END
 endif
 
+" ncm2 config
+autocmd BufEnter * call ncm2#enable_for_buffer()
+
 " }}}
 " Macros {{{
 
@@ -407,6 +417,13 @@ vnoremap <Leader>il :call IndentList()<CR>
 
 " Leader ir indents a JSX component
 vnoremap <Leader>ir :call IndentReact()<CR>
+
+" Tab to select the popup menu
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Enter closes popup and inserts new line
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
 augroup dirvish_mappings
   autocmd!
