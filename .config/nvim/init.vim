@@ -63,8 +63,7 @@ call plug#end()
 let mapleader = ','
 
 syntax on
-filetype on
-filetype indent on
+filetype plugin indent on
 
 set termguicolors
 set nohlsearch
