@@ -90,13 +90,10 @@ set hidden
 set listchars=tab:>~,nbsp:_,trail:~
 set list
 set noshowmode
+set colorcolumn=81
 
 let g:onedark_termcolors = 256
 colorscheme onedark
-
-" Make the 81st column stand out
-highlight ColorColumn ctermbg=magenta
-call matchadd('ColorColumn', '\%81v', 100)
 
 " Skip location list and quick fix list on buffer switch and close
 augroup skip_qf
