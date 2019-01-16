@@ -99,7 +99,7 @@ highlight ColorColumn ctermbg=magenta
 call matchadd('ColorColumn', '\%81v', 100)
 
 " Skip location list and quick fix list on buffer switch and close
-augroup qf
+augroup skip_qf
   autocmd!
   autocmd FileType qf set nobuflisted
 augroup END
@@ -116,6 +116,11 @@ augroup check_changes
   autocmd FocusGained,BufEnter * :checktime
 augroup END
 
+" Close loclist on buffer close
+augroup close_loclist
+  autocmd!
+  autocmd BufDelete,BufLeave * if empty(&buftype) | lclose | endif
+augroup END
 
 " }}}
 " Functions {{{
@@ -306,6 +311,7 @@ let g:ale_open_list = 1
 let g:ale_list_window_size = 5
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters = {
+\ 'javascript': ['eslint'],
 \ 'typescript': ['tslint', 'tsserver', 'typecheck']
 \ }
 
@@ -386,7 +392,7 @@ vnoremap <Leader>p "+p
 nnoremap <Leader>n :e.<CR>
 
 " Leader c deletes current buffer
-nnoremap <Leader>c :lcl \| bdelete<CR>
+nnoremap <Leader>c :bdelete<CR>
 
 " Leader a opens rg
 nnoremap <Leader>a :Rg 
