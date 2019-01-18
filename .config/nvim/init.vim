@@ -324,6 +324,7 @@ let dirvish_mode = ':sort ,^.*/,'
 
 " vim-prettier config
 let g:prettier#autoformat = 0
+let g:prettier#quickfix_enabled = 0
 let has_prettier_rc = filereadable(fnamemodify('.prettierrc', ':p'))
 let has_prettier_js = filereadable(fnamemodify('prettier.config.js', ':p'))
 let has_prettier_config = has_prettier_rc || has_prettier_js
