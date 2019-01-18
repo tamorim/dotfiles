@@ -308,7 +308,8 @@ let g:ale_list_window_size = 5
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters = {
 \ 'javascript': ['eslint'],
-\ 'typescript': ['tslint', 'tsserver', 'typecheck']
+\ 'typescript': ['tslint', 'tsserver', 'typecheck'],
+\ 'graphql': [],
 \ }
 
 " Tsuquyomi config
