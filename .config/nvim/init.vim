@@ -339,6 +339,9 @@ endif
 " ncm2 config
 autocmd BufEnter * call ncm2#enable_for_buffer()
 
+" fugitive config
+autocmd BufReadPost fugitive://* set bufhidden=delete
+
 " }}}
 " Macros {{{
 
