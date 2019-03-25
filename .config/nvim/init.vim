@@ -24,6 +24,7 @@ call plug#begin()
 Plug 'w0rp/ale'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
+Plug 'tpope/vim-rhubarb'
 Plug 'mattn/emmet-vim'
 Plug 'itchyny/lightline.vim'
 Plug 'Raimondi/delimitMate'
