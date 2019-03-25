@@ -117,7 +117,7 @@ augroup END
 " Close loclist on buffer close
 augroup close_loclist
   autocmd!
-  autocmd BufDelete,BufLeave * if empty(&buftype) | lclose | endif
+  autocmd BufDelete,BufWinLeave * if empty(&buftype) | lclose | endif
 augroup END
 
 " }}}
