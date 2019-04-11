@@ -19,6 +19,17 @@ if !filereadable(plug_vim)
   silent! bdelete
 endif
 
+let g:coc_global_extensions = [
+\ 'coc-ultisnips',
+\ 'coc-json',
+\ 'coc-tsserver',
+\ 'coc-html',
+\ 'coc-css',
+\ 'coc-yaml',
+\ 'coc-highlight',
+\ 'coc-angular'
+\ ]
+
 call plug#begin()
 
 Plug 'w0rp/ale'
@@ -36,25 +47,15 @@ Plug 'SirVer/ultisnips'
 Plug 'sheerun/vim-polyglot'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'matze/vim-move'
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-path'
-Plug 'ncm2/ncm2-ultisnips'
-Plug 'ncm2/ncm2-cssomni'
-Plug 'ncm2/ncm2-tern', { 'do': 'npm install', 'for': 'javascript.jsx' }
-Plug 'mhartington/nvim-typescript', { 'do': './install.sh', 'for': 'typescript' }
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install() } }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'ternjs/tern_for_vim', { 'do': 'npm i', 'for': 'javascript.jsx' }
 Plug 'joshdick/onedark.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'tpope/vim-surround'
 Plug 'shime/vim-livedown', { 'for': 'markdown' }
 Plug 'osyo-manga/vim-over'
 Plug 'justinmk/vim-dirvish'
-Plug 'Shougo/vimproc.vim', { 'do': 'make', 'for': 'typescript' }
-Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 call plug#end()
@@ -314,9 +315,6 @@ let g:ale_linters = {
 \ 'graphql': [],
 \ }
 
-" Tsuquyomi config
-let g:tsuquyomi_disable_quickfix = 1
-
 " fzf config
 let g:rg_command = 'rg --column --line-number --no-heading --ignore-case --hidden --follow --color=always --ignore-file ~/.agignore '
 command! -bang -nargs=* Rg call fzf#vim#grep(g:rg_command.shellescape(<q-args>), 1, <bang>0)
@@ -336,9 +334,6 @@ if (has_prettier_config)
     autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx,*.css,*.json,*.md Prettier
   augroup END
 endif
-
-" ncm2 config
-autocmd BufEnter * call ncm2#enable_for_buffer()
 
 " fugitive config
 autocmd BufReadPost fugitive://* set bufhidden=delete
@@ -439,8 +434,8 @@ augroup END
 
 augroup typescript_mappings
   autocmd!
-  autocmd FileType typescript nnoremap <buffer> <Leader>gt :<C-u>echo tsuquyomi#hint()<CR>
-  autocmd FileType typescript nnoremap <buffer> <Leader>grn :TsuRenameSymbol<CR>
+  autocmd FileType typescript nmap <buffer> <Leader>grn <Plug>(coc-rename)
+  autocmd FileType typescript nmap <buffer> <C-]> <Plug>(coc-definition)
 augroup END
 
 " }}}
