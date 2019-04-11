@@ -331,7 +331,7 @@ let has_prettier_config = has_prettier_rc || has_prettier_js
 if (has_prettier_config)
   augroup prettier
     autocmd!
-    autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx,*.css,*.json,*.md Prettier
+    autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx,*.css,*.json,*.md,*.html Prettier
   augroup END
 endif
 
