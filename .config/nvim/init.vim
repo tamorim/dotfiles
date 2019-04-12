@@ -336,7 +336,11 @@ if (has_prettier_config)
 endif
 
 " fugitive config
-autocmd BufReadPost fugitive://* set bufhidden=delete
+augroup custom_fugitive
+  autocmd!
+  autocmd BufReadPost fugitive://* set bufhidden=delete
+  autocmd BufWinEnter * if empty(expand('<amatch>')) | call fugitive#detect(getcwd()) | endif
+augroup END
 
 " }}}
 " Macros {{{
