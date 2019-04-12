@@ -442,4 +442,17 @@ augroup typescript_mappings
   autocmd FileType typescript nmap <buffer> <C-]> <Plug>(coc-definition)
 augroup END
 
+augroup terminal_mappings
+  autocmd!
+  autocmd TermOpen * nnoremap <buffer> <Leader>c :bdelete!<CR>
+augroup END
+
+augroup fugitive_mappings
+  autocmd!
+  autocmd FileType fugitive nnoremap <buffer> <silent> cn :<C-U>Gcommit --no-verify<CR>
+  autocmd FileType fugitive nnoremap <buffer> <silent> can :<C-U>Gcommit --amend --no-verify<CR>
+  autocmd FileType fugitive nnoremap <buffer> <silent> pn :<C-U>Gpush origin --no-verify<CR>
+  autocmd FileType fugitive nnoremap <buffer> <silent> pnf :<C-U>Gpush origin --no-verify --force<CR>
+augroup END
+
 " }}}
