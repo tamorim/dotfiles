@@ -213,27 +213,23 @@ function! IndentList()
   silent! execute 's/\v.{-}\zs\' . start_delimiter . '.{-}\' . end_delimiter . '(.*\' . end_delimiter . ')@!\ze/' . step3
 endfunction
 
-function! CreateFile()
-  let filename = input('New file name: ')
-  if strchars(filename) == 0
+function! CreateFileOrDir()
+  let file_or_dir = input('New file or dir name: ')
+  let length = strchars(file_or_dir)
+  if length == 0
     return
   endif
-  silent! execute '!touch ' . expand('%') . filename
+  if file_or_dir[length - 1] == '/'
+    silent! execute '!mkdir -p ' . expand('%') . file_or_dir
+  else
+    silent! execute '!touch ' . expand('%') . file_or_dir
+  endif
   normal R
 endfunction
 
 function! RemoveFileOrDir()
   let current_file = getline('.')
   silent! execute '!rm -rf ' . current_file
-  normal R
-endfunction
-
-function! CreateDir()
-  let dirname = input('New dir name: ')
-  if strchars(dirname) == 0
-    return
-  endif
-  silent! execute '!mkdir -p ' . expand('%') . dirname
   normal R
 endfunction
 
@@ -429,11 +425,10 @@ inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
 augroup dirvish_mappings
   autocmd!
-  autocmd FileType dirvish nnoremap <buffer> <Leader>da :call CreateFile()<CR>
+  autocmd FileType dirvish nnoremap <buffer> <Leader>da :call CreateFileOrDir()<CR>
   autocmd FileType dirvish nnoremap <buffer> <Leader>dr :call RemoveFileOrDir()<CR>
-  autocmd FileType dirvish nnoremap <buffer> <Leader>dmk :call CreateDir()<CR>
   autocmd FileType dirvish nnoremap <buffer> <Leader>dc :call CopyFileOrDir()<CR>
-  autocmd FileType dirvish nnoremap <buffer> <Leader>dmv :call MoveFileOrDir()<CR>
+  autocmd FileType dirvish nnoremap <buffer> <Leader>dm :call MoveFileOrDir()<CR>
 augroup END
 
 augroup typescript_mappings
