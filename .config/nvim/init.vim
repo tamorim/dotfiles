@@ -377,7 +377,7 @@ let @n = '$%'
 " Mappings {{{
 
 " Fold with space
-nnoremap <space> za
+nnoremap <Space> za
 
 " Navigate visual lines seamlessly
 nnoremap j gj
@@ -387,8 +387,8 @@ nnoremap k gk
 nnoremap <Tab> :b#<CR>
 
 " Yankstack config
-nmap <C-j> <Plug>yankstack_substitute_older_paste
-nmap <C-k> <Plug>yankstack_substitute_newer_paste
+nmap <silent> <C-j> <Plug>yankstack_substitute_older_paste
+nmap <silent> <C-k> <Plug>yankstack_substitute_newer_paste
 
 " Ctrl+p uses fzf
 nmap <C-p> :FZF<CR>
@@ -414,8 +414,8 @@ nnoremap <Leader>c :bdelete<CR>
 
 " Leader a opens rg
 nnoremap <Leader>a :Rg 
-vnoremap <Leader>a :call SearchWithCurrentSelection()<CR>
-nnoremap <Leader>aw :call SearchWithCurrentWord()<CR>
+vnoremap <silent> <Leader>a :call SearchWithCurrentSelection()<CR>
+nnoremap <silent> <Leader>aw :call SearchWithCurrentWord()<CR>
 
 " Leader e evaluates current file
 nnoremap <Leader>e :source %<CR>
@@ -436,13 +436,13 @@ nnoremap <C-n> "zyiw :let @/=''.@z.''<CR> viw
 vnoremap <C-n> "zy :let @/=''.@z.''<CR> gv
 
 " Leader s sorts range by length
-vnoremap <Leader>s :call SortLines()<CR>
+vnoremap <silent> <Leader>s :call SortLines()<CR>
 
 " Leader ii indents a import statement
-vnoremap <Leader>il :call IndentList()<CR>
+vnoremap <silent> <Leader>il :call IndentList()<CR>
 
 " Leader ir indents a JSX component
-vnoremap <Leader>ir :call IndentReact()<CR>
+vnoremap <silent> <Leader>ir :call IndentReact()<CR>
 
 " Leader g opens fugitive status window
 nnoremap <Leader>g :Gstatus<CR>
@@ -452,24 +452,24 @@ nnoremap <Leader>gv :GV<CR>
 vnoremap <Leader>gv :GV<CR>
 
 " Tab to select the popup menu
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <silent> <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Enter closes popup and inserts new line
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+inoremap <silent> <expr> <CR> (pumvisible() ? "\<C-y>\<CR>" : "\<CR>")
 
 augroup dirvish_mappings
   autocmd!
-  autocmd FileType dirvish nnoremap <buffer> <Leader>da :call CreateFileOrDir()<CR>
-  autocmd FileType dirvish nnoremap <buffer> <Leader>dr :call RemoveFileOrDir()<CR>
-  autocmd FileType dirvish nnoremap <buffer> <Leader>dc :call CopyFileOrDir()<CR>
-  autocmd FileType dirvish nnoremap <buffer> <Leader>dm :call MoveFileOrDir()<CR>
+  autocmd FileType dirvish nnoremap <buffer> <silent> <Leader>da :call CreateFileOrDir()<CR>
+  autocmd FileType dirvish nnoremap <buffer> <silent> <Leader>dr :call RemoveFileOrDir()<CR>
+  autocmd FileType dirvish nnoremap <buffer> <silent> <Leader>dc :call CopyFileOrDir()<CR>
+  autocmd FileType dirvish nnoremap <buffer> <silent> <Leader>dm :call MoveFileOrDir()<CR>
 augroup END
 
 augroup typescript_mappings
   autocmd!
-  autocmd FileType typescript nmap <buffer> <Leader>grn <Plug>(coc-rename)
-  autocmd FileType typescript nmap <buffer> <C-]> <Plug>(coc-definition)
+  autocmd FileType typescript nmap <buffer> <silent> <Leader>rn <Plug>(coc-rename)
+  autocmd FileType typescript nmap <buffer> <silent> <C-]> <Plug>(coc-definition)
 augroup END
 
 augroup terminal_mappings
