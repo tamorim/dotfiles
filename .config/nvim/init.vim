@@ -271,6 +271,15 @@ function! CommitFixupToCurrentSha()
   execute 'Gcommit --fixup=' . gv#sha()
 endfunction
 
+function! SearchWithCurrentWord()
+  execute 'Rg ' . expand('<cword>')
+endfunction
+
+function! SearchWithCurrentSelection()
+  let current_selection = s:get_visual_selection()
+  execute 'Rg ' . current_selection
+endfunction
+
 " }}}
 " Plugins config {{{
 
@@ -405,6 +414,8 @@ nnoremap <Leader>c :bdelete<CR>
 
 " Leader a opens rg
 nnoremap <Leader>a :Rg 
+vnoremap <Leader>a :call SearchWithCurrentSelection()<CR>
+nnoremap <Leader>aw :call SearchWithCurrentWord()<CR>
 
 " Leader e evaluates current file
 nnoremap <Leader>e :source %<CR>
