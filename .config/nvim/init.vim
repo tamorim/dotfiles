@@ -267,6 +267,10 @@ function! PushGitBranchToOrigin(no_verify, force)
   endif
 endfunction
 
+function! CommitFixupToCurrentSha()
+  execute 'Gcommit --fixup=' . gv#sha()
+endfunction
+
 " }}}
 " Plugins config {{{
 
@@ -463,6 +467,11 @@ augroup fugitive_mappings
   autocmd FileType fugitive nnoremap <buffer> <silent> pn :<C-U>call PushGitBranchToOrigin(1, 0)<CR>
   autocmd FileType fugitive nnoremap <buffer> <silent> pf :<C-U>call PushGitBranchToOrigin(0, 1)<CR>
   autocmd FileType fugitive nnoremap <buffer> <silent> pnf :<C-U>call PushGitBranchToOrigin(1, 1)<CR>
+augroup END
+
+augroup gv_mappings
+  autocmd!
+  autocmd FileType GV nnoremap <buffer> <silent> cf :<C-U>call CommitFixupToCurrentSha()<CR>
 augroup END
 
 " }}}
