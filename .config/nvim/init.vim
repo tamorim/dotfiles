@@ -444,6 +444,13 @@ vnoremap <Leader>il :call IndentList()<CR>
 " Leader ir indents a JSX component
 vnoremap <Leader>ir :call IndentReact()<CR>
 
+" Leader g opens fugitive status window
+nnoremap <Leader>g :Gstatus<CR>
+
+" Leader gv opens gv window
+nnoremap <Leader>gv :GV<CR>
+vnoremap <Leader>gv :GV<CR>
+
 " Tab to select the popup menu
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
