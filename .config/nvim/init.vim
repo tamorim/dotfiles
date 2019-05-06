@@ -254,6 +254,19 @@ function! MoveFileOrDir()
   normal R
 endfunction
 
+function! PushGitBranchToOrigin(no_verify, force)
+  let current_branch = system("git branch | grep -e '^*' | tr -d '*'")
+  if !a:no_verify && !a:force
+    execute 'Gpush -u origin ' . current_branch
+  elseif a:no_verify && !a:force
+    execute 'Gpush -u --no-verify origin ' . current_branch
+  elseif !a:no_verify && a:force
+    execute 'Gpush -u --force origin ' . current_branch
+  elseif a:no_verify && a:force
+    execute 'Gpush -u --no-verify --force origin ' . current_branch
+  endif
+endfunction
+
 " }}}
 " Plugins config {{{
 
@@ -446,8 +459,10 @@ augroup fugitive_mappings
   autocmd!
   autocmd FileType fugitive nnoremap <buffer> <silent> cn :<C-U>Gcommit --no-verify<CR>
   autocmd FileType fugitive nnoremap <buffer> <silent> can :<C-U>Gcommit --amend --no-verify<CR>
-  autocmd FileType fugitive nnoremap <buffer> <silent> pn :<C-U>Gpush origin --no-verify<CR>
-  autocmd FileType fugitive nnoremap <buffer> <silent> pnf :<C-U>Gpush origin --no-verify --force<CR>
+  autocmd FileType fugitive nnoremap <buffer> <silent> pp :<C-U>call PushGitBranchToOrigin(0, 0)<CR>
+  autocmd FileType fugitive nnoremap <buffer> <silent> pn :<C-U>call PushGitBranchToOrigin(1, 0)<CR>
+  autocmd FileType fugitive nnoremap <buffer> <silent> pf :<C-U>call PushGitBranchToOrigin(0, 1)<CR>
+  autocmd FileType fugitive nnoremap <buffer> <silent> pnf :<C-U>call PushGitBranchToOrigin(1, 1)<CR>
 augroup END
 
 " }}}
