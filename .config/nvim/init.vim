@@ -267,8 +267,24 @@ function! PushGitBranchToOrigin(no_verify, force)
   endif
 endfunction
 
+function! RefreshGV()
+  execute 'bdelete'
+  execute 'GV'
+endfunction
+
 function! CommitFixupToCurrentSha()
   execute 'Gcommit --fixup=' . gv#sha()
+  call RefreshGV()
+endfunction
+
+function! InteractiveRebaseWithCurrentSha()
+  execute 'Grebase -i ' . gv#sha()
+  call RefreshGV()
+endfunction
+
+function! AutoSquashRebaseWithCurrentSha()
+  execute 'Grebase --autosquash ' . gv#sha()
+  call RefreshGV()
 endfunction
 
 function! SearchWithCurrentWord()
@@ -490,6 +506,8 @@ augroup END
 augroup gv_mappings
   autocmd!
   autocmd FileType GV nnoremap <buffer> <silent> cf :<C-U>call CommitFixupToCurrentSha()<CR>
+  autocmd FileType GV nnoremap <buffer> <silent> ri :<C-U>call InteractiveRebaseWithCurrentSha()<CR>
+  autocmd FileType GV nnoremap <buffer> <silent> rf :<C-U>call AutoSquashRebaseWithCurrentSha()<CR>
 augroup END
 
 " }}}
