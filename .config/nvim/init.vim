@@ -93,7 +93,8 @@ set undoreload=10000
 set viminfo='20,<1000,s1000
 set completeopt=noinsert,menuone,noselect
 set hidden
-set listchars=tab:>~,nbsp:_,trail:~
+set showbreak=↪\ 
+set listchars=tab:»\ ,nbsp:•,trail:•,extends:›,precedes:‹
 set list
 set noshowmode
 set colorcolumn=81
