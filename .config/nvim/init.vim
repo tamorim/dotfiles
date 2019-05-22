@@ -69,6 +69,7 @@ call plug#end()
 let mapleader = ','
 
 syntax on
+set autoindent
 filetype plugin indent on
 
 set termguicolors
