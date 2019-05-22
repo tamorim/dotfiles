@@ -52,7 +52,7 @@ Plug 'matze/vim-move'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install() } }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'joshdick/onedark.vim'
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'tpope/vim-surround'
 Plug 'shime/vim-livedown', { 'for': 'markdown' }
@@ -96,8 +96,8 @@ set list
 set noshowmode
 set colorcolumn=81
 
-let g:onedark_termcolors = 256
-colorscheme onedark
+set background=dark
+colorscheme palenight
 
 " Skip location list and quick fix list on buffer switch and close
 augroup skip_qf
@@ -303,7 +303,7 @@ endfunction
 
 " lightline config
 let g:lightline = {
-\ 'colorscheme': 'one',
+\ 'colorscheme': 'palenight',
 \ 'active': {
 \   'right': [
 \     ['lineinfo'],
