@@ -47,6 +47,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
 Plug 'SirVer/ultisnips'
 Plug 'sheerun/vim-polyglot'
+Plug 'jparise/vim-graphql'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'matze/vim-move'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install() } }
