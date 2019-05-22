@@ -131,7 +131,7 @@ augroup END
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
-function! Stab()
+function! Stab() abort
   let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
   if l:tabstop > 0
     let &l:sts = l:tabstop
@@ -141,7 +141,7 @@ function! Stab()
   call SummarizeTabs()
 endfunction
 
-function! SummarizeTabs()
+function! SummarizeTabs() abort
   try
     echohl ModeMsg
     echon ' tabstop='.&l:ts
@@ -158,14 +158,14 @@ function! SummarizeTabs()
 endfunction
 
 " Organize range by length
-function! SortLines() range
+function! SortLines() range abort
   silent! execute a:firstline . ',' . a:lastline . 's/^\(.*\)$/\=strdisplaywidth(submatch(0)) . " " . submatch(0)/'
   silent! execute a:firstline . ',' . a:lastline . 'sort n'
   silent! execute a:firstline . ',' . a:lastline . 's/^\d\+\s//'
 endfunction
 
 " Indent a React component's jsx code
-function! IndentReact()
+function! IndentReact() abort
   silent! execute 's/\v\<\w+\zs\s\ze|\zs\s\ze\w+\=|("|})\zs\s\ze\w+/\="\n" . matchstr(getline("."), ''^\s*'') . "  "/g'
   silent! execute 's/\v\s?(\/?\>)/\="\n" . matchstr(getline("."), ''^\s*'') . submatch(1)/'
   normal <<
@@ -176,7 +176,7 @@ function! IndentReact()
 endfunction
 
 " Why is this not a built-in Vim script function?!
-function! s:get_visual_selection()
+function! s:get_visual_selection() abort
     let [line_start, column_start] = getpos("'<")[1:2]
     let [line_end, column_end] = getpos("'>")[1:2]
     let lines = getline(line_start, line_end)
@@ -189,7 +189,7 @@ function! s:get_visual_selection()
 endfunction
 
 " Indent a long javascript object, array or parameter list
-function! IndentList()
+function! IndentList() abort
   let delimiter_map = { '{': '}', '[': ']', '(': ')' }
   let selection = s:get_visual_selection()
   let start_delimiters = join(keys(delimiter_map), '\|')
@@ -218,7 +218,7 @@ function! IndentList()
   silent! execute 's/\v.{-}\zs\' . start_delimiter . '.{-}\' . end_delimiter . '(.*\' . end_delimiter . ')@!\ze/' . step3
 endfunction
 
-function! CreateFileOrDir()
+function! CreateFileOrDir() abort
   let file_or_dir = input('New file or dir name: ')
   let length = strchars(file_or_dir)
   if length == 0
@@ -232,13 +232,13 @@ function! CreateFileOrDir()
   normal R
 endfunction
 
-function! RemoveFileOrDir()
+function! RemoveFileOrDir() abort
   let current_file = getline('.')
   silent! execute '!rm -rf ' . current_file
   normal R
 endfunction
 
-function! CopyFileOrDir()
+function! CopyFileOrDir() abort
   let current_file = getline('.')
   let destination = input('Copy destination: ', current_file)
   let flag = match(current_file, '/$') > -1 ? ' -R ' : ' '
@@ -249,7 +249,7 @@ function! CopyFileOrDir()
   normal R
 endfunction
 
-function! MoveFileOrDir()
+function! MoveFileOrDir() abort
   let current_file = getline('.')
   let destination = input('Move destination: ', current_file)
   if strchars(destination) == 0
@@ -259,7 +259,7 @@ function! MoveFileOrDir()
   normal R
 endfunction
 
-function! PushGitBranchToOrigin(no_verify, force)
+function! PushGitBranchToOrigin(no_verify, force) abort
   let current_branch = system("git branch | grep -e '^*' | tr -d '*'")
   if !a:no_verify && !a:force
     execute 'Gpush -u origin ' . current_branch
@@ -272,31 +272,31 @@ function! PushGitBranchToOrigin(no_verify, force)
   endif
 endfunction
 
-function! RefreshGV()
+function! RefreshGV() abort
   execute 'bdelete'
   execute 'GV'
 endfunction
 
-function! CommitFixupToCurrentSha()
+function! CommitFixupToCurrentSha() abort
   execute 'Gcommit --fixup=' . gv#sha()
   call RefreshGV()
 endfunction
 
-function! InteractiveRebaseWithCurrentSha()
-  execute 'Grebase -i ' . gv#sha()
+function! InteractiveRebaseWithCurrentSha() abort
+  execute 'Git rebase -i ' . gv#sha()
   call RefreshGV()
 endfunction
 
-function! AutoSquashRebaseWithCurrentSha()
+function! AutoSquashRebaseWithCurrentSha() abort
   execute 'Grebase --autosquash ' . gv#sha()
   call RefreshGV()
 endfunction
 
-function! SearchWithCurrentWord()
+function! SearchWithCurrentWord() abort
   execute 'Rg ' . expand('<cword>')
 endfunction
 
-function! SearchWithCurrentSelection()
+function! SearchWithCurrentSelection() abort
   let current_selection = s:get_visual_selection()
   execute 'Rg ' . current_selection
 endfunction
