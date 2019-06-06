@@ -487,10 +487,10 @@ augroup dirvish_mappings
   autocmd FileType dirvish nnoremap <buffer> <silent> <Leader>dm :call MoveFileOrDir()<CR>
 augroup END
 
-augroup typescript_mappings
+augroup javascript_mappings
   autocmd!
-  autocmd FileType typescript nmap <buffer> <silent> <Leader>rn <Plug>(coc-rename)
-  autocmd FileType typescript nmap <buffer> <silent> <C-]> <Plug>(coc-definition)
+  autocmd FileType javascript,javascript.jsx,typescript nmap <buffer> <silent> <Leader>rn <Plug>(coc-rename)
+  autocmd FileType javascript,javascript.jsx,typescript nmap <buffer> <silent> <C-]> <Plug>(coc-definition)
 augroup END
 
 augroup terminal_mappings
