@@ -82,11 +82,11 @@ set foldlevelstart=99
 set foldnestmax=10
 set foldmethod=indent
 set backup
-set backupcopy=yes
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set backupskip=/tmp/*,/private/tmp/*
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set writebackup
+set backupcopy=yes
+set backupdir=$HOME/.nvim/tmp
+set backupskip=/tmp/*,/private/tmp/*
+set directory=$HOME/.nvim/tmp
 set undofile
 set undodir=$HOME/.nvim/undo
 set undolevels=1000
