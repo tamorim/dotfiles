@@ -46,6 +46,7 @@ Plug 'tpope/vim-sleuth'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-repeat'
 Plug 'SirVer/ultisnips'
+Plug 'maxmellon/vim-jsx-pretty'
 Plug 'sheerun/vim-polyglot'
 Plug 'jparise/vim-graphql'
 Plug 'editorconfig/editorconfig-vim'
@@ -384,6 +385,9 @@ augroup custom_fugitive
   autocmd BufReadPost fugitive://* set bufhidden=delete
   autocmd BufWinEnter * if empty(expand('<amatch>')) | call fugitive#detect(getcwd()) | endif
 augroup END
+
+" polyglot config
+let g:polyglot_disabled = ['jsx']
 
 " }}}
 " Macros {{{
