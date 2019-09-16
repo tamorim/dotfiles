@@ -493,8 +493,8 @@ augroup END
 
 augroup javascript_mappings
   autocmd!
-  autocmd FileType javascript,javascript.jsx,typescript nmap <buffer> <silent> <Leader>rn <Plug>(coc-rename)
-  autocmd FileType javascript,javascript.jsx,typescript nmap <buffer> <silent> <C-]> <Plug>(coc-definition)
+  autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx nmap <buffer> <silent> <Leader>rn <Plug>(coc-rename)
+  autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx nmap <buffer> <silent> <C-]> <Plug>(coc-definition)
 augroup END
 
 augroup terminal_mappings
