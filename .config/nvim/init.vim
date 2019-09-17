@@ -263,13 +263,13 @@ endfunction
 function! PushGitBranchToOrigin(no_verify, force) abort
   let current_branch = system("git branch | grep -e '^*' | tr -d '*'")
   if !a:no_verify && !a:force
-    execute 'Gpush -u origin ' . current_branch
+    execute 'Git --paginate ps -u ' . current_branch
   elseif a:no_verify && !a:force
-    execute 'Gpush -u --no-verify origin ' . current_branch
+    execute 'Git --paginate ps -u --no-verify ' . current_branch
   elseif !a:no_verify && a:force
-    execute 'Gpush -u --force origin ' . current_branch
+    execute 'Git --paginate ps -u --force ' . current_branch
   elseif a:no_verify && a:force
-    execute 'Gpush -u --no-verify --force origin ' . current_branch
+    execute 'Git --paginate ps -u --no-verify --force ' . current_branch
   endif
 endfunction
 
