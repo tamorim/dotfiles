@@ -32,7 +32,7 @@ let g:coc_global_extensions = [
 
 call plug#begin()
 
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'tpope/vim-rhubarb'
@@ -352,7 +352,8 @@ let g:user_emmet_settings = {
 " ALE config
 let g:ale_open_list = 1
 let g:ale_list_window_size = 5
-let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_insert_leave = 0
 let g:ale_linters = {
 \ 'javascript': ['eslint'],
 \ 'typescript': ['tslint', 'tsserver'],
