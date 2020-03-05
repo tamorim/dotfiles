@@ -332,13 +332,6 @@ let g:jsx_ext_required = 0
 let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips'
 let g:UltiSnipsExpandTrigger = '<c-j>'
 
-" Tern config
-let g:tern#command = ['tern']
-let g:tern_request_timeout = 1
-let g:tern_show_signature_in_pum = 1
-let g:tern#arguments = ['--persistent']
-let g:tern#filetypes = ['jsx', 'javascript.jsx']
-
 " Emmet config
 let g:user_emmet_settings = {
 \ 'javascript.jsx': { 'extends': 'jsx' }
