@@ -256,7 +256,7 @@ function! MoveFileOrDir() abort
 endfunction
 
 function! PushGitBranchToOrigin(no_verify, force) abort
-  let current_branch = system("git branch | grep -e '^*' | tr -d '*'")
+  let current_branch = system("git branch | grep -e '^*' | tr -d '*' | tr -cd '[:print:]'")
   if !a:no_verify && !a:force
     execute 'Git --paginate ps -u ' . current_branch
   elseif a:no_verify && !a:force
