@@ -507,6 +507,7 @@ augroup fugitive_mappings
   autocmd FileType fugitive nnoremap <buffer> <silent> pn :<C-U>call PushGitBranchToOrigin(1, 0)<CR>
   autocmd FileType fugitive nnoremap <buffer> <silent> pf :<C-U>call PushGitBranchToOrigin(0, 1)<CR>
   autocmd FileType fugitive nnoremap <buffer> <silent> pnf :<C-U>call PushGitBranchToOrigin(1, 1)<CR>
+  autocmd FileType fugitive nnoremap <buffer> <silent> pl :<C-U>Git --paginate pl<CR>
 augroup END
 
 augroup gv_mappings
