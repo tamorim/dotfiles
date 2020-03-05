@@ -19,17 +19,6 @@ if !filereadable(plug_vim)
   silent! bdelete
 endif
 
-let g:coc_global_extensions = [
-\ 'coc-ultisnips',
-\ 'coc-json',
-\ 'coc-tsserver',
-\ 'coc-html',
-\ 'coc-css',
-\ 'coc-yaml',
-\ 'coc-highlight',
-\ 'coc-angular'
-\ ]
-
 call plug#begin()
 
 Plug 'dense-analysis/ale'
@@ -51,7 +40,13 @@ Plug 'sheerun/vim-polyglot'
 Plug 'jparise/vim-graphql'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'matze/vim-move'
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install() } }
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'thomasfaingnaert/vim-lsp-snippets'
+Plug 'thomasfaingnaert/vim-lsp-ultisnips'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'lighttiger2505/deoplete-vim-lsp'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'drewtempelmeyer/palenight.vim'
@@ -350,6 +345,7 @@ let g:user_emmet_settings = {
 \ }
 
 " ALE config
+let g:ale_disable_lsp = 1
 let g:ale_open_list = 1
 let g:ale_list_window_size = 5
 let g:ale_lint_on_text_changed = 0
@@ -384,11 +380,17 @@ endif
 augroup custom_fugitive
   autocmd!
   autocmd BufReadPost fugitive://* set bufhidden=delete
-  autocmd BufWinEnter * if empty(expand('<amatch>')) | call fugitive#detect(getcwd()) | endif
 augroup END
 
 " polyglot config
 let g:polyglot_disabled = ['jsx']
+
+" deoplete config
+let g:deoplete#enable_at_startup = 1
+
+" lsp config
+let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_virtual_text_enabled = 0
 
 " }}}
 " Macros {{{
@@ -494,9 +496,9 @@ augroup END
 
 augroup javascript_mappings
   autocmd!
-  autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx,typescriptreact nmap <buffer> <silent> <Leader>rn <Plug>(coc-rename)
-  autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx,typescriptreact nmap <buffer> <silent> <C-]> <Plug>(coc-definition)
-  autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx,typescriptreact nmap <buffer> <silent> <Leader>gt :call CocAction('doHover')<CR>
+  autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx,typescriptreact nmap <buffer> <silent> <Leader>rn :LspRename<CR>
+  autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx,typescriptreact nmap <buffer> <silent> <C-]> :LspDefinition<CR>
+  autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx,typescriptreact nmap <buffer> <silent> <Leader>gt :LspHover<CR>
 augroup END
 
 augroup terminal_mappings
