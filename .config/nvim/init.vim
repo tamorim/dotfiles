@@ -40,13 +40,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'jparise/vim-graphql'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'matze/vim-move'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-Plug 'thomasfaingnaert/vim-lsp-snippets'
-Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'lighttiger2505/deoplete-vim-lsp'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'drewtempelmeyer/palenight.vim'
@@ -338,7 +332,6 @@ let g:user_emmet_settings = {
 \ }
 
 " ALE config
-let g:ale_disable_lsp = 1
 let g:ale_open_list = 1
 let g:ale_list_window_size = 5
 let g:ale_lint_on_text_changed = 0
@@ -380,10 +373,6 @@ let g:polyglot_disabled = ['jsx']
 
 " deoplete config
 let g:deoplete#enable_at_startup = 1
-
-" lsp config
-let g:lsp_diagnostics_echo_cursor = 1
-let g:lsp_virtual_text_enabled = 0
 
 " }}}
 " Macros {{{
@@ -489,9 +478,9 @@ augroup END
 
 augroup javascript_mappings
   autocmd!
-  autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx,typescriptreact nmap <buffer> <silent> <Leader>rn :LspRename<CR>
-  autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx,typescriptreact nmap <buffer> <silent> <C-]> :LspDefinition<CR>
-  autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx,typescriptreact nmap <buffer> <silent> <Leader>gt :LspHover<CR>
+  autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx,typescriptreact nmap <buffer> <silent> <Leader>rn :ALERename<CR>
+  autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx,typescriptreact nmap <buffer> <silent> <C-]> :ALEGoToDefinition<CR>
+  autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx,typescriptreact nmap <buffer> <silent> <Leader>gt :ALEHover<CR>
 augroup END
 
 augroup terminal_mappings
