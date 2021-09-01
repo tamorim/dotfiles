@@ -271,7 +271,7 @@ function! RefreshGV() abort
 endfunction
 
 function! CommitFixupToCurrentSha() abort
-  execute 'Gcommit --fixup=' . gv#sha()
+  execute 'Git commit --fixup=' . gv#sha()
   call RefreshGV()
 endfunction
 
@@ -281,7 +281,7 @@ function! InteractiveRebaseWithCurrentSha() abort
 endfunction
 
 function! AutoSquashRebaseWithCurrentSha() abort
-  execute 'Grebase --autosquash ' . gv#sha()
+  execute 'Git rebase --autosquash ' . gv#sha()
   call RefreshGV()
 endfunction
 
@@ -490,8 +490,8 @@ augroup END
 
 augroup fugitive_mappings
   autocmd!
-  autocmd FileType fugitive nnoremap <buffer> <silent> cn :<C-U>Gcommit --no-verify<CR>
-  autocmd FileType fugitive nnoremap <buffer> <silent> can :<C-U>Gcommit --amend --no-verify<CR>
+  autocmd FileType fugitive nnoremap <buffer> <silent> cn :<C-U>Git commit --no-verify<CR>
+  autocmd FileType fugitive nnoremap <buffer> <silent> can :<C-U>Git commit --amend --no-verify<CR>
   autocmd FileType fugitive nnoremap <buffer> <silent> pp :<C-U>call PushGitBranchToOrigin(0, 0)<CR>
   autocmd FileType fugitive nnoremap <buffer> <silent> pn :<C-U>call PushGitBranchToOrigin(1, 0)<CR>
   autocmd FileType fugitive nnoremap <buffer> <silent> pf :<C-U>call PushGitBranchToOrigin(0, 1)<CR>
