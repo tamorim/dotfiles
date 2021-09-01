@@ -479,7 +479,7 @@ augroup END
 augroup javascript_mappings
   autocmd!
   autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx,typescriptreact nmap <buffer> <silent> <Leader>rn :ALERename<CR>
-  autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx,typescriptreact nmap <buffer> <silent> <C-]> :ALEGoToDefinition<CR>
+  autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx,typescriptreact nmap <buffer> <silent> <Leader>gd :ALEGoToDefinition<CR>
   autocmd FileType javascript,javascript.jsx,typescript,typescript.tsx,typescriptreact nmap <buffer> <silent> <Leader>gt :ALEHover<CR>
 augroup END
 
