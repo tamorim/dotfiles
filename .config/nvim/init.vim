@@ -3,6 +3,9 @@
 " Set a env var to detect that we are on neovim's terminal emulator
 let $NVIM_TERM = 1
 
+" polyglot config
+let g:polyglot_disabled = ['jsx']
+
 " }}}
 " Plug stuff {{{
 
@@ -367,9 +370,6 @@ augroup custom_fugitive
   autocmd!
   autocmd BufReadPost fugitive://* set bufhidden=delete
 augroup END
-
-" polyglot config
-let g:polyglot_disabled = ['jsx']
 
 " deoplete config
 let g:deoplete#enable_at_startup = 1
