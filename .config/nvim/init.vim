@@ -346,6 +346,7 @@ let g:ale_linters = {
 \ }
 
 " fzf config
+let g:fzf_layout = { 'down': '40%' }
 let g:rg_command = 'rg --fixed-strings --column --line-number --no-heading --ignore-case --hidden --follow --color=always --ignore-file ~/.agignore '
 command! -bang -nargs=* Rg call fzf#vim#grep(g:rg_command.shellescape(<q-args>), 1, <bang>0)
 
