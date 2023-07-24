@@ -225,8 +225,6 @@ g.lightline = {
   }
 }
 
--- UltiSnips bindings
-
 -- Emmet config
 g.user_emmet_settings = {
   ['javascript.jsx'] = { extends = 'jsx' }
