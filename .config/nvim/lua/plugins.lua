@@ -23,45 +23,61 @@ local packer_bootstrap = ensure_packer()
 
 require('packer').startup(function(use)
   use('wbthomason/packer.nvim')
+
+  -- Color scheme and syntax highlight
+  use('drewtempelmeyer/palenight.vim')
+  use('sheerun/vim-polyglot')
+
+  -- Git
   use('tpope/vim-fugitive')
+  use({ 'tpope/vim-rhubarb', requires = 'tpope/vim-fugitive' })
   use('junegunn/gv.vim')
-  use('tpope/vim-rhubarb')
+  use('airblade/vim-gitgutter')
+
+  -- Enhancements
+  use('tpope/vim-sleuth')
+  use('tpope/vim-surround')
   use('tpope/vim-rsi')
   use('tpope/vim-unimpaired')
-  use('mattn/emmet-vim')
-  use('itchyny/lightline.vim')
-  use('Raimondi/delimitMate')
-  use('airblade/vim-gitgutter')
-  use('tpope/vim-sleuth')
-  use('tomtom/tcomment_vim')
   use('tpope/vim-repeat')
-  use('sheerun/vim-polyglot')
-  use('editorconfig/editorconfig-vim')
+  use('Raimondi/delimitMate')
+  use('tomtom/tcomment_vim')
+  use('maxbrunsfeld/vim-yankstack')
+  use('osyo-manga/vim-over')
+  use('mattn/emmet-vim')
+
+  -- Completion and lint
   use('neovim/nvim-lspconfig')
-  use('hrsh7th/cmp-nvim-lsp')
-  use('hrsh7th/cmp-nvim-lsp-signature-help')
-  use('hrsh7th/cmp-buffer')
-  use('hrsh7th/cmp-path')
-  use('hrsh7th/cmp-cmdline')
-  use('hrsh7th/nvim-cmp')
+  use({ 'hrsh7th/nvim-cmp', requires = {
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-nvim-lsp-signature-help',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline'
+  } })
   use({ 'SirVer/ultisnips', config = function()
-    g.UltiSnipsExpandTrigger = '<Plug>(ultisnips_expand)'
+    g.UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips'
+    g.UltiSnipsExpandTrigger = '<c-j>'
     g.UltiSnipsJumpForwardTrigger = '<Plug>(ultisnips_jump_forward)'
     g.UltiSnipsJumpBackwardTrigger = '<Plug>(ultisnips_jump_backward)'
     g.UltiSnipsListSnippets = '<c-x><c-s>'
     g.UltiSnipsRemoveSelectModeMappings = 0
   end })
-  use('quangnguyen30192/cmp-nvim-ultisnips')
+  use({ 'quangnguyen30192/cmp-nvim-ultisnips', requires = {
+   'hrsh7th/nvim-cmp',
+   'SirVer/ultisnips'
+  } })
   use('mfussenegger/nvim-lint')
-  use('/opt/homebrew/opt/fzf')
-  use('junegunn/fzf.vim')
-  use('drewtempelmeyer/palenight.vim')
-  use('maxbrunsfeld/vim-yankstack')
-  use('tpope/vim-surround')
-  use({ 'shime/vim-livedown', ft = 'markdown' })
-  use('osyo-manga/vim-over')
-  use('justinmk/vim-dirvish')
+
+  -- Formatters
+  use('editorconfig/editorconfig-vim')
   use({ 'prettier/vim-prettier', run = 'yarn install' })
+
+  -- Misc
+  use({ 'junegunn/fzf.vim', requires = env.FZF_PATH })
+  use('justinmk/vim-dirvish')
+  use('itchyny/lightline.vim')
+  use({ 'shime/vim-livedown', ft = 'markdown' })
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
@@ -181,5 +197,86 @@ require('lspconfig').tsserver.setup({
   capabilities = capabilities,
   on_attach = function(client)
     client.server_capabilities.semanticTokensProvider = nil
+  end
+})
+
+-- lightline config
+g.lightline = {
+  colorscheme = 'palenight',
+  active = {
+    right = {
+      { 'lineinfo' },
+      { 'percent' },
+      { 'filetype' }
+    }
+  },
+  mode_map = {
+    n = 'N',
+    i = 'I',
+    R = 'R',
+    v = 'V',
+    V = 'V',
+    ['\\<C-v>'] = 'V',
+    c = 'C',
+    s = 'S',
+    S = 'S',
+    ['\\<C-s>'] = 'S',
+    t = 'T'
+  }
+}
+
+-- UltiSnips bindings
+
+-- Emmet config
+g.user_emmet_settings = {
+  ['javascript.jsx'] = { extends = 'jsx' }
+}
+
+-- fzf config
+g.fzf_layout = { down = '40%' }
+g.rg_command = 'rg --fixed-strings --column --line-number --no-heading --ignore-case --hidden --follow --color=always --ignore-file ~/.agignore '
+api.nvim_create_user_command(
+  'Rg',
+  'call fzf#vim#grep(g:rg_command.shellescape(<q-args>), 1, <bang>0)',
+  { bang = true, nargs = '*' }
+)
+
+-- dirvish config
+g.dirvish_mode = ':sort ,^.*/,'
+
+-- vim-prettier config
+g['prettier#autoformat'] = 0
+g['prettier#quickfix_enabled'] = 0
+local has_prettier_rc = fn.filereadable(fn.fnamemodify('.prettierrc', ':p'))
+local has_prettier_js = fn.filereadable(fn.fnamemodify('prettier.config.js', ':p'))
+local has_prettier_config = has_prettier_rc or has_prettier_js
+if has_prettier_config then
+  api.nvim_create_autocmd('BufWritePre', {
+    pattern = { '*.js', '*.jsx', '*.ts', '*.tsx', '*.css', '*.json', '*.md', '*.html' },
+    group = api.nvim_create_augroup('prettier', { clear = true }),
+    command = 'Prettier'
+  })
+end
+
+-- fugitive config
+api.nvim_create_autocmd('BufReadPost', {
+  pattern = 'fugitive://*',
+  group = api.nvim_create_augroup('custom_fugitive', { clear = true }),
+  command = 'set bufhidden=delete'
+})
+
+-- nvim-lint config
+require('lint').linters_by_ft = {
+  javascript = { 'eslint' },
+  typescript = { 'eslint' },
+  javascriptreact = { 'eslint' },
+  typescriptreact = { 'eslint' },
+}
+
+api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
+  pattern = '*',
+  group = api.nvim_create_augroup('nvim_lint', { clear = true }),
+  callback = function()
+    require('lint').try_lint()
   end
 })
