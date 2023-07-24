@@ -55,14 +55,7 @@ require('packer').startup(function(use)
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline'
   } })
-  use({ 'SirVer/ultisnips', config = function()
-    g.UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips'
-    g.UltiSnipsExpandTrigger = '<c-j>'
-    g.UltiSnipsJumpForwardTrigger = '<Plug>(ultisnips_jump_forward)'
-    g.UltiSnipsJumpBackwardTrigger = '<Plug>(ultisnips_jump_backward)'
-    g.UltiSnipsListSnippets = '<c-x><c-s>'
-    g.UltiSnipsRemoveSelectModeMappings = 0
-  end })
+  use('SirVer/ultisnips')
   use({ 'quangnguyen30192/cmp-nvim-ultisnips', requires = {
    'hrsh7th/nvim-cmp',
    'SirVer/ultisnips'
@@ -224,6 +217,14 @@ g.lightline = {
     t = 'T'
   }
 }
+
+-- UltiSnips config
+g.UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips'
+g.UltiSnipsExpandTrigger = '<c-j>'
+g.UltiSnipsJumpForwardTrigger = '<Plug>(ultisnips_jump_forward)'
+g.UltiSnipsJumpBackwardTrigger = '<Plug>(ultisnips_jump_backward)'
+g.UltiSnipsListSnippets = '<c-x><c-s>'
+g.UltiSnipsRemoveSelectModeMappings = 0
 
 -- Emmet config
 g.user_emmet_settings = {
