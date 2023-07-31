@@ -42,8 +42,8 @@ keymap.set('n', '<Leader>P', '"+P')
 -- Leader n toggles netrw or dirvish if installed
 keymap.set('n', '<Leader>n', ':e.<CR>')
 
--- Leader c deletes current buffer
-keymap.set('n', '<Leader>c', ':bdelete<CR>')
+-- Leader c deletes current buffer while maintaining the window
+keymap.set('n', '<Leader>c', fns.window_safe_buffer_delete)
 
 -- Leader a opens rg
 keymap.set('n', '<Leader>a', ':Rg ')

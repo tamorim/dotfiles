@@ -191,4 +191,61 @@ function M.search_with_current_selection()
   fn.execute('Rg ' .. current_selection)
 end
 
+function M.window_safe_buffer_delete()
+  local current_buffer_filetype = api.nvim_buf_get_option(0, 'filetype')
+  local is_current_buffer_modified = api.nvim_buf_get_option(0, 'modified')
+  local windows = api.nvim_list_wins()
+
+  if current_buffer_filetype == 'help' or is_current_buffer_modified or #windows == 1 then
+    cmd.bdelete()
+    return
+  end
+
+  local is_buffer_name_empty = #api.nvim_buf_get_name(0) == 0
+  local current_window = api.nvim_get_current_win()
+  local buffers = vim.tbl_filter(function(buffer)
+    local is_buffer_loaded = api.nvim_buf_is_loaded(buffer)
+    local is_buffer_listed = api.nvim_buf_get_option(buffer, 'buflisted')
+    if not is_buffer_loaded or not is_buffer_listed then
+      return false
+    end
+
+    local windows_with_buffers = vim.tbl_filter(function(window)
+      if window == current_window then
+        return false
+      else
+        return true
+      end
+    end, fn.win_findbuf(buffer))
+
+    if #windows_with_buffers > 0 then
+      return false
+    else
+      return true
+    end
+  end, api.nvim_list_bufs())
+
+  if #buffers == 1 and is_buffer_name_empty then
+    cmd.bdelete()
+    return
+  end
+
+  if #buffers == 1 then
+    cmd.enew()
+  else
+    local current_buffer = api.nvim_get_current_buf()
+    local current_buffer_index = table.foreachi(buffers, function(index, buffer)
+      if buffer == current_buffer then
+        return index
+      end
+    end)
+    if current_buffer_index == 1 then
+      api.nvim_win_set_buf(0, buffers[current_buffer_index + 1])
+    else
+      api.nvim_win_set_buf(0, buffers[current_buffer_index - 1])
+    end
+  end
+  cmd.bdelete('#')
+end
+
 return M
