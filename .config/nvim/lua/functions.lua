@@ -200,16 +200,20 @@ end
 
 function M.window_safe_buffer_delete()
   local current_buffer_filetype = api.nvim_buf_get_option(0, 'filetype')
+  local is_current_buffer_fugitive = vim.startswith(api.nvim_buf_get_name(0), 'fugitive://')
   local is_current_buffer_modified = api.nvim_buf_get_option(0, 'modified')
   local windows = api.nvim_list_wins()
   local skip_current_buffer_filetype = false
-  table.foreach({ 'help', 'qf' }, function(index, filetype)
+  table.foreach({ 'help', 'qf', 'fugitive', 'GV' }, function(index, filetype)
     if current_buffer_filetype == filetype then
       skip_current_buffer_filetype = true
     end
   end)
 
-  if skip_current_buffer_filetype or is_current_buffer_modified or #windows == 1 then
+  if skip_current_buffer_filetype or
+    is_current_buffer_fugitive or
+    is_current_buffer_modified or
+    #windows == 1 then
     M.pcall_bdelete()
     return
   end
