@@ -191,6 +191,13 @@ function M.search_with_current_selection()
   fn.execute('Rg ' .. current_selection)
 end
 
+function M.pcall_bdelete(arg)
+  local status, err = pcall(cmd.bdelete, arg)
+  if not status then
+    api.nvim_err_writeln(err)
+  end
+end
+
 function M.window_safe_buffer_delete()
   local current_buffer_filetype = api.nvim_buf_get_option(0, 'filetype')
   local is_current_buffer_modified = api.nvim_buf_get_option(0, 'modified')
@@ -203,7 +210,7 @@ function M.window_safe_buffer_delete()
   end)
 
   if skip_current_buffer_filetype or is_current_buffer_modified or #windows == 1 then
-    cmd.bdelete()
+    M.pcall_bdelete()
     return
   end
 
@@ -232,7 +239,7 @@ function M.window_safe_buffer_delete()
   end, api.nvim_list_bufs())
 
   if #buffers == 1 and is_buffer_name_empty then
-    cmd.bdelete()
+    M.pcall_bdelete()
     return
   end
 
@@ -251,7 +258,7 @@ function M.window_safe_buffer_delete()
       api.nvim_win_set_buf(0, buffers[current_buffer_index - 1])
     end
   end
-  cmd.bdelete('#')
+  M.pcall_bdelete('#')
 end
 
 return M
