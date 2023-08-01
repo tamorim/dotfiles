@@ -9,76 +9,87 @@ local api = vim.api
 local env = vim.env
 local keymap = vim.keymap
 
-local ensure_packer = function()
-  local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
-    cmd.packadd('packer.nvim')
-    return true
-  end
-  return false
+local lazypath = fn.stdpath('data') .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+  fn.system({
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
+    lazypath,
+  })
 end
+opt.rtp:prepend(lazypath)
 
-local packer_bootstrap = ensure_packer()
-
-require('packer').startup(function(use)
-  use('wbthomason/packer.nvim')
-
+require('lazy').setup({
   -- Color scheme and syntax highlight
-  use('drewtempelmeyer/palenight.vim')
-  use('sheerun/vim-polyglot')
-  use('brenoprata10/nvim-highlight-colors')
+  { 'drewtempelmeyer/palenight.vim', priority = 1000 },
+  { 'sheerun/vim-polyglot', priority = 100 },
+  'brenoprata10/nvim-highlight-colors',
 
   -- Git
-  use('tpope/vim-fugitive')
-  use({ 'tpope/vim-rhubarb', requires = 'tpope/vim-fugitive' })
-  use('junegunn/gv.vim')
-  use('airblade/vim-gitgutter')
+  'tpope/vim-fugitive',
+  {
+    'tpope/vim-rhubarb',
+    dependencies = { 'tpope/vim-fugitive' },
+  },
+  'junegunn/gv.vim',
+  'airblade/vim-gitgutter',
 
   -- Enhancements
-  use('tpope/vim-sleuth')
-  use('tpope/vim-surround')
-  use('tpope/vim-rsi')
-  use('tpope/vim-unimpaired')
-  use('tpope/vim-repeat')
-  use('Raimondi/delimitMate')
-  use('tomtom/tcomment_vim')
-  use('maxbrunsfeld/vim-yankstack')
-  use('osyo-manga/vim-over')
-  use('mattn/emmet-vim')
+  'tpope/vim-sleuth',
+  'tpope/vim-surround',
+  'tpope/vim-rsi',
+  'tpope/vim-unimpaired',
+  'tpope/vim-repeat',
+  'Raimondi/delimitMate',
+  'tomtom/tcomment_vim',
+  'maxbrunsfeld/vim-yankstack',
+  'osyo-manga/vim-over',
+  'mattn/emmet-vim',
 
   -- Completion and lint
-  use('neovim/nvim-lspconfig')
-  use({ 'hrsh7th/nvim-cmp', requires = {
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-nvim-lsp-signature-help',
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-cmdline'
-  } })
-  use('SirVer/ultisnips')
-  use({ 'quangnguyen30192/cmp-nvim-ultisnips', requires = {
-   'hrsh7th/nvim-cmp',
-   'SirVer/ultisnips'
-  } })
-  use('mfussenegger/nvim-lint')
+  'neovim/nvim-lspconfig',
+  {
+    'hrsh7th/nvim-cmp',
+    dependencies = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+    }
+  },
+  'SirVer/ultisnips',
+  {
+    'quangnguyen30192/cmp-nvim-ultisnips',
+    dependencies = {
+      'hrsh7th/nvim-cmp',
+      'SirVer/ultisnips',
+    }
+  },
+  'mfussenegger/nvim-lint',
 
   -- Formatters
-  use('editorconfig/editorconfig-vim')
-  use({ 'prettier/vim-prettier', run = 'yarn install' })
+  'editorconfig/editorconfig-vim',
+  { 'prettier/vim-prettier', build = 'yarn install' },
 
   -- Misc
-  use({ 'junegunn/fzf.vim', requires = env.FZF_PATH })
-  use('justinmk/vim-dirvish')
-  use('itchyny/lightline.vim')
-  use({ 'shime/vim-livedown', ft = 'markdown' })
-
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if packer_bootstrap then
-    require('packer').sync()
-  end
-end)
+  {
+    'junegunn/fzf.vim',
+    dependencies = {
+      {
+        'junegunn/fzf',
+        build = function() fn['fzf#install']() end,
+        lazy = false,
+      }
+    }
+  },
+  'justinmk/vim-dirvish',
+  'itchyny/lightline.vim',
+  { 'shime/vim-livedown', ft = 'markdown' },
+})
 
 -- Set up nvim-cmp.
 local cmp = require('cmp')
