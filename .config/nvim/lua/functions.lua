@@ -152,9 +152,9 @@ end
 function M.push_git_branch_to_origin(no_verify, force)
   local current_branch = fn.system([[git branch | grep -e '^*' | tr -d '*' | tr -cd '[:print:]']])
   if not no_verify and not force then
-    cmd.execute('Git --paginate ps -u ' .. current_branch)
+    fn.execute('Git --paginate ps -u ' .. current_branch)
   elseif no_verify and not force then
-    cmd.execute('Git --paginate ps -u --no-verify ' .. current_branch)
+    fn.execute('Git --paginate ps -u --no-verify ' .. current_branch)
   elseif not no_verify and force then
     fn.execute('Git --paginate ps -u --force ' .. current_branch)
   elseif no_verify and force then
