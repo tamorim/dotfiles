@@ -98,11 +98,11 @@ cmp.setup({
   snippet = {
     -- REQUIRED - you must specify a snippet engine
     expand = function(args)
-      fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      fn['UltiSnips#Anon'](args.body) -- For `ultisnips` users.
     end,
   },
   mapping = cmp.mapping.preset.insert({
-    ["<Tab>"] = cmp.mapping({
+    ['<Tab>'] = cmp.mapping({
       c = function()
         if cmp.visible() then
           cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
@@ -113,21 +113,21 @@ cmp.setup({
       i = function(fallback)
         if cmp.visible() then
           cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-        elseif fn["UltiSnips#CanJumpForwards"]() == 1 then
-          api.nvim_feedkeys(t("<Plug>(ultisnips_jump_forward)"), 'm', true)
+        elseif fn['UltiSnips#CanJumpForwards']() == 1 then
+          api.nvim_feedkeys(t('<Plug>(ultisnips_jump_forward)'), 'm', true)
         else
           fallback()
         end
       end,
       s = function(fallback)
-        if fn["UltiSnips#CanJumpForwards"]() == 1 then
-          api.nvim_feedkeys(t("<Plug>(ultisnips_jump_forward)"), 'm', true)
+        if fn['UltiSnips#CanJumpForwards']() == 1 then
+          api.nvim_feedkeys(t('<Plug>(ultisnips_jump_forward)'), 'm', true)
         else
           fallback()
         end
       end
     }),
-    ["<S-Tab>"] = cmp.mapping({
+    ['<S-Tab>'] = cmp.mapping({
       c = function()
         if cmp.visible() then
           cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
@@ -138,15 +138,15 @@ cmp.setup({
       i = function(fallback)
         if cmp.visible() then
           cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
-        elseif fn["UltiSnips#CanJumpBackwards"]() == 1 then
-          return api.nvim_feedkeys( t("<Plug>(ultisnips_jump_backward)"), 'm', true)
+        elseif fn['UltiSnips#CanJumpBackwards']() == 1 then
+          return api.nvim_feedkeys(t('<Plug>(ultisnips_jump_backward)'), 'm', true)
         else
           fallback()
         end
       end,
       s = function(fallback)
         if fn["UltiSnips#CanJumpBackwards"]() == 1 then
-          return api.nvim_feedkeys( t("<Plug>(ultisnips_jump_backward)"), 'm', true)
+          return api.nvim_feedkeys(t("<Plug>(ultisnips_jump_backward)"), 'm', true)
         else
           fallback()
         end
