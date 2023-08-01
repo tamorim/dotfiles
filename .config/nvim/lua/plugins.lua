@@ -27,6 +27,7 @@ require('packer').startup(function(use)
   -- Color scheme and syntax highlight
   use('drewtempelmeyer/palenight.vim')
   use('sheerun/vim-polyglot')
+  use('brenoprata10/nvim-highlight-colors')
 
   -- Git
   use('tpope/vim-fugitive')
@@ -279,3 +280,6 @@ api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
     require('lint').try_lint()
   end
 })
+
+-- nvim-highlight-colors config
+require('nvim-highlight-colors').setup({})
