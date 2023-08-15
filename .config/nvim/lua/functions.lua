@@ -223,7 +223,8 @@ function M.window_safe_buffer_delete()
   local buffers = vim.tbl_filter(function(buffer)
     local is_buffer_loaded = api.nvim_buf_is_loaded(buffer)
     local is_buffer_listed = api.nvim_buf_get_option(buffer, 'buflisted')
-    if not is_buffer_loaded or not is_buffer_listed then
+    local is_buffer_dirvish = api.nvim_buf_get_option(buffer, 'filetype') == 'dirvish'
+    if not is_buffer_loaded or (not is_buffer_listed and not is_buffer_dirvish) then
       return false
     end
 
