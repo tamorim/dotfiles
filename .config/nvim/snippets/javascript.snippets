@@ -1,0 +1,62 @@
+### JavaScript Section
+
+snippet => "arrow function"
+  (${1:arguments...}) => {
+    ${2:${VISUAL:function block}}
+  }${3}
+
+snippet ? "ternary operation"
+  const ${1:variable name} = ${2:check} ? ${3:case true} : ${4:case false}
+
+snippet = "const declaration"
+  const ${1:variable name} = ${2:expression}
+
+snippet import "import"
+  import ${1:name} from '${2:module}'
+
+snippet log "console log"
+  console.log('${1:message}')
+
+snippet logvar "console log variable"
+  console.log('$1', ${1:expression})
+
+snippet if "if"
+  if (${1:expression}) {
+    ${2:if block...}
+  }
+
+snippet ifelse "if and else"
+  if (${1:expression}) {
+    ${2:if block...}
+  } else {
+    ${3:else block...}
+  }
+
+snippet timeout "setTimeout"
+  setTimeout(() => {
+    ${1:function block...}
+  }, ${2:delay})
+
+snippet each "forEach"
+  ${1:${VISUAL:collection}}.forEach((${2:arguments...}) => {
+    ${3:function block...}
+  })
+
+snippet map "map"
+  ${1:${VISUAL:collection}}.map((${2:arguments...}) => {
+    ${3:function block...}
+    return ${4:value}
+  })
+
+### React Section
+
+snippet reactfun "react stateless component template"
+  import React from 'react'
+
+  const ${1:component name} = (${2:props}) => {
+    return (
+      ${3:markup}
+    )
+  }
+
+  export $1
