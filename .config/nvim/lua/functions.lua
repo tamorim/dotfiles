@@ -204,7 +204,7 @@ function M.window_safe_buffer_delete()
   local is_current_buffer_modified = api.nvim_buf_get_option(0, 'modified')
   local windows = api.nvim_list_wins()
   local skip_current_buffer_filetype = false
-  table.foreach({ 'help', 'qf', 'fugitive', 'GV', 'git' }, function(index, filetype)
+  table.foreach({ 'help', 'qf', 'fugitive', 'fugitiveblame', 'GV', 'git' }, function(index, filetype)
     if current_buffer_filetype == filetype then
       skip_current_buffer_filetype = true
     end
