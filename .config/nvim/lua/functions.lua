@@ -30,7 +30,7 @@ function M.stab()
     opt_local.tabstop = tabstop
     opt_local.shiftwidth = tabstop
   end
-  summarize_tabs()
+  M.summarize_tabs()
 end
 
 -- Organize range by length
@@ -77,7 +77,7 @@ end
 -- Indent a long javascript object, array or parameter list
 function M.indent_list()
   local delimiter_map = { ['{'] = '}', ['['] = ']', ['('] = ')' }
-  local selection = get_visual_selection()
+  local selection = M.get_visual_selection()
   local start_delimiters = fn.join(fn.keys(delimiter_map), [[\|]])
   local start_delimiter = fn.matchstr(selection, start_delimiters)
   local end_delimiter = delimiter_map[start_delimiter]
@@ -169,17 +169,17 @@ end
 
 function M.commit_fixup_to_current_sha()
   fn.execute('Git commit --fixup=' .. fn['gv#sha']())
-  refresh_gv()
+  M.refresh_gv()
 end
 
 function M.interactive_rebase_with_current_sha()
   fn.execute('Git rebase -i ' .. fn['gv#sha']())
-  refresh_gv()
+  M.refresh_gv()
 end
 
 function M.auto_squash_rebase_with_current_sha()
   fn.execute('Git rebase --autosquash ' .. fn['gv#sha']())
-  refresh_gv()
+  M.refresh_gv()
 end
 
 function M.search_with_current_word()
@@ -187,7 +187,7 @@ function M.search_with_current_word()
 end
 
 function M.search_with_current_selection()
-  local current_selection = get_visual_selection()
+  local current_selection = M.get_visual_selection()
   fn.execute('Rg ' .. current_selection)
 end
 
