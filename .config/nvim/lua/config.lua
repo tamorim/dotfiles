@@ -37,7 +37,7 @@ opt.undodir = vim.env.HOME .. '/.nvim/undo'
 opt.undolevels = 1000
 opt.undoreload = 10000
 opt.shada = [['20,<1000,s1000]]
-opt.completeopt = { 'noinsert', 'menuone', 'noselect' }
+opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect' }
 opt.hidden = true
 opt.showbreak = [[↪\ ]]
 opt.listchars = { tab = [[»\ ]], nbsp = '•', trail = '•', extends = '›', precedes = '‹' }
