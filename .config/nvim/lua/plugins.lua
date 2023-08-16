@@ -35,9 +35,9 @@ require('lazy').setup({
       api.nvim_create_autocmd('BufReadPost', {
         pattern = 'fugitive://*',
         group = api.nvim_create_augroup('custom_fugitive', { clear = true }),
-        command = 'set bufhidden=delete'
+        command = 'set bufhidden=delete',
       })
-    end
+    end,
   },
   {
     'tpope/vim-rhubarb',
@@ -60,9 +60,9 @@ require('lazy').setup({
     'mattn/emmet-vim',
     init = function()
       g.user_emmet_settings = {
-        ['javascript.jsx'] = { extends = 'jsx' }
+        ['javascript.jsx'] = { extends = 'jsx' },
       }
-    end
+    end,
   },
 
   -- Completion and lint
@@ -76,9 +76,9 @@ require('lazy').setup({
         capabilities = capabilities,
         on_attach = function(client)
           client.server_capabilities.semanticTokensProvider = nil
-        end
+        end,
       })
-    end
+    end,
   },
   {
     'dcampos/nvim-snippy',
@@ -88,9 +88,9 @@ require('lazy').setup({
           ['<C-j>'] = 'expand',
           ['<C-n>'] = 'next',
           ['<C-p>'] = 'previous',
-        }
-      }
-    }
+        },
+      },
+    },
   },
   {
     'hrsh7th/nvim-cmp',
@@ -108,24 +108,24 @@ require('lazy').setup({
 
       cmp.setup.cmdline({ '/', '?' }, {
         completion = {
-          autocomplete = false
+          autocomplete = false,
         },
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
-          { name = 'buffer' }
-        }
+          { name = 'buffer' },
+        },
       })
 
       cmp.setup.cmdline(':', {
         completion = {
-          autocomplete = false
+          autocomplete = false,
         },
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
-          { name = 'path' }
+          { name = 'path' },
         }, {
-          { name = 'cmdline' }
-        })
+          { name = 'cmdline' },
+        }),
       })
 
       local get_select_behavior = function()
@@ -172,10 +172,10 @@ require('lazy').setup({
           { name = 'path' },
         }),
         view = {
-          entries = { name = 'custom', selection_order = 'near_cursor' }
+          entries = { name = 'custom', selection_order = 'near_cursor' },
         },
       }
-    end
+    end,
   },
   {
     'mfussenegger/nvim-lint',
@@ -192,9 +192,9 @@ require('lazy').setup({
         group = api.nvim_create_augroup('nvim_lint', { clear = true }),
         callback = function()
           require('lint').try_lint()
-        end
+        end,
       })
-    end
+    end,
   },
 
   -- Formatters
@@ -212,10 +212,27 @@ require('lazy').setup({
         api.nvim_create_autocmd('BufWritePre', {
           pattern = { '*.js', '*.jsx', '*.ts', '*.tsx', '*.css', '*.json', '*.md', '*.html' },
           group = api.nvim_create_augroup('prettier', { clear = true }),
-          command = 'Prettier'
+          command = 'Prettier',
         })
       end
-    end
+    end,
+  },
+  {
+    'ckipp01/stylua-nvim',
+    build = 'npm i -g @johnnymorganz/stylua-bin',
+    init = function()
+      local has_stylua_config = fn.filereadable(fn.fnamemodify('stylua.toml', ':p'))
+      local has_dot_stylua_config = fn.filereadable(fn.fnamemodify('.stylua.toml', ':p'))
+      if has_stylua_config or has_dot_stylua_config then
+        api.nvim_create_autocmd('BufWritePre', {
+          pattern = '*.lua',
+          group = api.nvim_create_augroup('stylua', { clear = true }),
+          callback = function()
+            require('stylua-nvim').format_file()
+          end,
+        })
+      end
+    end,
   },
 
   -- Misc
@@ -224,25 +241,28 @@ require('lazy').setup({
     dependencies = {
       {
         'junegunn/fzf',
-        build = function() fn['fzf#install']() end,
+        build = function()
+          fn['fzf#install']()
+        end,
         lazy = false,
-      }
+      },
     },
     init = function()
       g.fzf_layout = { down = '40%' }
-      g.rg_command = 'rg --fixed-strings --column --line-number --no-heading --ignore-case --hidden --follow --color=always --ignore-file ~/.agignore '
+      g.rg_command =
+        'rg --fixed-strings --column --line-number --no-heading --ignore-case --hidden --follow --color=always --ignore-file ~/.agignore '
       api.nvim_create_user_command(
         'Rg',
         'call fzf#vim#grep(g:rg_command.shellescape(<q-args>), 1, <bang>0)',
         { bang = true, nargs = '*' }
       )
-    end
+    end,
   },
   {
     'justinmk/vim-dirvish',
     init = function()
       g.dirvish_mode = ':sort ,^.*/,'
-    end
+    end,
   },
   {
     'itchyny/lightline.vim',
@@ -253,8 +273,8 @@ require('lazy').setup({
           right = {
             { 'lineinfo' },
             { 'percent' },
-            { 'filetype' }
-          }
+            { 'filetype' },
+          },
         },
         mode_map = {
           n = 'N',
@@ -267,10 +287,10 @@ require('lazy').setup({
           s = 'S',
           S = 'S',
           ['\\<C-s>'] = 'S',
-          t = 'T'
-        }
+          t = 'T',
+        },
       }
-    end
+    end,
   },
   { 'shime/vim-livedown', ft = 'markdown' },
 })

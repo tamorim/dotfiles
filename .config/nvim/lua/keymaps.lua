@@ -117,7 +117,7 @@ api.nvim_create_autocmd('FileType', {
     keymap.set('n', '<Leader>dr', fns.remove_file_or_dir, { buffer = true, silent = true })
     keymap.set('n', '<Leader>dc', fns.copy_file_or_dir, { buffer = true, silent = true })
     keymap.set('n', '<Leader>dm', fns.move_file_or_dir, { buffer = true, silent = true })
-  end
+  end,
 })
 
 api.nvim_create_autocmd('FileType', {
@@ -128,7 +128,7 @@ api.nvim_create_autocmd('FileType', {
     keymap.set('n', '<Leader>gd', vim.lsp.buf.definition, { buffer = true, silent = true })
     keymap.set('n', '<Leader>gt', vim.lsp.buf.hover, { buffer = true, silent = true })
     keymap.set('n', '<Leader>gr', vim.lsp.buf.references, { buffer = true, silent = true })
-  end
+  end,
 })
 
 api.nvim_create_autocmd('TermOpen', {
@@ -136,7 +136,7 @@ api.nvim_create_autocmd('TermOpen', {
   group = api.nvim_create_augroup('terminal_mappings', { clear = true }),
   callback = function()
     keymap.set('n', '<Leader>c', ':bdelete!<CR>', { buffer = true })
-  end
+  end,
 })
 
 api.nvim_create_autocmd('FileType', {
@@ -145,12 +145,20 @@ api.nvim_create_autocmd('FileType', {
   callback = function()
     keymap.set('n', 'cn', ':<C-U>Git commit --no-verify<CR>', { buffer = true, silent = true })
     keymap.set('n', 'can', ':<C-U>Git commit --amend --no-verify<CR>', { buffer = true, silent = true })
-    keymap.set('n', 'pp', function() fns.push_git_branch_to_origin(false, false) end, { buffer = true, silent = true })
-    keymap.set('n', 'pn', function() fns.push_git_branch_to_origin(true, false) end, { buffer = true, silent = true })
-    keymap.set('n', 'pf', function() fns.push_git_branch_to_origin(false, true) end, { buffer = true, silent = true })
-    keymap.set('n', 'pnf', function() fns.push_git_branch_to_origin(true, true) end, { buffer = true, silent = true })
+    keymap.set('n', 'pp', function()
+      fns.push_git_branch_to_origin(false, false)
+    end, { buffer = true, silent = true })
+    keymap.set('n', 'pn', function()
+      fns.push_git_branch_to_origin(true, false)
+    end, { buffer = true, silent = true })
+    keymap.set('n', 'pf', function()
+      fns.push_git_branch_to_origin(false, true)
+    end, { buffer = true, silent = true })
+    keymap.set('n', 'pnf', function()
+      fns.push_git_branch_to_origin(true, true)
+    end, { buffer = true, silent = true })
     keymap.set('n', 'pl', ':<C-U>Git --paginate pl<CR>', { buffer = true, silent = true })
-  end
+  end,
 })
 
 api.nvim_create_autocmd('FileType', {
@@ -160,5 +168,5 @@ api.nvim_create_autocmd('FileType', {
     keymap.set('n', 'cf', fns.commit_fixup_to_current_sha, { buffer = true, silent = true })
     keymap.set('n', 'ri', fns.interactive_rebase_with_current_sha, { buffer = true, silent = true })
     keymap.set('n', 'rf', fns.auto_squash_rebase_with_current_sha, { buffer = true, silent = true })
-  end
+  end,
 })

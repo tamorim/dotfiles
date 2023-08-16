@@ -17,9 +17,13 @@ function M.summarize_tabs()
     tabstop = vim.opt_local.tabstop:get(),
     shiftwidth = vim.opt_local.shiftwidth:get(),
     softtabstop = vim.opt_local.softtabstop:get(),
-    expandtab = tostring(vim.opt_local.expandtab:get())
+    expandtab = tostring(vim.opt_local.expandtab:get()),
   }
-  local message = string.gsub('tabstop = $tabstop, shiftwidth = $shiftwidth, softtabstop = $softtabstop, expandtab = $expandtab', '%$(%w+)', tabs)
+  local message = string.gsub(
+    'tabstop = $tabstop, shiftwidth = $shiftwidth, softtabstop = $softtabstop, expandtab = $expandtab',
+    '%$(%w+)',
+    tabs
+  )
   print(message)
 end
 
@@ -37,14 +41,22 @@ end
 function M.sort_lines()
   local first_line = fn.getpos('v')[2]
   local last_line = fn.getpos('.')[2]
-  cmd([[silent! execute ']] .. first_line .. ',' .. last_line .. [[s/^\(.*\)$/\=strdisplaywidth(submatch(0)) . " " . submatch(0)/']])
+  cmd(
+    [[silent! execute ']]
+      .. first_line
+      .. ','
+      .. last_line
+      .. [[s/^\(.*\)$/\=strdisplaywidth(submatch(0)) . " " . submatch(0)/']]
+  )
   cmd([[silent! execute ']] .. first_line .. ',' .. last_line .. [[sort n']])
   cmd([[silent! execute ']] .. first_line .. ',' .. last_line .. [[s/^\d\+\s//']])
 end
 
 -- Indent a React component's jsx code
 function M.indent_react()
-  cmd([[silent! execute 's/\v\<\w+\zs\s\ze|\zs\s\ze\w+\=|("|})\zs\s\ze\w+/\="\n" . matchstr(getline("."), ''^\s*'') . "  "/g']])
+  cmd(
+    [[silent! execute 's/\v\<\w+\zs\s\ze|\zs\s\ze\w+\=|("|})\zs\s\ze\w+/\="\n" . matchstr(getline("."), ''^\s*'') . "  "/g']]
+  )
   cmd([[silent! execute 's/\v\s?(\/?\>)/\="\n" . matchstr(getline("."), ''^\s*'') . submatch(1)/']])
   cmd.normal('<<')
   cmd([[silent! execute 's/\v\zs(\>)\ze.+/\=submatch(1) . "\n" . matchstr(getline("."), ''^\s*'')/']])
@@ -63,7 +75,7 @@ function M.get_visual_selection()
   local column_end = visual_end[3]
   local lines = fn.getline(line_start, line_end)
   if fn.len(lines) == 0 then
-      return ''
+    return ''
   end
   if opt.selection:get() == 'inclusive' then
     lines[#lines] = string.sub(lines[#lines], 1, column_end)
@@ -83,17 +95,12 @@ function M.indent_list()
   local end_delimiter = delimiter_map[start_delimiter]
   local space = fn.matchstr(fn.getline('v'), [[\v^(\s*)]])
   local step1 = fn.substitute(
-   selection,
-   [[\v.{-}\]] .. start_delimiter .. [[\s?]],
-   [[\="]] .. start_delimiter .. [[\r]] .. space .. [[  "]],
-   ''
+    selection,
+    [[\v.{-}\]] .. start_delimiter .. [[\s?]],
+    [[\="]] .. start_delimiter .. [[\r]] .. space .. [[  "]],
+    ''
   )
-  local step2 = fn.substitute(
-    step1,
-    [[\v.{-},\zs\s?\ze]],
-    [[\="\r]] .. space .. [[  "]],
-    'g'
-  )
+  local step2 = fn.substitute(step1, [[\v.{-},\zs\s?\ze]], [[\="\r]] .. space .. [[  "]], 'g')
   local step3 = fn.substitute(
     step2,
     [[\v.{-}\zs\s?\]] .. end_delimiter .. [[(.*\]] .. end_delimiter .. [[)@!.*\ze]],
@@ -101,7 +108,17 @@ function M.indent_list()
     ''
   )
 
-  cmd([[silent! execute 's/\v.{-}\zs\]] .. start_delimiter .. [[.{-}\]] .. end_delimiter .. [[(.*\]] .. end_delimiter .. [[)@!\ze/]] .. step3 .. [[']])
+  cmd(
+    [[silent! execute 's/\v.{-}\zs\]]
+      .. start_delimiter
+      .. [[.{-}\]]
+      .. end_delimiter
+      .. [[(.*\]]
+      .. end_delimiter
+      .. [[)@!\ze/]]
+      .. step3
+      .. [[']]
+  )
 end
 
 function M.create_file_or_dir()
@@ -210,10 +227,7 @@ function M.window_safe_buffer_delete()
     end
   end)
 
-  if skip_current_buffer_filetype or
-    is_current_buffer_fugitive or
-    is_current_buffer_modified or
-    #windows == 1 then
+  if skip_current_buffer_filetype or is_current_buffer_fugitive or is_current_buffer_modified or #windows == 1 then
     M.pcall_bdelete()
     return
   end

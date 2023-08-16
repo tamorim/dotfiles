@@ -60,26 +60,26 @@ vim.diagnostic.config({ underline = false })
 api.nvim_create_autocmd('FileType', {
   pattern = 'qf',
   group = api.nvim_create_augroup('skip_qf', { clear = true }),
-  command = 'set nobuflisted'
+  command = 'set nobuflisted',
 })
 
 -- Set fold level to 0 when in vim syntax
 api.nvim_create_autocmd('Syntax', {
   pattern = 'vim',
   group = api.nvim_create_augroup('vim_fold', { clear = true }),
-  command = 'setlocal foldmethod=marker foldlevel=0'
+  command = 'setlocal foldmethod=marker foldlevel=0',
 })
 
 -- Check for external file changes
 api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
   pattern = '*',
   group = api.nvim_create_augroup('check_changes', { clear = true }),
-  command = ':checktime'
+  command = ':checktime',
 })
 
 -- Close loclist on buffer close
 api.nvim_create_autocmd({ 'BufDelete', 'BufWinLeave' }, {
   pattern = '*',
   group = api.nvim_create_augroup('close_loclist', { clear = true }),
-  command = 'if empty(&buftype) | lclose | endif'
+  command = 'if empty(&buftype) | lclose | endif',
 })
