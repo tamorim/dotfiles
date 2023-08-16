@@ -1,13 +1,10 @@
 table.unpack = table.unpack or unpack
 
-local g = vim.g
 local opt = vim.opt
 local opt_local = vim.opt_local
 local fn = vim.fn
 local cmd = vim.cmd
 local api = vim.api
-local env = vim.env
-local keymap = vim.keymap
 
 local M = {}
 
@@ -220,12 +217,13 @@ function M.window_safe_buffer_delete()
   local is_current_buffer_fugitive = vim.startswith(api.nvim_buf_get_name(0), 'fugitive://')
   local is_current_buffer_modified = api.nvim_buf_get_option(0, 'modified')
   local windows = api.nvim_list_wins()
+  local bypass_filetypes = { 'help', 'qf', 'fugitive', 'fugitiveblame', 'GV', 'git' }
   local skip_current_buffer_filetype = false
-  table.foreach({ 'help', 'qf', 'fugitive', 'fugitiveblame', 'GV', 'git' }, function(index, filetype)
+  for _, filetype in ipairs(bypass_filetypes) do
     if current_buffer_filetype == filetype then
       skip_current_buffer_filetype = true
     end
-  end)
+  end
 
   if skip_current_buffer_filetype or is_current_buffer_fugitive or is_current_buffer_modified or #windows == 1 then
     M.pcall_bdelete()
@@ -266,11 +264,12 @@ function M.window_safe_buffer_delete()
     cmd.enew()
   else
     local current_buffer = api.nvim_get_current_buf()
-    local current_buffer_index = table.foreachi(buffers, function(index, buffer)
+    local current_buffer_index
+    for index, buffer in ipairs(buffers) do
       if buffer == current_buffer then
-        return index
+        current_buffer_index = index
       end
-    end)
+    end
     if current_buffer_index == 1 then
       api.nvim_win_set_buf(0, buffers[current_buffer_index + 1])
     else

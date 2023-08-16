@@ -2,12 +2,8 @@ table.unpack = table.unpack or unpack
 
 local g = vim.g
 local opt = vim.opt
-local opt_local = vim.opt_local
 local fn = vim.fn
-local cmd = vim.cmd
 local api = vim.api
-local env = vim.env
-local keymap = vim.keymap
 
 local lazypath = fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
@@ -66,14 +62,45 @@ require('lazy').setup({
   },
 
   -- Completion and lint
-  'neovim/nvim-lspconfig',
   {
     'hrsh7th/cmp-nvim-lsp',
-    dependencies = { 'neovim/nvim-lspconfig' },
+    dependencies = {
+      'neovim/nvim-lspconfig',
+      'luals/lua-language-server',
+    },
     init = function()
+      local lspconfig = require('lspconfig')
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
-      require('lspconfig').tsserver.setup({
+
+      lspconfig.tsserver.setup({
         capabilities = capabilities,
+        on_attach = function(client)
+          client.server_capabilities.semanticTokensProvider = nil
+        end,
+      })
+
+      lspconfig.lua_ls.setup({
+        capabilities = capabilities,
+        on_init = function(client)
+          client.config.cmd = {
+            'lua-language-server',
+            '--logpath',
+            '~/.cache/lua-language-server/',
+            '--metapath',
+            '~/.cache/lua-language-server/meta/',
+          }
+          client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+            runtime = { version = 'LuaJIT' },
+            workspace = {
+              library = { vim.env.VIMRUNTIME },
+            },
+            diagnostics = {
+              globals = { 'vim' },
+            },
+          })
+          client.notify('workspace/didChangeConfiguration', { settings = client.config.settings })
+          return true
+        end,
         on_attach = function(client)
           client.server_capabilities.semanticTokensProvider = nil
         end,
@@ -101,6 +128,7 @@ require('lazy').setup({
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
       { 'dcampos/cmp-snippy', dependencies = { 'dcampos/nvim-snippy' } },
+      'hrsh7th/cmp-nvim-lua',
     },
     opts = function()
       local snippy = require('snippy')
@@ -167,6 +195,7 @@ require('lazy').setup({
           { name = 'nvim_lsp' },
           { name = 'nvim_lsp_signature_help' },
           { name = 'snippy' },
+          { name = 'nvim_lua' },
         }, {
           { name = 'buffer' },
           { name = 'path' },

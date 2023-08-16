@@ -2,13 +2,8 @@ local fns = require('functions')
 
 table.unpack = table.unpack or unpack
 
-local g = vim.g
-local opt = vim.opt
-local opt_local = vim.opt_local
 local fn = vim.fn
-local cmd = vim.cmd
 local api = vim.api
-local env = vim.env
 local keymap = vim.keymap
 
 -- Fold with space
@@ -113,10 +108,11 @@ api.nvim_create_autocmd('FileType', {
   pattern = 'dirvish',
   group = api.nvim_create_augroup('dirvish_mappings', { clear = true }),
   callback = function()
-    keymap.set('n', '<Leader>da', fns.create_file_or_dir, { buffer = true, silent = true })
-    keymap.set('n', '<Leader>dr', fns.remove_file_or_dir, { buffer = true, silent = true })
-    keymap.set('n', '<Leader>dc', fns.copy_file_or_dir, { buffer = true, silent = true })
-    keymap.set('n', '<Leader>dm', fns.move_file_or_dir, { buffer = true, silent = true })
+    local opts = { buffer = true, silent = true }
+    keymap.set('n', '<Leader>da', fns.create_file_or_dir, opts)
+    keymap.set('n', '<Leader>dr', fns.remove_file_or_dir, opts)
+    keymap.set('n', '<Leader>dc', fns.copy_file_or_dir, opts)
+    keymap.set('n', '<Leader>dm', fns.move_file_or_dir, opts)
   end,
 })
 
@@ -124,10 +120,11 @@ api.nvim_create_autocmd('FileType', {
   pattern = { 'javascript', 'javascript.jsx', 'typescript', 'typescript.tsx', 'typescriptreact' },
   group = api.nvim_create_augroup('javascript_mappings', { clear = true }),
   callback = function()
-    keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, { buffer = true, silent = true })
-    keymap.set('n', '<Leader>gd', vim.lsp.buf.definition, { buffer = true, silent = true })
-    keymap.set('n', '<Leader>gt', vim.lsp.buf.hover, { buffer = true, silent = true })
-    keymap.set('n', '<Leader>gr', vim.lsp.buf.references, { buffer = true, silent = true })
+    local opts = { buffer = true, silent = true }
+    keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, opts)
+    keymap.set('n', '<Leader>gd', vim.lsp.buf.definition, opts)
+    keymap.set('n', '<Leader>gt', vim.lsp.buf.hover, opts)
+    keymap.set('n', '<Leader>gr', vim.lsp.buf.references, opts)
   end,
 })
 
@@ -143,21 +140,27 @@ api.nvim_create_autocmd('FileType', {
   pattern = 'fugitive',
   group = api.nvim_create_augroup('fugitive_mappings', { clear = true }),
   callback = function()
-    keymap.set('n', 'cn', ':<C-U>Git commit --no-verify<CR>', { buffer = true, silent = true })
-    keymap.set('n', 'can', ':<C-U>Git commit --amend --no-verify<CR>', { buffer = true, silent = true })
+    local opts = { buffer = true, silent = true }
+    keymap.set('n', 'cn', ':<C-U>Git commit --no-verify<CR>', opts)
+    keymap.set('n', 'can', ':<C-U>Git commit --amend --no-verify<CR>', opts)
+
     keymap.set('n', 'pp', function()
       fns.push_git_branch_to_origin(false, false)
-    end, { buffer = true, silent = true })
+    end, opts)
+
     keymap.set('n', 'pn', function()
       fns.push_git_branch_to_origin(true, false)
-    end, { buffer = true, silent = true })
+    end, opts)
+
     keymap.set('n', 'pf', function()
       fns.push_git_branch_to_origin(false, true)
-    end, { buffer = true, silent = true })
+    end, opts)
+
     keymap.set('n', 'pnf', function()
       fns.push_git_branch_to_origin(true, true)
-    end, { buffer = true, silent = true })
-    keymap.set('n', 'pl', ':<C-U>Git --paginate pl<CR>', { buffer = true, silent = true })
+    end, opts)
+
+    keymap.set('n', 'pl', ':<C-U>Git --paginate pl<CR>', opts)
   end,
 })
 
@@ -165,8 +168,9 @@ api.nvim_create_autocmd('FileType', {
   pattern = 'GV',
   group = api.nvim_create_augroup('gv_mappings', { clear = true }),
   callback = function()
-    keymap.set('n', 'cf', fns.commit_fixup_to_current_sha, { buffer = true, silent = true })
-    keymap.set('n', 'ri', fns.interactive_rebase_with_current_sha, { buffer = true, silent = true })
-    keymap.set('n', 'rf', fns.auto_squash_rebase_with_current_sha, { buffer = true, silent = true })
+    local opts = { buffer = true, silent = true }
+    keymap.set('n', 'cf', fns.commit_fixup_to_current_sha, opts)
+    keymap.set('n', 'ri', fns.interactive_rebase_with_current_sha, opts)
+    keymap.set('n', 'rf', fns.auto_squash_rebase_with_current_sha, opts)
   end,
 })

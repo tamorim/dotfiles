@@ -2,12 +2,10 @@ table.unpack = table.unpack or unpack
 
 local g = vim.g
 local opt = vim.opt
-local opt_local = vim.opt_local
 local fn = vim.fn
 local cmd = vim.cmd
 local api = vim.api
 local env = vim.env
-local keymap = vim.keymap
 
 -- Set a env var to detect that we are on neovim's terminal emulator
 env.NVIM_TERM = 1
