@@ -263,25 +263,25 @@ require('lazy').setup({
 
   -- Misc
   {
-    'junegunn/fzf.vim',
+    'nvim-telescope/telescope.nvim',
+    tag = '0.1.5',
     dependencies = {
-      {
-        'junegunn/fzf',
-        build = function()
-          fn['fzf#install']()
-        end,
-        lazy = false,
-      },
+      'nvim-lua/plenary.nvim',
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     },
     init = function()
-      g.fzf_layout = { down = '40%' }
-      g.rg_command =
-        'rg --fixed-strings --column --line-number --no-heading --ignore-case --hidden --follow --color=always --ignore-file ~/.agignore '
-      api.nvim_create_user_command(
-        'Rg',
-        'call fzf#vim#grep(g:rg_command.shellescape(<q-args>), 1, <bang>0)',
-        { bang = true, nargs = '*' }
-      )
+      local telescope = require('telescope')
+      local actions = require('telescope.actions')
+      telescope.setup({
+        defaults = {
+          mappings = {
+            i = {
+              ['<Esc>'] = actions.close,
+            },
+          },
+        },
+      })
+      telescope.load_extension('fzf')
     end,
   },
   {

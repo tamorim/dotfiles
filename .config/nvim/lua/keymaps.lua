@@ -1,3 +1,6 @@
+local builtin = require('telescope.builtin')
+local themes = require('telescope.themes')
+
 local fns = require('functions')
 
 table.unpack = table.unpack or unpack
@@ -5,6 +8,21 @@ table.unpack = table.unpack or unpack
 local fn = vim.fn
 local api = vim.api
 local keymap = vim.keymap
+
+local dropdown = themes.get_dropdown({
+  layout_config = {
+    center = {
+      width = 0.9,
+    },
+  },
+})
+local dropdownBuiltin = setmetatable({}, {
+  __index = function(_, key)
+    return function()
+      return builtin[key](dropdown)
+    end
+  end,
+})
 
 -- Fold with space
 keymap.set('n', '<Space>', 'za')
@@ -20,11 +38,11 @@ keymap.set('n', '<Tab>', ':b#<CR>')
 keymap.set('n', '<C-j>', '<Plug>yankstack_substitute_older_paste', { silent = true })
 keymap.set('n', '<C-k>', '<Plug>yankstack_substitute_newer_paste', { silent = true })
 
--- Ctrl+p uses fzf
-keymap.set('n', '<C-p>', ':FZF<CR>')
+-- Ctrl+p uses telescope find files
+keymap.set('n', '<C-p>', dropdownBuiltin.find_files)
 
--- Leader b uses fzf buffers
-keymap.set('n', '<Leader>b', ':Buffers<CR>')
+-- Leader b uses telescope buffers
+keymap.set('n', '<Leader>b', dropdownBuiltin.buffers)
 
 -- Leader y yanks to the plus register
 keymap.set({ 'n', 'v' }, '<Leader>y', '"+y')
@@ -40,10 +58,9 @@ keymap.set('n', '<Leader>n', ':e.<CR>')
 -- Leader c deletes current buffer while maintaining the window
 keymap.set('n', '<Leader>c', fns.window_safe_buffer_delete)
 
--- Leader a opens rg
-keymap.set('n', '<Leader>a', ':Rg ')
-keymap.set('v', '<Leader>a', fns.search_with_current_selection, { silent = true })
-keymap.set('n', '<Leader>aw', fns.search_with_current_word, { silent = true })
+-- Leader a opens telescope grep
+keymap.set('n', '<Leader>a', dropdownBuiltin.live_grep)
+keymap.set('n', '<Leader>aw', dropdownBuiltin.grep_string)
 
 -- Leader e evaluates current file
 keymap.set('n', '<Leader>e', ':source %<CR>')
@@ -121,10 +138,16 @@ api.nvim_create_autocmd('FileType', {
   group = api.nvim_create_augroup('javascript_mappings', { clear = true }),
   callback = function()
     local opts = { buffer = true, silent = true }
+    local diagnosticsOpts = vim.tbl_extend('force', dropdown, { bufnr = 0 })
+
     keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, opts)
-    keymap.set('n', '<Leader>gd', vim.lsp.buf.definition, opts)
-    keymap.set('n', '<Leader>gt', vim.lsp.buf.hover, opts)
-    keymap.set('n', '<Leader>gr', vim.lsp.buf.references, opts)
+    keymap.set('n', '<Leader>gd', dropdownBuiltin.lsp_definitions, opts)
+    keymap.set('n', '<Leader>gt', dropdownBuiltin.lsp_type_definitions, opts)
+    keymap.set('n', '<Leader>gr', dropdownBuiltin.lsp_references, opts)
+    keymap.set('n', '<Leader>gh', vim.lsp.buf.hover, opts)
+    keymap.set('n', '<Leader>od', function()
+      builtin.diagnostics(diagnosticsOpts)
+    end, opts)
   end,
 })
 
