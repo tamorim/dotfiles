@@ -200,9 +200,6 @@ require('lazy').setup({
           { name = 'buffer' },
           { name = 'path' },
         }),
-        view = {
-          entries = { name = 'custom', selection_order = 'near_cursor' },
-        },
       }
     end,
   },
