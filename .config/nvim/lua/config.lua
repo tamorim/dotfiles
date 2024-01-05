@@ -42,6 +42,7 @@ opt.listchars = { tab = [[»\ ]], nbsp = '•', trail = '•', extends = '›', 
 opt.list = true
 opt.showmode = false
 opt.colorcolumn = '81'
+opt.pumheight = 5
 
 opt.background = 'dark'
 cmd.colorscheme('palenight')
