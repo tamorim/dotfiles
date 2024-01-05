@@ -1,6 +1,5 @@
 table.unpack = table.unpack or unpack
 
-local opt = vim.opt
 local opt_local = vim.opt_local
 local fn = vim.fn
 local cmd = vim.cmd
@@ -32,90 +31,6 @@ function M.stab()
     opt_local.shiftwidth = tabstop
   end
   M.summarize_tabs()
-end
-
--- Organize range by length
-function M.sort_lines()
-  local first_line = fn.getpos('v')[2]
-  local last_line = fn.getpos('.')[2]
-  cmd(
-    [[silent! execute ']]
-      .. first_line
-      .. ','
-      .. last_line
-      .. [[s/^\(.*\)$/\=strdisplaywidth(submatch(0)) . " " . submatch(0)/']]
-  )
-  cmd([[silent! execute ']] .. first_line .. ',' .. last_line .. [[sort n']])
-  cmd([[silent! execute ']] .. first_line .. ',' .. last_line .. [[s/^\d\+\s//']])
-end
-
--- Indent a React component's jsx code
-function M.indent_react()
-  cmd(
-    [[silent! execute 's/\v\<\w+\zs\s\ze|\zs\s\ze\w+\=|("|})\zs\s\ze\w+/\="\n" . matchstr(getline("."), ''^\s*'') . "  "/g']]
-  )
-  cmd([[silent! execute 's/\v\s?(\/?\>)/\="\n" . matchstr(getline("."), ''^\s*'') . submatch(1)/']])
-  cmd.normal('<<')
-  cmd([[silent! execute 's/\v\zs(\>)\ze.+/\=submatch(1) . "\n" . matchstr(getline("."), ''^\s*'')/']])
-  cmd.normal('>>')
-  cmd([[silent! execute 's/\v(\<\/\w+\>)$/\="\n" . matchstr(getline("."), ''^\s*'') . submatch(1)/']])
-  cmd.normal('<<')
-end
-
--- Why is this not a built-in Vim script function?!
-function M.get_visual_selection()
-  local visual_start = fn.getpos('v')
-  local line_start = visual_start[2]
-  local column_start = visual_start[3]
-  local visual_end = fn.getpos('.')
-  local line_end = visual_end[2]
-  local column_end = visual_end[3]
-  local lines = fn.getline(line_start, line_end)
-  if fn.len(lines) == 0 then
-    return ''
-  end
-  if opt.selection:get() == 'inclusive' then
-    lines[#lines] = string.sub(lines[#lines], 1, column_end)
-  else
-    lines[#lines] = string.sub(lines[#lines], 1, column_end - 1)
-  end
-  lines[1] = string.sub(lines[1], column_start - 1)
-  return fn.join(lines, [[\n]])
-end
-
--- Indent a long javascript object, array or parameter list
-function M.indent_list()
-  local delimiter_map = { ['{'] = '}', ['['] = ']', ['('] = ')' }
-  local selection = M.get_visual_selection()
-  local start_delimiters = fn.join(fn.keys(delimiter_map), [[\|]])
-  local start_delimiter = fn.matchstr(selection, start_delimiters)
-  local end_delimiter = delimiter_map[start_delimiter]
-  local space = fn.matchstr(fn.getline('v'), [[\v^(\s*)]])
-  local step1 = fn.substitute(
-    selection,
-    [[\v.{-}\]] .. start_delimiter .. [[\s?]],
-    [[\="]] .. start_delimiter .. [[\r]] .. space .. [[  "]],
-    ''
-  )
-  local step2 = fn.substitute(step1, [[\v.{-},\zs\s?\ze]], [[\="\r]] .. space .. [[  "]], 'g')
-  local step3 = fn.substitute(
-    step2,
-    [[\v.{-}\zs\s?\]] .. end_delimiter .. [[(.*\]] .. end_delimiter .. [[)@!.*\ze]],
-    [[\="\r]] .. space .. [[\]] .. end_delimiter .. [["]],
-    ''
-  )
-
-  cmd(
-    [[silent! execute 's/\v.{-}\zs\]]
-      .. start_delimiter
-      .. [[.{-}\]]
-      .. end_delimiter
-      .. [[(.*\]]
-      .. end_delimiter
-      .. [[)@!\ze/]]
-      .. step3
-      .. [[']]
-  )
 end
 
 function M.create_file_or_dir()
@@ -194,15 +109,6 @@ end
 function M.auto_squash_rebase_with_current_sha()
   fn.execute('Git rebase --autosquash ' .. fn['gv#sha']())
   M.refresh_gv()
-end
-
-function M.search_with_current_word()
-  fn.execute('Rg ' .. fn.expand('<cword>'))
-end
-
-function M.search_with_current_selection()
-  local current_selection = M.get_visual_selection()
-  fn.execute('Rg ' .. current_selection)
 end
 
 function M.pcall_bdelete(arg)

@@ -80,15 +80,6 @@ keymap.set('n', '<C-n>', [["zyiw :let @/=''.@z.''<CR> viw]])
 -- Ctrl+n on visual mode puts the current selection on the search register and highlights it
 keymap.set('v', '<C-n>', [["zy :let @/=''.@z.''<CR> gv]])
 
--- Leader s sorts range by length
-keymap.set('v', '<Leader>s', fns.sort_lines, { silent = true })
-
--- Leader ii indents a import statement
-keymap.set('v', '<Leader>il', fns.indent_list, { silent = true })
-
--- Leader ir indents a JSX component
-keymap.set('v', '<Leader>ir', fns.indent_react, { silent = true })
-
 -- Leader g opens fugitive status window
 keymap.set('n', '<Leader>g', ':Git<CR>')
 
