@@ -89,13 +89,13 @@ require('lazy').setup({
             '--metapath',
             '~/.cache/lua-language-server/meta/',
           }
-          client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-            runtime = { version = 'LuaJIT' },
-            workspace = {
-              library = { vim.env.VIMRUNTIME },
-            },
-            diagnostics = {
-              globals = { 'vim' },
+          client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
+            Lua = {
+              runtime = { version = 'LuaJIT' },
+              workspace = {
+                checkThirdParty = false,
+                library = { vim.env.VIMRUNTIME },
+              },
             },
           })
           client.notify('workspace/didChangeConfiguration', { settings = client.config.settings })
