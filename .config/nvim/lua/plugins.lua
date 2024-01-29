@@ -285,10 +285,18 @@ require('lazy').setup({
     end,
   },
   {
-    'justinmk/vim-dirvish',
-    init = function()
-      g.dirvish_mode = ':sort ,^.*/,'
-    end,
+    'nvim-tree/nvim-tree.lua',
+    opts = {
+      renderer = {
+        icons = {
+          show = {
+            file = false,
+            folder = false,
+            folder_arrow = false,
+          },
+        },
+      },
+    },
   },
   {
     'itchyny/lightline.vim',

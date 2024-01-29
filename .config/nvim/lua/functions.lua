@@ -123,7 +123,7 @@ function M.window_safe_buffer_delete()
   local is_current_buffer_fugitive = vim.startswith(api.nvim_buf_get_name(0), 'fugitive://')
   local is_current_buffer_modified = api.nvim_buf_get_option(0, 'modified')
   local windows = api.nvim_list_wins()
-  local bypass_filetypes = { 'help', 'qf', 'fugitive', 'fugitiveblame', 'GV', 'git' }
+  local bypass_filetypes = { 'help', 'qf', 'fugitive', 'fugitiveblame', 'GV', 'git', 'NvimTree' }
   local skip_current_buffer_filetype = false
   for _, filetype in ipairs(bypass_filetypes) do
     if current_buffer_filetype == filetype then
@@ -141,8 +141,7 @@ function M.window_safe_buffer_delete()
   local buffers = vim.tbl_filter(function(buffer)
     local is_buffer_loaded = api.nvim_buf_is_loaded(buffer)
     local is_buffer_listed = api.nvim_buf_get_option(buffer, 'buflisted')
-    local is_buffer_dirvish = api.nvim_buf_get_option(buffer, 'filetype') == 'dirvish'
-    if not is_buffer_loaded or (not is_buffer_listed and not is_buffer_dirvish) then
+    if not is_buffer_loaded or not is_buffer_listed then
       return false
     end
 

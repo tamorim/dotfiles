@@ -1,5 +1,6 @@
 local builtin = require('telescope.builtin')
 local themes = require('telescope.themes')
+local treeApi = require('nvim-tree.api')
 
 local fns = require('functions')
 
@@ -52,8 +53,13 @@ keymap.set('n', '<Leader>Y', '"+Y')
 keymap.set({ 'n', 'v' }, '<Leader>p', '"+p')
 keymap.set('n', '<Leader>P', '"+P')
 
--- Leader n toggles netrw or dirvish if installed
-keymap.set('n', '<Leader>n', ':e.<CR>')
+-- Leader n toggles nvim-tree
+keymap.set('n', '<Leader>n', ':NvimTreeToggle<CR>')
+
+-- Hyphen or minus toggles nvim-tree with the current file parent directory
+keymap.set('n', '-', function()
+  treeApi.tree.toggle({ path = fn.expand('%:p:h') })
+end)
 
 -- Leader c deletes current buffer while maintaining the window
 keymap.set('n', '<Leader>c', fns.window_safe_buffer_delete)

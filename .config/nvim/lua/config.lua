@@ -10,6 +10,8 @@ local env = vim.env
 -- Set a env var to detect that we are on neovim's terminal emulator
 env.NVIM_TERM = 1
 
+g.loaded_netrw = 1
+g.loaded_netrwPlugin = 1
 g.mapleader = ','
 
 cmd.syntax('on')
