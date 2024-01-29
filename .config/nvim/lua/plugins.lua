@@ -271,16 +271,7 @@ require('lazy').setup({
     },
     init = function()
       local telescope = require('telescope')
-      local actions = require('telescope.actions')
-      telescope.setup({
-        defaults = {
-          mappings = {
-            i = {
-              ['<Esc>'] = actions.close,
-            },
-          },
-        },
-      })
+      telescope.setup()
       telescope.load_extension('fzf')
     end,
   },
