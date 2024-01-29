@@ -1,0 +1,36 @@
+live_config_reload = true
+
+[colors.bright]
+red = "#ff869a"
+
+[colors.dim]
+red = "#BE5046"
+yellow = "#F78C6C"
+
+[colors.normal]
+black = "#292D3E"
+blue = "#82b1ff"
+cyan = "#89DDFF"
+green = "#C3E88D"
+magenta = "#c792ea"
+red = "#ff5370"
+white = "#bfc7d5"
+yellow = "#ffcb6b"
+
+[colors.primary]
+background = "#292D3E"
+foreground = "#bfc7d5"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 14.0
+
+[font.normal]
+family = "Menlo"
+style = "Regular"
+
+[window]
+option_as_alt = "Both"
+startup_mode = "Maximized"
