@@ -1,7 +1,3 @@
-local builtin = require('telescope.builtin')
-local themes = require('telescope.themes')
-local treeApi = require('nvim-tree.api')
-
 local fns = require('functions')
 
 table.unpack = table.unpack or unpack
@@ -9,21 +5,6 @@ table.unpack = table.unpack or unpack
 local fn = vim.fn
 local api = vim.api
 local keymap = vim.keymap
-
-local dropdown = themes.get_dropdown({
-  layout_config = {
-    center = {
-      width = 0.9,
-    },
-  },
-})
-local dropdownBuiltin = setmetatable({}, {
-  __index = function(_, key)
-    return function()
-      return builtin[key](dropdown)
-    end
-  end,
-})
 
 -- Fold with space
 keymap.set('n', '<Space>', 'za')
@@ -36,14 +17,17 @@ keymap.set('n', 'k', 'gk')
 keymap.set('n', '<Tab>', ':b#<CR>')
 
 -- Yankstack config
-keymap.set('n', '<C-j>', '<Plug>yankstack_substitute_older_paste', { silent = true })
-keymap.set('n', '<C-k>', '<Plug>yankstack_substitute_newer_paste', { silent = true })
+keymap.set('n', '<C-j>', '<Plug>yankstack_substitute_older_paste')
+keymap.set('n', '<C-k>', '<Plug>yankstack_substitute_newer_paste')
 
 -- Ctrl+p uses telescope find files
-keymap.set('n', '<C-p>', dropdownBuiltin.find_files)
+keymap.set('n', '<C-p>', ':Telescope find_files<CR>')
 
 -- Leader b uses telescope buffers
-keymap.set('n', '<Leader>b', dropdownBuiltin.buffers)
+keymap.set('n', '<Leader>b', ':Telescope buffers<CR>')
+
+-- Leader tr uses telescope resume
+keymap.set('n', '<Leader>tr', ':Telescope resume<CR>')
 
 -- Leader y yanks to the plus register
 keymap.set({ 'n', 'v' }, '<Leader>y', '"+y')
@@ -56,17 +40,12 @@ keymap.set('n', '<Leader>P', '"+P')
 -- Leader n toggles nvim-tree
 keymap.set('n', '<Leader>n', ':NvimTreeToggle<CR>')
 
--- Hyphen or minus toggles nvim-tree with the current file parent directory
-keymap.set('n', '-', function()
-  treeApi.tree.toggle({ path = fn.expand('%:p:h') })
-end)
-
 -- Leader c deletes current buffer while maintaining the window
 keymap.set('n', '<Leader>c', fns.window_safe_buffer_delete)
 
 -- Leader a opens telescope grep
-keymap.set('n', '<Leader>a', dropdownBuiltin.live_grep)
-keymap.set('n', '<Leader>aw', dropdownBuiltin.grep_string)
+keymap.set('n', '<Leader>a', ':Telescope live_grep<CR>')
+keymap.set('n', '<Leader>aw', ':Telescope grep_string<CR>')
 
 -- Leader e evaluates current file
 keymap.set('n', '<Leader>e', ':source %<CR>')
@@ -118,35 +97,13 @@ keymap.set('i', '<CR>', function()
   end
 end, { silent = true, expr = true })
 
-api.nvim_create_autocmd('FileType', {
-  pattern = 'dirvish',
-  group = api.nvim_create_augroup('dirvish_mappings', { clear = true }),
-  callback = function()
-    local opts = { buffer = true, silent = true }
-    keymap.set('n', '<Leader>da', fns.create_file_or_dir, opts)
-    keymap.set('n', '<Leader>dr', fns.remove_file_or_dir, opts)
-    keymap.set('n', '<Leader>dc', fns.copy_file_or_dir, opts)
-    keymap.set('n', '<Leader>dm', fns.move_file_or_dir, opts)
-  end,
-})
-
-api.nvim_create_autocmd('FileType', {
-  pattern = { 'javascript', 'javascript.jsx', 'typescript', 'typescript.tsx', 'typescriptreact' },
-  group = api.nvim_create_augroup('javascript_mappings', { clear = true }),
-  callback = function()
-    local opts = { buffer = true, silent = true }
-    local diagnosticsOpts = vim.tbl_extend('force', dropdown, { bufnr = 0 })
-
-    keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, opts)
-    keymap.set('n', '<Leader>gd', dropdownBuiltin.lsp_definitions, opts)
-    keymap.set('n', '<Leader>gt', dropdownBuiltin.lsp_type_definitions, opts)
-    keymap.set('n', '<Leader>gr', dropdownBuiltin.lsp_references, opts)
-    keymap.set('n', '<Leader>gh', vim.lsp.buf.hover, opts)
-    keymap.set('n', '<Leader>od', function()
-      builtin.diagnostics(diagnosticsOpts)
-    end, opts)
-  end,
-})
+-- LSP mappings
+keymap.set('n', '<Leader>rn', vim.lsp.buf.rename)
+keymap.set('n', '<Leader>gd', ':Telescope lsp_definitions<CR>')
+keymap.set('n', '<Leader>gt', ':Telescope lsp_type_definitions<CR>')
+keymap.set('n', '<Leader>gr', ':Telescope lsp_references<CR>')
+keymap.set('n', '<Leader>gh', vim.lsp.buf.hover)
+keymap.set('n', '<Leader>od', ':Telescope diagnostics bufnr=0<CR>')
 
 api.nvim_create_autocmd('TermOpen', {
   pattern = '*',
