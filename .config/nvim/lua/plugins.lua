@@ -6,7 +6,7 @@ local fn = vim.fn
 local api = vim.api
 
 local lazypath = fn.stdpath('data') .. '/lazy/lazy.nvim'
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   fn.system({
     'git',
     'clone',
@@ -73,7 +73,14 @@ require('lazy').setup({
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
       lspconfig.tsserver.setup({
-        capabilities = capabilities,
+        init_options = {
+          preferences = {
+            includePackageJsonAutoImports = 'off',
+            includeCompletionsForModuleExports = false,
+            includeCompletionsForImportStatements = false,
+            allowIncompleteCompletions = false,
+          },
+        },
         on_attach = function(client)
           client.server_capabilities.semanticTokensProvider = nil
         end,
@@ -81,26 +88,25 @@ require('lazy').setup({
 
       lspconfig.lua_ls.setup({
         capabilities = capabilities,
-        on_init = function(client)
-          client.config.cmd = {
-            'lua-language-server',
-            '--logpath',
-            '~/.cache/lua-language-server/',
-            '--metapath',
-            '~/.cache/lua-language-server/meta/',
-          }
-          client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
-            Lua = {
-              runtime = { version = 'LuaJIT' },
-              workspace = {
-                checkThirdParty = false,
-                library = { vim.env.VIMRUNTIME },
+        cmd = {
+          'lua-language-server',
+          '--logpath',
+          '~/.cache/lua-language-server/',
+          '--metapath',
+          '~/.cache/lua-language-server/meta/',
+        },
+        settings = {
+          Lua = {
+            runtime = { version = 'LuaJIT' },
+            workspace = {
+              checkThirdParty = false,
+              library = {
+                vim.env.VIMRUNTIME,
+                '${3rd}/luv/library',
               },
             },
-          })
-          client.notify('workspace/didChangeConfiguration', { settings = client.config.settings })
-          return true
-        end,
+          },
+        },
         on_attach = function(client)
           client.server_capabilities.semanticTokensProvider = nil
         end,
@@ -165,6 +171,21 @@ require('lazy').setup({
       end
 
       return {
+        matching = {
+          disallow_fuzzy_matching = true,
+          disallow_fullfuzzy_matching = true,
+          disallow_partial_fuzzy_matching = true,
+          disallow_partial_matching = false,
+          disallow_prefix_unmatching = true,
+        },
+        sorting = {
+          comparators = {
+            cmp.config.compare.exact,
+            cmp.config.compare.offset,
+            cmp.config.compare.recently_used,
+            cmp.config.compare.score,
+          },
+        },
         snippet = {
           expand = function(args)
             snippy.expand_snippet(args.body)
@@ -192,12 +213,12 @@ require('lazy').setup({
           ['<CR>'] = cmp.mapping.confirm({ select = false }),
         },
         sources = cmp.config.sources({
-          { name = 'nvim_lsp' },
+          { name = 'nvim_lsp', max_item_count = 30 },
           { name = 'nvim_lsp_signature_help' },
           { name = 'snippy' },
           { name = 'nvim_lua' },
         }, {
-          { name = 'buffer' },
+          { name = 'buffer', indexing_interval = 1000 },
           { name = 'path' },
         }),
       }
@@ -264,28 +285,84 @@ require('lazy').setup({
   -- Misc
   {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.5',
+    tag = '0.1.6',
     dependencies = {
       'nvim-lua/plenary.nvim',
       { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     },
     init = function()
       local telescope = require('telescope')
-      telescope.setup()
+      telescope.setup({
+        defaults = {
+          path_display = { 'truncate' },
+          layout_config = {
+            horizontal = {
+              width = 0.99,
+            },
+          },
+          vimgrep_arguments = {
+            'rg',
+            '--color=never',
+            '--no-heading',
+            '--with-filename',
+            '--line-number',
+            '--column',
+            '--smart-case',
+            '--hidden',
+            '--ignore-file',
+            '~/.rgignore',
+            '-g',
+            '!yarn.lock',
+            '-g',
+            '!package-lock.json',
+          },
+        },
+        pickers = {
+          find_files = {
+            find_command = {
+              'rg',
+              '--files',
+              '--color',
+              'never',
+              '--hidden',
+              '--ignore-file',
+              '~/.rgignore',
+            },
+          },
+        },
+      })
       telescope.load_extension('fzf')
     end,
   },
   {
     'nvim-tree/nvim-tree.lua',
     opts = {
+      filesystem_watchers = {
+        enable = true,
+        debounce_delay = 50,
+        ignore_dirs = {
+          'node_modules',
+        },
+      },
       renderer = {
+        add_trailing = true,
         icons = {
           show = {
             file = false,
             folder = false,
             folder_arrow = false,
+            git = false,
+            modified = false,
+            diagnostics = false,
+            bookmarks = false,
           },
         },
+      },
+      filters = {
+        git_ignored = false,
+      },
+      update_focused_file = {
+        enable = true,
       },
     },
   },
@@ -318,4 +395,9 @@ require('lazy').setup({
     end,
   },
   { 'shime/vim-livedown', ft = 'markdown' },
+}, {
+  ui = {
+    -- The backdrop opacity. 0 is fully opaque, 100 is fully transparent.
+    backdrop = 100,
+  },
 })
