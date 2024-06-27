@@ -49,10 +49,12 @@ opt.pumheight = 5
 opt.background = 'dark'
 cmd.colorscheme('palenight')
 
--- Customize diagnostics colors to match palenight theme
+-- Customize some highlight groups colors to match palenight theme
 cmd.highlight('DiagnosticError guifg=' .. fn['palenight#GetColors']().red.gui)
 cmd.highlight('DiagnosticWarn guifg=' .. fn['palenight#GetColors']().yellow.gui)
 cmd.highlight('DiagnosticHint guifg=' .. fn['palenight#GetColors']().white.gui)
+
+cmd.highlight('NormalFloat guibg=' .. fn['palenight#GetColors']().menu_grey.gui)
 
 -- Disable underline on diganostics
 vim.diagnostic.config({ underline = false })
