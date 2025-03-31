@@ -4,6 +4,7 @@ local g = vim.g
 local opt = vim.opt
 local fn = vim.fn
 local api = vim.api
+local env = vim.env
 
 local lazypath = fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
@@ -48,8 +49,15 @@ require('lazy').setup({
   'tpope/vim-rsi',
   'tpope/vim-unimpaired',
   'tpope/vim-repeat',
-  'Raimondi/delimitMate',
-  'tomtom/tcomment_vim',
+  {
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    config = true,
+  },
+  {
+    'numToStr/Comment.nvim',
+    config = true,
+  },
   'maxbrunsfeld/vim-yankstack',
   'osyo-manga/vim-over',
   {
@@ -72,13 +80,30 @@ require('lazy').setup({
       local lspconfig = require('lspconfig')
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-      lspconfig.tsserver.setup({
-        init_options = {
-          preferences = {
-            includePackageJsonAutoImports = 'off',
-            includeCompletionsForModuleExports = false,
-            includeCompletionsForImportStatements = false,
-            allowIncompleteCompletions = false,
+      local vtslsFileTypesConfig = {
+        preferences = {
+          includePackageJsonAutoImports = 'off',
+        },
+        suggest = {
+          autoImports = false,
+          includeCompletionsForImportStatements = false,
+        },
+      }
+      lspconfig.vtsls.setup({
+        capabilities = capabilities,
+        settings = {
+          typescript = vtslsFileTypesConfig,
+          javascript = vtslsFileTypesConfig,
+          vtsls = {
+            tsserver = {
+              globalPlugins = {
+                {
+                  name = '@styled/typescript-styled-plugin',
+                  location = env.NVM_GLOBAL_MODULES_DIR,
+                  enableForWorkspaceTypeScriptVersions = true,
+                },
+              },
+            },
           },
         },
         on_attach = function(client)
@@ -171,6 +196,10 @@ require('lazy').setup({
       end
 
       return {
+        performance = {
+          debounce = 100,
+          fetching_timeout = 100,
+        },
         matching = {
           disallow_fuzzy_matching = true,
           disallow_fullfuzzy_matching = true,
@@ -182,8 +211,11 @@ require('lazy').setup({
           comparators = {
             cmp.config.compare.exact,
             cmp.config.compare.offset,
-            cmp.config.compare.recently_used,
             cmp.config.compare.score,
+            cmp.config.compare.locality,
+            cmp.config.compare.scopes,
+            cmp.config.compare.recently_used,
+            cmp.config.compare.kind,
           },
         },
         snippet = {
@@ -227,11 +259,12 @@ require('lazy').setup({
   {
     'mfussenegger/nvim-lint',
     init = function()
+      vim.env.ESLINT_D_PPID = fn.getpid()
       require('lint').linters_by_ft = {
-        javascript = { 'eslint' },
-        typescript = { 'eslint' },
-        javascriptreact = { 'eslint' },
-        typescriptreact = { 'eslint' },
+        javascript = { 'eslint_d' },
+        typescript = { 'eslint_d' },
+        javascriptreact = { 'eslint_d' },
+        typescriptreact = { 'eslint_d' },
       }
 
       api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
@@ -285,7 +318,7 @@ require('lazy').setup({
   -- Misc
   {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.6',
+    tag = '0.1.8',
     dependencies = {
       'nvim-lua/plenary.nvim',
       { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
@@ -328,6 +361,13 @@ require('lazy').setup({
               '--ignore-file',
               '~/.rgignore',
             },
+          },
+          diagnostics = {
+            wrap_results = true,
+          },
+          lsp_references = {
+            path_display = { 'shorten' },
+            fname_width = 45,
           },
         },
       })
@@ -394,7 +434,14 @@ require('lazy').setup({
       }
     end,
   },
-  { 'shime/vim-livedown', ft = 'markdown' },
+  {
+    'iamcco/markdown-preview.nvim',
+    cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
+    ft = { 'markdown' },
+    build = function()
+      vim.fn['mkdp#util#install']()
+    end,
+  },
 }, {
   ui = {
     -- The backdrop opacity. 0 is fully opaque, 100 is fully transparent.
