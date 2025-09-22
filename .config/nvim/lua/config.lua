@@ -10,6 +10,10 @@ local env = vim.env
 -- Set a env var to detect that we are on neovim's terminal emulator
 env.NVIM_TERM = 1
 
+if fn.executable('volta') then
+  g.node_host_prog = vim.trim(fn.system('volta which neovim-node-host'))
+end
+
 g.loaded_netrw = 1
 g.loaded_netrwPlugin = 1
 g.mapleader = ','
@@ -43,21 +47,13 @@ opt.showbreak = [[↪\ ]]
 opt.listchars = { tab = [[»\ ]], nbsp = '•', trail = '•', extends = '›', precedes = '‹' }
 opt.list = true
 opt.showmode = false
-opt.colorcolumn = '81'
 opt.pumheight = 5
 
 opt.background = 'dark'
-cmd.colorscheme('palenight')
-
--- Customize some highlight groups colors to match palenight theme
-cmd.highlight('DiagnosticError guifg=' .. fn['palenight#GetColors']().red.gui)
-cmd.highlight('DiagnosticWarn guifg=' .. fn['palenight#GetColors']().yellow.gui)
-cmd.highlight('DiagnosticHint guifg=' .. fn['palenight#GetColors']().white.gui)
-
-cmd.highlight('NormalFloat guibg=' .. fn['palenight#GetColors']().menu_grey.gui)
+cmd.colorscheme('tokyonight')
 
 -- Disable underline on diganostics
-vim.diagnostic.config({ underline = false })
+vim.diagnostic.config({ underline = false, virtual_text = true })
 
 -- Skip location list and quick fix list on buffer switch and close
 api.nvim_create_autocmd('FileType', {

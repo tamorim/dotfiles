@@ -114,22 +114,29 @@ end
 function M.pcall_bdelete(arg)
   local status, err = pcall(cmd.bdelete, arg)
   if not status then
-    api.nvim_err_writeln(err)
+    api.nvim_echo({ { err } }, true, { err = true })
   end
 end
 
-function M.window_safe_buffer_delete()
-  local current_buffer_filetype = api.nvim_buf_get_option(0, 'filetype')
-  local is_current_buffer_fugitive = vim.startswith(api.nvim_buf_get_name(0), 'fugitive://')
-  local is_current_buffer_modified = api.nvim_buf_get_option(0, 'modified')
-  local windows = api.nvim_list_wins()
-  local bypass_filetypes = { 'help', 'qf', 'fugitive', 'fugitiveblame', 'GV', 'git', 'NvimTree' }
-  local skip_current_buffer_filetype = false
-  for _, filetype in ipairs(bypass_filetypes) do
-    if current_buffer_filetype == filetype then
-      skip_current_buffer_filetype = true
+function M.buffer_matches_filetype(buffer, filetypes)
+  local buffer_filetype = api.nvim_get_option_value('filetype', { buf = buffer })
+  local skip_buffer_filetype = false
+
+  for _, filetype in ipairs(filetypes) do
+    if buffer_filetype == filetype then
+      skip_buffer_filetype = true
     end
   end
+
+  return skip_buffer_filetype
+end
+
+function M.window_safe_buffer_delete()
+  local is_current_buffer_fugitive = vim.startswith(api.nvim_buf_get_name(0), 'fugitive://')
+  local is_current_buffer_modified = api.nvim_get_option_value('modified', { buf = 0 })
+  local windows = api.nvim_list_wins()
+  local bypass_filetypes = { 'help', 'qf', 'fugitive', 'fugitiveblame', 'GV', 'git', 'NvimTree' }
+  local skip_current_buffer_filetype = M.buffer_matches_filetype(0, bypass_filetypes)
 
   if skip_current_buffer_filetype or is_current_buffer_fugitive or is_current_buffer_modified or #windows == 1 then
     M.pcall_bdelete()
@@ -138,10 +145,12 @@ function M.window_safe_buffer_delete()
 
   local is_buffer_name_empty = #api.nvim_buf_get_name(0) == 0
   local current_window = api.nvim_get_current_win()
-  local buffers = vim.tbl_filter(function(buffer)
+  local buffers = api.nvim_list_bufs()
+  local filtered_buffers = vim.tbl_filter(function(buffer)
+    local skip_buffer_filetype = M.buffer_matches_filetype(buffer, bypass_filetypes)
     local is_buffer_loaded = api.nvim_buf_is_loaded(buffer)
-    local is_buffer_listed = api.nvim_buf_get_option(buffer, 'buflisted')
-    if not is_buffer_loaded or not is_buffer_listed then
+    local is_buffer_listed = api.nvim_get_option_value('buflisted', { buf = buffer })
+    if skip_buffer_filetype or not is_buffer_loaded or not is_buffer_listed then
       return false
     end
 
@@ -158,30 +167,33 @@ function M.window_safe_buffer_delete()
     else
       return true
     end
-  end, api.nvim_list_bufs())
+  end, buffers)
 
-  if #buffers == 1 and is_buffer_name_empty then
+  if #filtered_buffers == 1 and is_buffer_name_empty then
     M.pcall_bdelete()
     return
   end
 
-  if #buffers == 1 then
+  local current_buffer = api.nvim_get_current_buf()
+
+  if #filtered_buffers == 1 then
     cmd.enew()
   else
-    local current_buffer = api.nvim_get_current_buf()
     local current_buffer_index
-    for index, buffer in ipairs(buffers) do
+    for index, buffer in ipairs(filtered_buffers) do
       if buffer == current_buffer then
         current_buffer_index = index
       end
     end
-    if current_buffer_index == 1 then
-      api.nvim_win_set_buf(0, buffers[current_buffer_index + 1])
+
+    if not current_buffer_index then
+      api.nvim_win_set_buf(0, filtered_buffers[#filtered_buffers])
     else
-      api.nvim_win_set_buf(0, buffers[current_buffer_index - 1])
+      local index = math.max(current_buffer_index - 1, 1)
+      api.nvim_win_set_buf(0, filtered_buffers[index])
     end
   end
-  M.pcall_bdelete('#')
+  M.pcall_bdelete(current_buffer)
 end
 
 return M

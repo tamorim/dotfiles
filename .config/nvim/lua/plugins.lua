@@ -5,6 +5,7 @@ local opt = vim.opt
 local fn = vim.fn
 local api = vim.api
 local env = vim.env
+local lsp = vim.lsp
 
 local lazypath = fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
@@ -21,8 +22,72 @@ opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
   -- Color scheme and syntax highlight
-  { 'drewtempelmeyer/palenight.vim', priority = 1000 },
-  { 'sheerun/vim-polyglot', priority = 100 },
+  {
+    'folke/tokyonight.nvim',
+    lazy = false,
+    priority = 1000,
+    opts = {
+      style = 'storm',
+      styles = {
+        comments = { italic = false },
+        keywords = { italic = false },
+      },
+    },
+  },
+  {
+    'nvim-treesitter/nvim-treesitter',
+    priority = 100,
+    branch = 'master',
+    lazy = false,
+    build = ':TSUpdate',
+    init = function()
+      require('nvim-treesitter.configs').setup({
+        ensure_installed = {
+          'c',
+          'lua',
+          'luadoc',
+          'vim',
+          'vimdoc',
+          'query',
+          'bash',
+          'markdown',
+          'markdown_inline',
+          'json',
+          'yaml',
+          'toml',
+          'csv',
+          'xml',
+          'html',
+          'css',
+          'scss',
+          'javascript',
+          'jsdoc',
+          'typescript',
+          'tsx',
+          'regex',
+          'styled',
+          'dockerfile',
+          'nginx',
+        },
+        sync_install = false,
+        auto_install = false,
+        highlight = {
+          enable = true,
+          -- Disable slow treesitter highlight for large files
+          disable = function(_, buf)
+            local max_filesize = 100 * 1024 -- 100 KB
+            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+            if ok and stats and stats.size > max_filesize then
+              return true
+            end
+          end,
+        },
+        indent = {
+          enable = true,
+        },
+      })
+    end,
+  },
   { 'brenoprata10/nvim-highlight-colors', opts = {} },
 
   -- Git
@@ -69,7 +134,7 @@ require('lazy').setup({
     end,
   },
 
-  -- Completion and lint
+  -- Completion
   {
     'hrsh7th/cmp-nvim-lsp',
     dependencies = {
@@ -77,7 +142,6 @@ require('lazy').setup({
       'luals/lua-language-server',
     },
     init = function()
-      local lspconfig = require('lspconfig')
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
       local vtslsFileTypesConfig = {
@@ -85,11 +149,11 @@ require('lazy').setup({
           includePackageJsonAutoImports = 'off',
         },
         suggest = {
-          autoImports = false,
-          includeCompletionsForImportStatements = false,
+          autoImports = true,
+          includeCompletionsForImportStatements = true,
         },
       }
-      lspconfig.vtsls.setup({
+      lsp.config('vtsls', {
         capabilities = capabilities,
         settings = {
           typescript = vtslsFileTypesConfig,
@@ -99,7 +163,7 @@ require('lazy').setup({
               globalPlugins = {
                 {
                   name = '@styled/typescript-styled-plugin',
-                  location = env.NVM_GLOBAL_MODULES_DIR,
+                  location = '~/.volta/tools/shared',
                   enableForWorkspaceTypeScriptVersions = true,
                 },
               },
@@ -111,7 +175,7 @@ require('lazy').setup({
         end,
       })
 
-      lspconfig.lua_ls.setup({
+      lsp.config('lua_ls', {
         capabilities = capabilities,
         cmd = {
           'lua-language-server',
@@ -122,11 +186,17 @@ require('lazy').setup({
         },
         settings = {
           Lua = {
-            runtime = { version = 'LuaJIT' },
+            runtime = {
+              version = 'LuaJIT',
+              path = {
+                'lua/?.lua',
+                'lua/?/init.lua',
+              },
+            },
             workspace = {
               checkThirdParty = false,
               library = {
-                vim.env.VIMRUNTIME,
+                env.VIMRUNTIME,
                 '${3rd}/luv/library',
               },
             },
@@ -136,6 +206,37 @@ require('lazy').setup({
           client.server_capabilities.semanticTokensProvider = nil
         end,
       })
+
+      lsp.config('tailwindcss', {
+        capabilities = capabilities,
+        settings = {
+          tailwindCSS = {
+            classAttributes = {
+              'class',
+              'className',
+              'class:list',
+              'classList',
+              'ngClass',
+              'tw',
+              'css',
+            },
+            experimental = {
+              classRegex = {
+                'tw`([^`]*)',
+                'tw="([^"]*)',
+                'tw={"([^"}]*)',
+                'tw\\.\\w+`([^`]*)',
+                'tw\\(.*?\\)`([^`]*)',
+              },
+            },
+          },
+        },
+        on_attach = function(client)
+          client.server_capabilities.semanticTokensProvider = nil
+        end,
+      })
+
+      lsp.enable({ 'lua_ls', 'vtsls', 'tailwindcss' })
     end,
   },
   {
@@ -256,62 +357,87 @@ require('lazy').setup({
       }
     end,
   },
+
+  -- Formatters and linters
+  'editorconfig/editorconfig-vim',
+  {
+    'stevearc/conform.nvim',
+    dependencies = { 'hrsh7th/nvim-cmp' },
+    opts = {
+      formatters_by_ft = {
+        lua = { 'stylua' },
+        javascript = { 'eslint_d', 'prettierd' },
+        javascriptreact = { 'eslint_d', 'prettierd' },
+        typescript = { 'eslint_d', 'prettierd' },
+        typescriptreact = { 'eslint_d', 'prettierd' },
+        css = { 'prettierd' },
+        markdown = { 'prettierd' },
+        json = { 'prettierd' },
+        html = { 'prettierd' },
+      },
+    },
+    init = function()
+      local conform = require('conform')
+
+      api.nvim_create_autocmd({ 'BufWritePre' }, {
+        pattern = { '*.js', '*.jsx', '*.ts', '*.tsx' },
+        group = api.nvim_create_augroup('conform_format_eslint_d', { clear = true }),
+        callback = function(args)
+          conform.format({ bufnr = args.buf, formatters = { 'eslint_d' } })
+        end,
+      })
+
+      api.nvim_create_autocmd({ 'BufWritePre' }, {
+        pattern = { '*.js', '*.jsx', '*.ts', '*.tsx', '*.json', '*.md', '*.html', '*.css' },
+        group = api.nvim_create_augroup('conform_format_prettierd', { clear = true }),
+        callback = function(args)
+          conform.format({ bufnr = args.buf, formatters = { 'prettierd' } })
+        end,
+      })
+
+      api.nvim_create_autocmd({ 'BufWritePre' }, {
+        pattern = '*.lua',
+        group = api.nvim_create_augroup('conform_format_stylua', { clear = true }),
+        callback = function(args)
+          conform.format({ bufnr = args.buf, formatters = { 'stylua' } })
+        end,
+      })
+    end,
+  },
   {
     'mfussenegger/nvim-lint',
     init = function()
-      vim.env.ESLINT_D_PPID = fn.getpid()
-      require('lint').linters_by_ft = {
+      local lint = require('lint')
+      local cmp = require('cmp')
+
+      lint.linters_by_ft = {
         javascript = { 'eslint_d' },
         typescript = { 'eslint_d' },
         javascriptreact = { 'eslint_d' },
         typescriptreact = { 'eslint_d' },
       }
 
-      api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
+      cmp.event:on('confirm_done', function()
+        local current_buffer = api.nvim_get_current_buf()
+        local filetype = api.nvim_get_option_value('filetype', { buf = current_buffer })
+
+        if
+          filetype == 'javascript'
+          or filetype == 'javascriptreact'
+          or filetype == 'typescript'
+          or filetype == 'typescriptreact'
+        then
+          lint.try_lint()
+        end
+      end)
+
+      api.nvim_create_autocmd({ 'BufEnter', 'TextChanged', 'TextChangedI', 'BufWritePre' }, {
         pattern = '*',
         group = api.nvim_create_augroup('nvim_lint', { clear = true }),
         callback = function()
-          require('lint').try_lint()
+          lint.try_lint()
         end,
       })
-    end,
-  },
-
-  -- Formatters
-  'editorconfig/editorconfig-vim',
-  {
-    'prettier/vim-prettier',
-    build = 'yarn install',
-    init = function()
-      g['prettier#autoformat'] = 0
-      g['prettier#quickfix_enabled'] = 0
-      local has_prettier_rc = fn.filereadable(fn.fnamemodify('.prettierrc', ':p'))
-      local has_prettier_js = fn.filereadable(fn.fnamemodify('prettier.config.js', ':p'))
-      local has_prettier_config = has_prettier_rc or has_prettier_js
-      if has_prettier_config then
-        api.nvim_create_autocmd('BufWritePre', {
-          pattern = { '*.js', '*.jsx', '*.ts', '*.tsx', '*.css', '*.json', '*.md', '*.html' },
-          group = api.nvim_create_augroup('prettier', { clear = true }),
-          command = 'Prettier',
-        })
-      end
-    end,
-  },
-  {
-    'ckipp01/stylua-nvim',
-    build = 'npm i -g @johnnymorganz/stylua-bin',
-    init = function()
-      local has_stylua_config = fn.filereadable(fn.fnamemodify('stylua.toml', ':p'))
-      local has_dot_stylua_config = fn.filereadable(fn.fnamemodify('.stylua.toml', ':p'))
-      if has_stylua_config or has_dot_stylua_config then
-        api.nvim_create_autocmd('BufWritePre', {
-          pattern = '*.lua',
-          group = api.nvim_create_augroup('stylua', { clear = true }),
-          callback = function()
-            require('stylua-nvim').format_file()
-          end,
-        })
-      end
     end,
   },
 
@@ -348,6 +474,12 @@ require('lazy').setup({
             '!yarn.lock',
             '-g',
             '!package-lock.json',
+            '-g',
+            '!.yarn/',
+            '-g',
+            '!.git/',
+            '-g',
+            '!node_modules/',
           },
         },
         pickers = {
@@ -360,14 +492,19 @@ require('lazy').setup({
               '--hidden',
               '--ignore-file',
               '~/.rgignore',
+              '-g',
+              '!.yarn/',
+              '-g',
+              '!.git/',
+              '-g',
+              '!node_modules/',
             },
           },
           diagnostics = {
             wrap_results = true,
           },
           lsp_references = {
-            path_display = { 'shorten' },
-            fname_width = 45,
+            show_line = false,
           },
         },
       })
@@ -377,6 +514,9 @@ require('lazy').setup({
   {
     'nvim-tree/nvim-tree.lua',
     opts = {
+      view = {
+        width = 45,
+      },
       filesystem_watchers = {
         enable = true,
         debounce_delay = 50,
@@ -410,7 +550,7 @@ require('lazy').setup({
     'itchyny/lightline.vim',
     init = function()
       g.lightline = {
-        colorscheme = 'palenight',
+        colorscheme = 'tokyonight',
         active = {
           right = {
             { 'lineinfo' },
@@ -440,6 +580,13 @@ require('lazy').setup({
     ft = { 'markdown' },
     build = function()
       vim.fn['mkdp#util#install']()
+    end,
+    init = function()
+      g.mkdp_auto_close = 0
+      g.mkdp_browser = [[/Applications/Google Chrome.app]]
+      g.mkdp_echo_preview_url = 1
+      g.mkdp_page_title = '${name}'
+      g.mkdp_theme = 'light'
     end,
   },
 }, {
