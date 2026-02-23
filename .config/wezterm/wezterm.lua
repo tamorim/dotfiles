@@ -3,6 +3,9 @@ local wezterm = require('wezterm')
 local act = wezterm.action
 local mux = wezterm.mux
 
+-- custom startup module
+local startup_status, startup = pcall(require, 'startup')
+
 -- This will hold the configuration.
 local config = wezterm.config_builder()
 
@@ -13,7 +16,7 @@ config.webgpu_power_preference = 'HighPerformance'
 
 -- fonts
 config.font = wezterm.font_with_fallback({
-  'JetBrains Mono',
+  'JetBrainsMono Nerd Font',
   'Apple Color Emoji',
   'Symbols Nerd Font Mono',
 })
@@ -22,7 +25,7 @@ config.freetype_load_target = 'Light'
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 
 -- colors
-config.color_scheme = 'Palenight (Gogh)'
+config.color_scheme = 'Tokyo Night Storm'
 
 -- keybindings
 config.leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 1000 }
@@ -73,10 +76,15 @@ config.key_tables = {
   },
 }
 
--- maximize on gui startup
+-- custom startup config
 wezterm.on('gui-startup', function(cmd)
-  local _, _, window = mux.spawn_window(cmd or {})
-  window:gui_window():maximize()
+  if not startup_status then
+    local _, _, window = mux.spawn_window(cmd or {})
+    window:gui_window():maximize()
+    return
+  end
+
+  startup()
 end)
 
 -- and finally, return the configuration to wezterm
