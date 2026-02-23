@@ -196,4 +196,14 @@ function M.window_safe_buffer_delete()
   M.pcall_bdelete(current_buffer)
 end
 
+function M.has_words_before()
+  if api.nvim_get_option_value('buftype', { buf = 0 }) == 'prompt' then
+    return false
+  end
+
+  local line, col = unpack(api.nvim_win_get_cursor(0))
+
+  return col ~= 0 and api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match('^%s*$') == nil
+end
+
 return M

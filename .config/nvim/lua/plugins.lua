@@ -1,3 +1,5 @@
+local fns = require('functions')
+
 table.unpack = table.unpack or unpack
 
 local g = vim.g
@@ -136,6 +138,12 @@ require('lazy').setup({
 
   -- Completion
   {
+    'github/copilot.vim',
+    init = function()
+      g.copilot_no_tab_map = true
+    end,
+  },
+  {
     'hrsh7th/cmp-nvim-lsp',
     dependencies = {
       'neovim/nvim-lspconfig',
@@ -259,7 +267,10 @@ require('lazy').setup({
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
-      { 'dcampos/cmp-snippy', dependencies = { 'dcampos/nvim-snippy' } },
+      {
+        'dcampos/cmp-snippy',
+        dependencies = { 'dcampos/nvim-snippy' },
+      },
       'hrsh7th/cmp-nvim-lua',
     },
     opts = function()
@@ -297,6 +308,9 @@ require('lazy').setup({
       end
 
       return {
+        experimental = {
+          ghost_text = false,
+        },
         performance = {
           debounce = 100,
           fetching_timeout = 100,
@@ -326,7 +340,7 @@ require('lazy').setup({
         },
         mapping = {
           ['<Tab>'] = function(fallback)
-            if cmp.visible() then
+            if cmp.visible() and fns.has_words_before() then
               cmp.select_next_item({ behavior = get_select_behavior() })
             else
               fallback()
@@ -513,6 +527,9 @@ require('lazy').setup({
   },
   {
     'nvim-tree/nvim-tree.lua',
+    dependencies = {
+      { 'nvim-tree/nvim-web-devicons', opts = {} },
+    },
     opts = {
       view = {
         width = 45,
@@ -522,20 +539,6 @@ require('lazy').setup({
         debounce_delay = 50,
         ignore_dirs = {
           'node_modules',
-        },
-      },
-      renderer = {
-        add_trailing = true,
-        icons = {
-          show = {
-            file = false,
-            folder = false,
-            folder_arrow = false,
-            git = false,
-            modified = false,
-            diagnostics = false,
-            bookmarks = false,
-          },
         },
       },
       filters = {
@@ -590,6 +593,7 @@ require('lazy').setup({
     end,
   },
 }, {
+  rocks = { enabled = false },
   ui = {
     -- The backdrop opacity. 0 is fully opaque, 100 is fully transparent.
     backdrop = 100,

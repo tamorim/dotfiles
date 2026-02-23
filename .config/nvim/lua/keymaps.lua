@@ -105,6 +105,9 @@ keymap.set('n', '<Leader>gr', ':Telescope lsp_references<CR>')
 keymap.set('n', '<Leader>gh', vim.lsp.buf.hover)
 keymap.set('n', '<Leader>od', ':Telescope diagnostics bufnr=0<CR>')
 
+-- Copilot mappings
+keymap.set('i', '<M-a>', 'copilot#Accept("\\<CR>")', { expr = true, replace_keycodes = false })
+
 api.nvim_create_autocmd('TermOpen', {
   pattern = '*',
   group = api.nvim_create_augroup('terminal_mappings', { clear = true }),
